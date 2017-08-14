@@ -21,7 +21,7 @@ from . import ReportsAndGraphs
 import zunzun.forms
 from . import DefaultData
 
-import pyeq3
+import numpy, pyeq3
 
 
 
@@ -599,8 +599,13 @@ You must provide any weights you wish to use.
 
 
     def GetVerseInfo(self):
-        reference = 'John 3:16'
-        verse = 'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.'    
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        f = open(os.path.join(dir_path, 'Verses.txt'), 'r')
+        verses = f.readlines()
+        f.close()
+        index = numpy.random.randint(0, len(verses)/2) * 2
+        reference = verses[index]
+        verse = verses[index + 1]
         return [reference, verse]
 
 
