@@ -20,10 +20,23 @@ import zunzun
 import pyeq3
 from . import LongRunningProcess
 
+# is django_brake used for rate limiting web site slammers?
+try: # django_brake installed?
+    from brake.decorators import ratelimit
+    brake_available = True
+except: # django_brake is not installed, use dummy pass-through decorator
+    brake_available = False
+    def ratelimit(*args, **kwargs):
+        def temp(*args, **kwargs):
+            return args[0]
+        return temp
+
+
 sys.stdout = sys.stderr # wsgi cannot send to stdout, see http://code.google.com/p/modwsgi/wiki/DebuggingTechniques
 
 
 @cache_control(no_cache=True)
+@ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def EvaluateAtAPointView(request):
     import os, sys, time
     
@@ -203,6 +216,7 @@ Load > %s means the server cores each average 100%% CPU with multiple users.
 
 
 @cache_control(no_cache=True)
+@ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', inEquationName=''): # from urls.py, inDimensionality can only be '1', '2' or '3'
     import os, sys, time
 
@@ -369,6 +383,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
 
 
 @cache_control(no_cache=True)
+@ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def FeedbackView(request):
     import datetime
     import os, sys, time
@@ -395,6 +410,7 @@ def FeedbackView(request):
 
 
 @cache_control(no_cache=True)
+@ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def HomePageView(request):
     import os, sys, time
 
@@ -448,6 +464,7 @@ def HomePageView(request):
 
 
 @cache_control(no_cache=True)
+@ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def AllEquationsView(request, inDimensionality, inAllOrStandardOnly): # from urls.py, inDimensionality can only be '2' or '3'
     import os, sys, time
     
@@ -567,7 +584,15 @@ def GetEquationInfoDictionary(inDimensionality, inAllOrStandardOnly):
 def CommonToAllViews(request):
     if request.META['REQUEST_METHOD'] not in ['GET', 'POST']:
         raise django.http.Http404
+    
+    if brake_available:
+        # see https://github.com/gmcquillan/django-brake
+        was_limited = getattr(request, 'limited', False)
+        if was_limited:
+            time.sleep(5.0) # sleep for 5 seconds to slow down slammers
+    
     return False # all OK
+
 
 
 class ClassForAttachingProperties:
