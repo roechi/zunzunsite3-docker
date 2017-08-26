@@ -21,7 +21,7 @@ from . import ReportsAndGraphs
 import zunzun.forms
 from . import DefaultData
 
-import numpy, pyeq3
+import pyeq3
 
 
 
@@ -603,7 +603,7 @@ You must provide any weights you wish to use.
         f = open(os.path.join(dir_path, 'Verses.txt'), 'r')
         verses = f.readlines()
         f.close()
-        index = numpy.random.randint(0, len(verses)/2) * 2
+        index = ((int(time.time()) % len(verses)) // 2) * 2
         reference = verses[index]
         verse = verses[index + 1]
         return [reference, verse]
