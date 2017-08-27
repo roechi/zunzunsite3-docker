@@ -664,7 +664,7 @@ You must provide any weights you wish to use.
 
         itemsToRender['dimensionality'] = str(self.dimensionality)
 
-        itemsToRender['header_text'] = 'ZunZunSite<br>' + self.webFormName
+        itemsToRender['header_text'] = 'ZunZunSite3<br>' + self.webFormName
         itemsToRender['title_string'] = 'ZunZunSite3 ' + self.webFormName.replace('<br>', ' ')
 
         itemsToRender['textReports'] = self.textReports
