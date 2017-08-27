@@ -229,7 +229,7 @@ def HistogramPlot_NoDataObject(in_DataToPlot, in_FileNameAndPath, in_DataName, i
     normalized = False
     if in_pdfFlag:
         normalized = True
-    n, bins, patches = ax.hist(in_DataToPlot, numberOfBins, facecolor=in_FillColor, normed=normalized)
+    n, bins, patches = ax.hist(in_DataToPlot, numberOfBins, facecolor=in_FillColor, normed=normalized, edgecolor='black', linewidth=1)
 
     # if statistical distribution plot, show pdf
     if in_pdfFlag:
@@ -311,7 +311,7 @@ def ScatterPlotWithOptionalModel_NoDataObject(in_DataToPlot, in_FileNameAndPath,
             ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(numberOfMajor_X_TickMarks))
             
         loglinplot(numpy.array([in_GraphBounds[2], in_GraphBounds[3]]), numpy.array([in_GraphBounds[0], in_GraphBounds[1]]), visible=False)
-        loglinplot(in_DataToPlot[1], in_DataToPlot[0], 'o', markersize=3)
+        loglinplot(in_DataToPlot[1], in_DataToPlot[0], 'o', markersize=3, color='black')
 
         if (min(in_DataToPlot[0]) < in_GraphBounds[0]) or (max(in_DataToPlot[0]) > in_GraphBounds[1]):
             matplotlib.pyplot.ylim(in_GraphBounds[0], in_GraphBounds[1])
@@ -337,7 +337,7 @@ def ScatterPlotWithOptionalModel_NoDataObject(in_DataToPlot, in_FileNameAndPath,
             ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(numberOfMajor_X_TickMarks))
             
         loglinplot(numpy.array([in_GraphBounds[0], in_GraphBounds[1]]), numpy.array([in_GraphBounds[2], in_GraphBounds[3]]), visible=False)
-        loglinplot(in_DataToPlot[0], in_DataToPlot[1], 'o', markersize=3)
+        loglinplot(in_DataToPlot[0], in_DataToPlot[1], 'o', markersize=3, color='black')
                             
         if (min(in_DataToPlot[0]) <= in_GraphBounds[0]) or (max(in_DataToPlot[0]) >= in_GraphBounds[1]):
             matplotlib.pyplot.xlim(in_GraphBounds[0], in_GraphBounds[1])
