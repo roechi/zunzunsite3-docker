@@ -33,11 +33,12 @@ def SurfacePlot(dataObject, inFileName):
     fig = plt.figure(figsize=(float(dataObject.graphWidth) / 100.0, float(dataObject.graphHeight) / 100.0), dpi=100)
     fig.patch.set_visible(True)
     ax = fig.gca(projection='3d')
-
+    
     ax.view_init(elev=dataObject.altimuth3D, azim=dataObject.azimuth3D)    
     
     # create a surface plot using the X, Y, Z mesh data created above
     ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=1, antialiased=True, alpha=0.75)
+    ax.plot_wireframe(X, Y, Z, linewidth=1)
 
     # create a scatter plot of the raw data
     if dataObject.dataPointSize3D == 0.0: # auto
