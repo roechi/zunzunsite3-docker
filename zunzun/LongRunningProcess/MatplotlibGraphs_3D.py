@@ -37,7 +37,7 @@ def SurfacePlot(dataObject, inFileName):
     ax.view_init(elev=dataObject.altimuth3D, azim=dataObject.azimuth3D)    
     
     # create a surface plot using the X, Y, Z mesh data created above
-    ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=1, antialiased=True, alpha=0.5)
+    ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=1, antialiased=True, alpha=0.75)
 
     # create a scatter plot of the raw data
     if dataObject.dataPointSize3D == 0.0: # auto
