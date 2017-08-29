@@ -42,9 +42,9 @@ def SurfacePlot(dataObject, inFileName):
 
     # create a scatter plot of the raw data
     if dataObject.dataPointSize3D == 0.0: # auto
-        ax.scatter(x_data, y_data, z_data)
+        ax.scatter(x_data, y_data, z_data, depthshade=False, color='k')
     else:
-        ax.scatter(x_data, y_data, z_data, s=dataObject.dataPointSize3D)
+        ax.scatter(x_data, y_data, z_data, s=dataObject.dataPointSize3D, depthshade=False, color='k')
 
     ax.set_title("Surface Plot") # add a title for surface plot
     ax.set_xlabel(dataObject.IndependentDataName1) # X axis data label
@@ -72,9 +72,9 @@ def ScatterPlot3D(dataObject, inFileName):
     z_data = dataObject.DependentDataArray
     
     if dataObject.dataPointSize3D == 0.0: # auto
-        ax.scatter(x_data, y_data, z_data)
+        ax.scatter(x_data, y_data, z_data, depthshade=False, color='k')
     else:
-        ax.scatter(x_data, y_data, z_data, s=dataObject.dataPointSize3D)
+        ax.scatter(x_data, y_data, z_data, s=dataObject.dataPointSize3D, depthshade=False, color='k')
 
     ax.set_title('Scatter Plot') # add a title for surface plot
     ax.set_xlabel(dataObject.IndependentDataName1) # X axis data label
