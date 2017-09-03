@@ -4,6 +4,7 @@ import numpy
 import pyeq3
 
 import matplotlib
+matplotlib.style.use('classic')
 matplotlib.use('Agg') # immediately following the "import matplotlib" statement, web only
 
 from mpl_toolkits.mplot3d import Axes3D # 3D apecific
@@ -33,6 +34,8 @@ def SurfacePlot(dataObject, inFileName):
     fig = plt.figure(figsize=(float(dataObject.graphWidth) / 100.0, float(dataObject.graphHeight) / 100.0), dpi=100)
     fig.patch.set_visible(True)
     ax = fig.gca(projection='3d')
+
+    ax.tick_params(pad=2) # distance between tick marks and tick numeric labels
     
     ax.view_init(elev=dataObject.altimuth3D, azim=dataObject.azimuth3D)    
     
@@ -63,7 +66,9 @@ def SurfacePlot(dataObject, inFileName):
 def ScatterPlot3D(dataObject, inFileName):
     fig = plt.figure(figsize=(float(dataObject.graphWidth) / 100.0, float(dataObject.graphHeight) / 100.0), dpi=100)
     fig.patch.set_visible(True)
-    ax = fig.gca(projection='3d')
+    ax = fig.gcaq(projection='3d')
+    
+    ax.tick_params(pad=2) # distance between tick marks and tick numeric labels
     
     ax.view_init(elev=dataObject.altimuth3D, azim=dataObject.azimuth3D)    
 
