@@ -352,7 +352,7 @@ class CharacterizeDataForm_2D (CharacterizeDataForm_1D) :
 
         
 class CharacterizeDataForm_3D (CharacterizeDataForm_2D) :
-    dataPointSize3D = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.dataPointSize3D_Choices, initial='0.0' , required=False)
+    dataPointSize3D = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.dataPointSize3D_Choices, initial='9.0' , required=False)
     scientificNotationZ = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.scientificNotationChoices, initial='AUTO' )
     logLinZ = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.logLinChoices, initial='LIN')
     dataNameZ = django.forms.CharField(max_length=40, initial='Z data')
