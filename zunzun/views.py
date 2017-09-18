@@ -414,40 +414,47 @@ def FeedbackView(request):
 def HomePageView(request):
     import os, sys, time
 
-    # whenever the home page is loaded, clear expired sessions
-    SessionStore().clear_expired()
+    # housekeeping tasks, perform in separate process so
+    # that actual home page generation time is not impacted
+    processID_1 = os.fork()
+    if processID_1 == 0: # child process, kill when done
+        try:
+            # whenever the home page is loaded, clear expired sessions
+            SessionStore().clear_expired()
 
-    # whenever the home page is loaded, make sure there is
-    # space in the temp directory for newly created files    
-    totalDirSize = 0
-    dirInfo = []
-    for item in os.listdir(settings.TEMP_FILES_DIR):
-        itempath = os.path.join(settings.TEMP_FILES_DIR, item)
-        if os.path.isfile(itempath):
-            fileSize = os.path.getsize(itempath)
-            fileMtime = os.path.getmtime(itempath) # to sort by creation time
-            dirInfo.append([fileMtime, fileSize, item])
-            totalDirSize += fileSize
-    
-    # approximately the max temp directory number of bytes
-    maxSize = settings.MAX_TEMP_DIR_SIZE_IN_MBYTES * 1000000
-    tempDir = settings.TEMP_FILES_DIR
+            # whenever the home page is loaded, make sure there is
+            # space in the temp directory for newly created files    
+            totalDirSize = 0
+            dirInfo = []
+            for item in os.listdir(settings.TEMP_FILES_DIR):
+                itempath = os.path.join(settings.TEMP_FILES_DIR, item)
+                if os.path.isfile(itempath):
+                    fileSize = os.path.getsize(itempath)
+                    fileMtime = os.path.getmtime(itempath) # to sort by creation time
+                    dirInfo.append([fileMtime, fileSize, item])
+                    totalDirSize += fileSize
+            
+            # approximately the max temp directory number of bytes
+            maxSize = settings.MAX_TEMP_DIR_SIZE_IN_MBYTES * 1000000
+            tempDir = settings.TEMP_FILES_DIR
 
-    if totalDirSize > maxSize:
-        totalReduction = 0
-        reductionAmount = (totalDirSize - maxSize) + (maxSize * 0.25)
-        dirInfo.sort() # delete oldest files first
-        for fileItem in dirInfo:
-            if totalReduction < reductionAmount:
-                totalReduction += fileItem[1]
-                try: # prevent possible exceptions from race conditions
-                    os.remove(os.path.join(tempDir, fileItem[2]))
-                except:
-                    pass
-            else:
-                break
+            if totalDirSize > maxSize:
+                totalReduction = 0
+                reductionAmount = (totalDirSize - maxSize) + (maxSize * 0.25)
+                dirInfo.sort() # delete oldest files first
+                for fileItem in dirInfo:
+                    if totalReduction < reductionAmount:
+                        totalReduction += fileItem[1]
+                        try: # prevent possible exceptions from race conditions
+                            os.remove(os.path.join(tempDir, fileItem[2]))
+                        except:
+                            pass
+                    else:
+                        break
+        finally:
+            os._exit(0) # kill this child process
 
-    # now start code for view generation
+    # parent process, start code for view generation
     if CommonToAllViews(request): # any referrer blocks or web request checks processed here
         raise django.http.Http404
     
