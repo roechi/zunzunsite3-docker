@@ -673,9 +673,19 @@ You must provide any weights you wish to use.
         for i in self.graphReports:
             if i.animationFlag:
                 try:
-                    i.fileSize = os.path.getsize(i.physicalFileLocation)
+                    fileBytes = os.path.getsize(i.physicalFileLocation)
                 except:
-                    i.fileSize = 0
+                    fileBytes = 0
+                    
+                # from https://stackoverflow.com/questions/14996453/python-libraries-to-calculate-human-readable-filesize-from-bytes
+                suffixes = ['Bytes', 'KBytes', 'MBytes', 'GBytes', 'TBytes', 'PBytes']
+                idx = 0
+                while fileBytes >= 1024 and idx < len(suffixes)-1:
+                    fileBytes /= 1024.
+                    idx += 1
+                f = ('%.2f' % fileBytes).rstrip('0').rstrip('.')
+                i.fileSize = '%s %s' % (f, suffixes[idx])
+                
         itemsToRender['graphReports'] = self.graphReports
 
         itemsToRender['pdfFileName'] = self.pdfFileName

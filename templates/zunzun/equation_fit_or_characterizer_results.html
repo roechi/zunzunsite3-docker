@@ -204,7 +204,7 @@ You can download almost all of these reports as <a href='/temp/{{ pdfFileName }}
 	<B><FONT SIZE="+1">{{ graphReport.name }}</FONT></B><BR>
 		{% ifequal graphReport.animationFlag 1 %}
 		<br>
-			<A HREF="{{ graphReport.websiteFileLocation }}" TARGET="_blank">Click Here</A> to download GIF file ({{ graphReport.fileSize }} bytes)<BR><BR>
+			<A HREF="{{ graphReport.websiteFileLocation }}" TARGET="_blank">Click Here</A> to download GIF file ({{ graphReport.fileSize }})<BR><BR>
 			<b>NOTE:</b> The animation may appear jerky and uneven until the<br>
 			download is complete and your browser displays the animation smoothly.
 		{% else %}
