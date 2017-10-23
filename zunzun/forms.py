@@ -1,7 +1,6 @@
 import sys
 import django.forms
 import django.utils.encoding
-from . import myWidgets
 import pyeq3
 from . import formConstants
 import unicodedata
@@ -45,10 +44,10 @@ class FeedbackForm(django.forms.Form):
 
 
 class UsesDataForm_BaseClass(django.forms.Form) :
-    weightedFittingChoice = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.weightedFittingChoices, initial='OFF', required=False)
+    weightedFittingChoice = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.weightedFittingChoices, initial='OFF', required=False)
     udfEditor = django.forms.CharField( widget=django.forms.widgets.Textarea(attrs={'cols':'60', 'rows':'14'}), required=False)
     textDataEditor = django.forms.CharField( widget=django.forms.widgets.Textarea(attrs={'cols':'55', 'rows':'15'}), initial=formConstants.initialDataEntryText )
-    commaConversion = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.commaConversionChoices, initial='S' )
+    commaConversion = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.commaConversionChoices, initial='S' )
     for i in range(25):
         exec('upperCoefficientBound' + str(i) + " = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)")
         exec('lowerCoefficientBound' + str(i) + " = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)")
@@ -320,16 +319,16 @@ class UsesDataForm_BaseClass(django.forms.Form) :
 
 class CharacterizeDataForm_BaseClass (UsesDataForm_BaseClass) :
 
-    graphSize = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.graphSizeOptions, initial='800x600' )
-    statisticalDistributionsSortBy = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.statisticalDistributionsSortByChoices, initial='AIC', required=False)
+    graphSize = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.graphSizeOptions, initial='800x600' )
+    statisticalDistributionsSortBy = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.statisticalDistributionsSortByChoices, initial='AIC', required=False)
 
 
 
 class CharacterizeDataForm_1D (CharacterizeDataForm_BaseClass) :
-    scientificNotationX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.scientificNotationChoices, initial='AUTO')
-    logLinX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.logLinChoices, initial='LIN')
+    scientificNotationX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.scientificNotationChoices, initial='AUTO')
+    logLinX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.logLinChoices, initial='LIN')
     dataNameX = django.forms.CharField(max_length=40, initial='X data')
-    graphScaleRadioButtonX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.graphScaleChoices, initial='0.050' )
+    graphScaleRadioButtonX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.graphScaleChoices, initial='0.050' )
     graphScaleManuallyEnteredMaxX = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
     graphScaleManuallyEnteredMinX = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
 
@@ -339,10 +338,10 @@ class CharacterizeDataForm_1D (CharacterizeDataForm_BaseClass) :
 
 
 class CharacterizeDataForm_2D (CharacterizeDataForm_1D) :
-    scientificNotationY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.scientificNotationChoices, initial='AUTO' )
-    logLinY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.logLinChoices, initial='LIN')
+    scientificNotationY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.scientificNotationChoices, initial='AUTO' )
+    logLinY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.logLinChoices, initial='LIN')
     dataNameY = django.forms.CharField(max_length=40, initial='Y data')
-    graphScaleRadioButtonY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.graphScaleChoices, initial='0.050' )
+    graphScaleRadioButtonY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.graphScaleChoices, initial='0.050' )
     graphScaleManuallyEnteredMaxY = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
     graphScaleManuallyEnteredMinY = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
 
@@ -352,16 +351,16 @@ class CharacterizeDataForm_2D (CharacterizeDataForm_1D) :
 
         
 class CharacterizeDataForm_3D (CharacterizeDataForm_2D) :
-    dataPointSize3D = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.dataPointSize3D_Choices, initial='9.0' , required=False)
-    scientificNotationZ = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.scientificNotationChoices, initial='AUTO' )
-    logLinZ = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.logLinChoices, initial='LIN')
+    dataPointSize3D = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.dataPointSize3D_Choices, initial='9.0' , required=False)
+    scientificNotationZ = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.scientificNotationChoices, initial='AUTO' )
+    logLinZ = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.logLinChoices, initial='LIN')
     dataNameZ = django.forms.CharField(max_length=40, initial='Z data')
-    graphScaleRadioButtonZ = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.graphScaleChoices, initial='0.050' )
+    graphScaleRadioButtonZ = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.graphScaleChoices, initial='0.050' )
     graphScaleManuallyEnteredMaxZ = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
     graphScaleManuallyEnteredMinZ = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
     rotationAnglesAzimuth = django.forms.ChoiceField( choices=formConstants.azimuthChoices, initial='165' )
     rotationAnglesAltimuth = django.forms.ChoiceField( choices=formConstants.altimuthChoices, initial='20' )
-    animationSize = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.animationSizeOptions, initial='0x0')
+    animationSize = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.animationSizeOptions, initial='0x0')
 
     def clean_dataNameZ(self):
         return self.cleaned_data['dataNameZ']
@@ -377,11 +376,11 @@ class CharacterizeDataForm_3D (CharacterizeDataForm_2D) :
 
 
 class FunctionFinder (UsesDataForm_BaseClass) :
-    fittingTarget = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.fittingTargetChoices, initial='SSQABS' )
-    extendedEquationTypes = django.forms.MultipleChoiceField( widget=myWidgets.BR_CheckboxSelectMultiple_Widget(), choices=formConstants.extendedEquationTypeChoices, initial=['STANDARD'])
+    fittingTarget = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.fittingTargetChoices, initial='SSQABS' )
+    extendedEquationTypes = django.forms.MultipleChoiceField( widget=django.forms.widgets.CheckboxSelectMultiple(), choices=formConstants.extendedEquationTypeChoices, initial=['STANDARD'])
     dataNameX = django.forms.CharField(max_length=40, initial='X data')
     dataNameY = django.forms.CharField(max_length=40, initial='Y data')
-    smoothnessExactOrMax = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.smoothnessExactOrMaxChoices, initial='M' )
+    smoothnessExactOrMax = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.smoothnessExactOrMaxChoices, initial='M' )
 
 
     def clean(self): # override, no graph scales in form for function finders
@@ -393,20 +392,20 @@ class FunctionFinder (UsesDataForm_BaseClass) :
 
 
 class FunctionFinder_2D (FunctionFinder) :
-    equationFamilyInclusion = django.forms.MultipleChoiceField( widget=myWidgets.BR_CheckboxSelectMultiple_Widget(), choices=formConstants.equationCategoryNameChoices2D, initial=formConstants.equationCategoryNameChoicesDefaultValues2D )
+    equationFamilyInclusion = django.forms.MultipleChoiceField( widget=django.forms.widgets.CheckboxSelectMultiple(), choices=formConstants.equationCategoryNameChoices2D, initial=formConstants.equationCategoryNameChoicesDefaultValues2D )
     smoothnessControl2D = django.forms.ChoiceField( choices=formConstants.smoothnessControl2DChoices, initial='4')
 
 
 
 class FunctionFinder_3D (FunctionFinder) :
-    equationFamilyInclusion = django.forms.MultipleChoiceField( widget=myWidgets.BR_CheckboxSelectMultiple_Widget(), choices=formConstants.equationCategoryNameChoices3D, initial=formConstants.equationCategoryNameChoicesDefaultValues3D )
+    equationFamilyInclusion = django.forms.MultipleChoiceField( widget=django.forms.widgets.CheckboxSelectMultiple(), choices=formConstants.equationCategoryNameChoices3D, initial=formConstants.equationCategoryNameChoicesDefaultValues3D )
     smoothnessControl3D = django.forms.ChoiceField( choices=formConstants.smoothnessControl3DChoices, initial='6')
     dataNameZ = django.forms.CharField(max_length=40, initial='Z data')
 
 
 
 class Equation_2D(CharacterizeDataForm_2D) :
-    fittingTarget = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.fittingTargetChoices, initial='SSQABS', required=False)
+    fittingTarget = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.fittingTargetChoices, initial='SSQABS', required=False)
     polynomialOrderX2D = django.forms.ChoiceField( choices=formConstants.polynomialOrder2DChoices, initial='5', required=False)
     splineOrderX = django.forms.ChoiceField( choices=formConstants.splineOrderChoices, initial='3', required=False)
     splineSmoothness = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'12'}), initial = '1.0', required=False)
@@ -494,7 +493,7 @@ class Equation_2D(CharacterizeDataForm_2D) :
 
         
 class Equation_3D (CharacterizeDataForm_3D) :
-    fittingTarget = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(renderer=myWidgets.BR_RadioFieldRenderer), choices=formConstants.fittingTargetChoices, initial='SSQABS', required=False)
+    fittingTarget = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.fittingTargetChoices, initial='SSQABS', required=False)
     polynomialOrderX3D = django.forms.ChoiceField( choices=formConstants.polynomialOrder3DChoices, initial='3', required=False)
     polynomialOrderY3D = django.forms.ChoiceField( choices=formConstants.polynomialOrder3DChoices, initial='3', required=False)
     splineOrderX = django.forms.ChoiceField( choices=formConstants.splineOrderChoices, initial='2', required=False)
