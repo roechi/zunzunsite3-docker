@@ -282,6 +282,7 @@ class Simple(FunkLoadTestCase):
                         ['dataNameX', 'X Data'],
                         ['dataNameY', 'Y Data'],
                         ['smoothnessControl2D', '2'],
+                        ['smoothnessExactOrMax', 'M'],
                         ['equationFamilyInclusion', 'BioScience'],
                         ['extendedEquationTypes', 'STANDARD'],
                         ['fittingTarget', 'SSQABS'],
