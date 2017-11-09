@@ -86,8 +86,6 @@ class CodeReportCPP(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodeCPP(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -107,8 +105,6 @@ class CodeReportFORTRAN90(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodeFORTRAN90(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -128,8 +124,6 @@ class CodeReportJAVA(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodeJAVA(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -149,8 +143,6 @@ class CodeReportJAVASCRIPT(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodeJAVASCRIPT(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -170,8 +162,6 @@ class CodeReportJULIA(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodeJULIA(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -191,8 +181,6 @@ class CodeReportPYTHON(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodePYTHON(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -212,8 +200,6 @@ class CodeReportCSHARP(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodeCSHARP(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -233,8 +219,6 @@ class CodeReportSCILAB(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodeSCILAB(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -254,8 +238,6 @@ class CodeReportMATLAB(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodeMATLAB(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -275,8 +257,6 @@ class CodeReportVBA(TextOnlyReport):
         
     def CreateReportOutput(self):
         code = pyeq3.outputSourceCodeService().GetOutputSourceCodeVBA(self.dataObject.equation)
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            code = code.replace("Fitting target value =", "Fitting target value (weighted) = ")
         self.stringList.append('<textarea rows="24" cols="85" wrap="OFF">' +  code + '</textarea>')
 
 
@@ -327,8 +307,6 @@ class CoefficientListing(TextOnlyReport):
         else:
             coeffs = self.dataObject.equation.solvedCoefficients
             fittingTargetText = "Fitting target of lowest " + self.dataObject.equation.fittingTargetDictionary[self.dataObject.equation.fittingTarget]
-            if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-                fittingTargetText += " (weighted)"
             self.stringList.append(fittingTargetText + " = %.16E" % (self.dataObject.equation.CalculateAllDataFittingTarget(self.dataObject.equation.solvedCoefficients)) + '\n')
             
         
@@ -390,10 +368,6 @@ class CoefficientAndFitStatistics(TextOnlyReport):
         self.stringList.append('LL, AIC and BIC from http://stackoverflow.com/questions/7458391/python-multiple-linear-regression-using-ols-code-with-specific-data<br>')
 
         weightedString = ''
-        if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-            weightedString = '_weighted'
-            self.stringList.append('<br><b>Note:</b> These statistics use the weights supplied during the fit<br>')
-
         self.stringList.append('<br>')
         self.stringList.append('If you entered coefficient bounds. Parameter statistics may<br>')
         self.stringList.append('not be valid for parameter values at or near the bounds.<br>')
@@ -1121,10 +1095,7 @@ class DependentDataVsIndependentData1_ConfidenceIntervals(GraphReport):
     def PrepareForReportOutput(self):
         self.name = self.dataObject.DependentDataName + " vs. " + self.dataObject.IndependentDataName1
         if self.dataObject.dimensionality == 2:
-            if len(self.dataObject.equation.dataCache.allDataCacheDictionary['Weights']):
-                self.name += ' with 95% confidence intervals (weighted)'
-            else:
-                self.name += ' with 95% confidence intervals'
+            self.name += ' with 95% confidence intervals'
         else:
             self.name = ''
         self.uniqueAnchorName = "DepDataVsIndepData1_ci"
