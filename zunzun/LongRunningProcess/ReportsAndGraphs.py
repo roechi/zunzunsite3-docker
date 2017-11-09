@@ -367,7 +367,6 @@ class CoefficientAndFitStatistics(TextOnlyReport):
         self.stringList.append('Most statstics from scipy.odr.odrpack and http://www.scipy.org/Cookbook/OLS<br>')
         self.stringList.append('LL, AIC and BIC from http://stackoverflow.com/questions/7458391/python-multiple-linear-regression-using-ols-code-with-specific-data<br>')
 
-        weightedString = ''
         self.stringList.append('<br>')
         self.stringList.append('If you entered coefficient bounds. Parameter statistics may<br>')
         self.stringList.append('not be valid for parameter values at or near the bounds.<br>')
@@ -375,53 +374,53 @@ class CoefficientAndFitStatistics(TextOnlyReport):
 
         self.stringList.append('<table style="font-family: monospace"><tr><td align="left"><br>')
 
-        self.stringList.append('Degrees of freedom (error): ' + str(eval('self.dataObject.equation.df_e' + weightedString)) + '<br>')
-        self.stringList.append('Degrees of freedom (regression): ' + str(eval('self.dataObject.equation.df_r' + weightedString)) + '<br>')
+        self.stringList.append('Degrees of freedom (error): ' + str(self.dataObject.equation.df_e) + '<br>')
+        self.stringList.append('Degrees of freedom (regression): ' + str(self.dataObject.equation.df_r) + '<br>')
             
-        if eval('self.dataObject.equation.sumOfSquaredErrors' + weightedString) == None:
+        if self.dataObject.equation.sumOfSquaredErrors == None:
             self.stringList.append('Chi-squared: n/a' + '<br>')
         else:
-            self.stringList.append('Chi-squared: ' + str(eval('self.dataObject.equation.sumOfSquaredErrors' + weightedString)) + '<br>')
+            self.stringList.append('Chi-squared: ' + str(self.dataObject.equation.sumOfSquaredErrors) + '<br>')
 
-        if eval('self.dataObject.equation.r2' + weightedString) == None:
+        if self.dataObject.equation.r2 == None:
             self.stringList.append('R-squared: n/a' + '<br>')
         else:
-            self.stringList.append('R-squared: ' + str(eval('self.dataObject.equation.r2' + weightedString)) + '<br>')
+            self.stringList.append('R-squared: ' + str(self.dataObject.equation.r2) + '<br>')
 
-        if eval('self.dataObject.equation.r2adj' + weightedString) == None:
+        if self.dataObject.equation.r2adj == None:
             self.stringList.append('R-squared adjusted: n/a' + '<br>')
         else:
-            self.stringList.append('R-squared adjusted: ' + str(eval('self.dataObject.equation.r2adj' + weightedString)) + '<br>')
+            self.stringList.append('R-squared adjusted: ' + str(self.dataObject.equation.r2adj) + '<br>')
 
-        if eval('self.dataObject. equation.Fstat' + weightedString) == None:
+        if self.dataObject. equation.Fstat == None:
             self.stringList.append('Model F-statistic: n/a' + '<br>')
         else:
-            self.stringList.append('Model F-statistic: ' + str(eval('self.dataObject.equation.Fstat' + weightedString)) + '<br>')
+            self.stringList.append('Model F-statistic: ' + str(self.dataObject.equation.Fstat) + '<br>')
 
-        if eval('self.dataObject.equation.Fpv' + weightedString) == None:
+        if self.dataObject.equation.Fpv == None:
             self.stringList.append('Model F-statistic p-value: n/a' + '<br>')
         else:
-            self.stringList.append('Model F-statistic p-value: ' + str(eval('self.dataObject.equation.Fpv' + weightedString)) + '<br>')
+            self.stringList.append('Model F-statistic p-value: ' + str(self.dataObject.equation.Fpv) + '<br>')
 
-        if eval('self.dataObject.equation.ll' + weightedString) == None:
+        if self.dataObject.equation.ll == None:
             self.stringList.append('Model log-likelihood: n/a' + '<br>')
         else:
-            self.stringList.append('Model log-likelihood: ' + str(eval('self.dataObject.equation.ll' + weightedString)) + '<br>')
+            self.stringList.append('Model log-likelihood: ' + str(self.dataObject.equation.ll) + '<br>')
 
-        if eval('self.dataObject.equation.aic' + weightedString) == None:
+        if self.dataObject.equation.aic == None:
             self.stringList.append('AIC: n/a' + '<br>')
         else:
-            self.stringList.append('AIC: ' + str(eval('self.dataObject.equation.aic' + weightedString)) + '<br>')
+            self.stringList.append('AIC: ' + str(self.dataObject.equation.aic) + '<br>')
 
-        if eval('self.dataObject.equation.bic' + weightedString)== None:
+        if self.dataObject.equation.bic== None:
             self.stringList.append('BIC: n/a' + '<br>')
         else:
-            self.stringList.append('BIC: ' + str(eval('self.dataObject.equation.bic' + weightedString)) + '<br>')
+            self.stringList.append('BIC: ' + str(self.dataObject.equation.bic) + '<br>')
 
-        if eval('self.dataObject.equation.rmse' + weightedString) == None:
+        if self.dataObject.equation.rmse == None:
             self.stringList.append('Root Mean Squared Error (RMSE): n/a' + '<br>')
         else:
-            self.stringList.append('Root Mean Squared Error (RMSE): ' + str(eval('self.dataObject.equation.rmse' + weightedString)) + '<br>')
+            self.stringList.append('Root Mean Squared Error (RMSE): ' + str(self.dataObject.equation.rmse) + '<br>')
 
         self.stringList.append('\n' + '<br>')
         
@@ -431,28 +430,28 @@ class CoefficientAndFitStatistics(TextOnlyReport):
             return
             
         for i in range(len(self.dataObject.equation.solvedCoefficients)):
-            if str(eval('self.dataObject.equation.tstat_beta' + weightedString)) == 'None':
+            if str(self.dataObject.equation.tstat_beta) == 'None':
                 tstat = 'n/a'
             else:
-                tstat = '%-.5E' %  (eval('self.dataObject.equation.tstat_beta' + weightedString)[i])
+                tstat = '%-.5E' %  (self.dataObject.equation.tstat_beta[i])
 
-            if str(eval('self.dataObject.equation.pstat_beta' + weightedString)) == 'None':
+            if str(self.dataObject.equation.pstat_beta) == 'None':
                 pstat = 'n/a'
             else:
-                pstat = '%-.5E' %  (eval('self.dataObject.equation.pstat_beta' + weightedString)[i])
+                pstat = '%-.5E' %  (self.dataObject.equation.pstat_beta[i])
 
             self.stringList.append("%s = %-.16E" % (self.dataObject.equation.GetCoefficientDesignators()[i], self.dataObject.equation.solvedCoefficients[i]) + '<br>')
             try:
-                self.stringList.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; std err: %-.5E" % (eval('self.dataObject.equation.sd_beta' + weightedString)[i]) + '<br>')
+                self.stringList.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; std err: %-.5E" % (self.dataObject.equation.sd_beta[i]) + '<br>')
             except:
                 self.stringList.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; std err: n/a<br>')
             self.stringList.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; t-stat: " + tstat + '<br>')
             self.stringList.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p-stat: " + pstat + '<br>')
-            self.stringList.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 95% confidence intervals:" + ' [%-.5E, %-.5E]' % (eval('self.dataObject.equation.ci' + weightedString)[i][0], eval('self.dataObject.equation.ci' + weightedString)[i][1]) + '<br>')
+            self.stringList.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 95% confidence intervals:" + ' [%-.5E, %-.5E]' % (self.dataObject.equation.ci[i][0], self.dataObject.equation.ci[i][1]) + '<br>')
 
         self.stringList.append('\n' + '<br>')
         self.stringList.append("Coefficient Covariance Matrix" + '<br>')
-        for i in eval('self.dataObject.equation.cov_beta' + weightedString):
+        for i in self.dataObject.equation.cov_beta:
             self.stringList.append(str(i) + '<br>')
         self.stringList.append('</td></tr></table>\n')
         self.stringList.append('<pre>')
