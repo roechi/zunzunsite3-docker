@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.template import Context, Template, loader
 from django.views.decorators.cache import cache_control
+from django.views.decorators.cache import cache_page
 from django.contrib.sessions.backends.db import SessionStore
 from django.db import close_old_connections
 from django.core.mail import EmailMessage
@@ -409,7 +410,7 @@ def FeedbackView(request):
         return HttpResponseRedirect('/')
 
 
-@cache_control(no_cache=True)
+@cache_page(60 * 60) # 60 minutes
 @ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def HomePageView(request):
     import os, sys, time

@@ -67,8 +67,6 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
-CACHE_BACKEND = 'locmem:///'
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
