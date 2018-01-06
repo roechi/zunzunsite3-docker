@@ -34,9 +34,11 @@
         <option value='dataEntry'>Text Data Editor
 {% if statisticalDistributions %}
         <option value='statDistSortOrder'>Statistical Distribution Sort Order
-{% endif %}
+        <option value='dataLabels'>Data Labels For Graphs
+{% else %}
         <option value='dataLabels'>Data Labels For Graphs
         <option value='graphScale'>Graph Scaling And Lin/Log Control
+{% endif %}
 {% ifequal dimensionality '3' %}
         <option value='graphSize'>Animation and Graph Sizes
 {% else %}
