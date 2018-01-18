@@ -358,17 +358,10 @@ def ScatterPlotWithOptionalModel_NoDataObject(in_DataToPlot, in_FileNameAndPath,
                 mean_x = numpy.mean(in_DataToPlot[0])			# mean of x
                 n = in_Equation.nobs		    # number of samples in origional fit
                 
-                if len(in_Equation.dataCache.allDataCacheDictionary['Weights']):
-                    t_value = scipy.stats.t.ppf(0.975, in_Equation.df_e_weighted) # (1.0 - (a/2)) is used for two-sided t-test critical value, here a = 0.05
-                                        
-                    confs = t_value * numpy.sqrt((in_Equation.sumOfSquaredErrors_weighted/in_Equation.df_e_weighted)*(1.0/n + (numpy.power((xRange-mean_x),2)/
-                                            ((numpy.sum(numpy.power(in_DataToPlot[0],2)))-n*(numpy.power(mean_x,2))))))
-                else:
-                    t_value = scipy.stats.t.ppf(0.975, in_Equation.df_e) # (1.0 - (a/2)) is used for two-sided t-test critical value, here a = 0.05
-                                        
-                    confs = t_value * numpy.sqrt((in_Equation.sumOfSquaredErrors/in_Equation.df_e)*(1.0/n + (numpy.power((xRange-mean_x),2)/
-                                            ((numpy.sum(numpy.power(in_DataToPlot[0],2)))-n*(numpy.power(mean_x,2))))))
-
+                t_value = scipy.stats.t.ppf(0.975, in_Equation.df_e) # (1.0 - (a/2)) is used for two-sided t-test critical value, here a = 0.05
+                                    
+                confs = t_value * numpy.sqrt((in_Equation.sumOfSquaredErrors/in_Equation.df_e)*(1.0/n + (numpy.power((xRange-mean_x),2)/
+                                        ((numpy.sum(numpy.power(in_DataToPlot[0],2)))-n*(numpy.power(mean_x,2))))))
                 # get lower and upper confidence limits based on predicted y and confidence intervals
                 upper = yRange + abs(confs)
                 lower = yRange - abs(confs)
@@ -382,12 +375,12 @@ def ScatterPlotWithOptionalModel_NoDataObject(in_DataToPlot, in_FileNameAndPath,
                 loglinplot(xRange[booleanMask], upper[booleanMask], linestyle='solid', color='white')
                 loglinplot(xRange[booleanMask], lower[booleanMask], linestyle='dashed', color='blue')
                 loglinplot(xRange[booleanMask], upper[booleanMask], linestyle='dashed', color='blue')
-
+ 
     fig.savefig(in_FileNameAndPath[:-3] + 'png', format = 'png')
     if not inPNGOnlyFlag:
         fig.savefig(in_FileNameAndPath[:-3] + 'svg', format = 'svg')
     plt.close()    
-
+ 
 
 def ContourPlot_NoDataObject(X, Y, Z, in_DataToPlot, in_FileNameAndPath, in_DataNameX, in_DataNameY, in_WidthInPixels, in_HeightInPixels,
                     in_UseOffsetIfNeeded, in_X_UseScientificNotationIfNeeded, in_Y_UseScientificNotationIfNeeded, inPNGOnlyFlag, in_Rectangle=None):
