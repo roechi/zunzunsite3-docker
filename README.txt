@@ -8,7 +8,7 @@ You will need to install scipy, matplotlib, django, bs4, imagemagick
 gifsicle and reportlab to run this software.  On Debian and Ubuntu,
 you can run the following:
 
-apt-get install python3-scipy python3-matplotlib
+apt-get install python3-scipy python3-matplotlib python3-pil
 apt-get install python3-django python3-bs4
 apt-get install python3-reportlab imagemagick gifsicle
 
