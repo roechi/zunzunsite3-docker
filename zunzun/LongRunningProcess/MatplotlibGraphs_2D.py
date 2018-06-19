@@ -32,7 +32,7 @@ def DetermineScientificNotationFromString(inData, in_String):
             scientificNotation = True
     return scientificNotation
 
-def CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_XName, in_YName, in_UseOffsetIfNeeded, in_X_UseScientificNotationIfNeeded, in_Y_UseScientificNotationIfNeeded, in_Left, in_Bottom, in_Right, in_Top): # default to lots of room around graph
+def CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_XName, in_YName, in_UseOffsetIfNeeded, in_X_UseScientificNotationIfNeeded, in_Y_UseScientificNotationIfNeeded):
 
     # a litle more room between x axis and tick mark labels, so not text overlap at the bottom left corner - set this before other calls
     matplotlib.rcParams['xtick.major.pad'] = 5 + (float(in_HeightInPixels) / 100.0) # minimum + some scaled
@@ -43,7 +43,7 @@ def CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_XName, in_YName, 
 
     fig = plt.figure(figsize=(float(in_WidthInPixels ) / 100.0, float(in_HeightInPixels ) / 100.0), dpi=100)
     fig.patch.set_visible(False)
-    fig.subplotpars.update(in_Left, in_Bottom, in_Right, in_Top)
+    fig.subplotpars.update()
     ax = fig.add_subplot(111, frameon=True)
 
     # white background, almost no border space
@@ -103,91 +103,6 @@ def CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_XName, in_YName, 
 
     return fig, ax
 
-def YieldNewExtentsAndNumberOfMajor_X_TickMarks(fig, ax, in_WidthInPixels, in_HeightInPixels, in_OffsetUsed):
-    # draw everything so items can be measured for size
-    canvas = plt.get_current_fig_manager().canvas
-    canvas.draw()
-    
-    # some preliminary info
-    xLabelPoints = ax.set_xlabel(ax.get_xlabel()).get_window_extent().get_points() # [ [x,y], [x,y] ]
-    yLabelPoints = ax.set_ylabel(ax.get_ylabel()).get_window_extent().get_points() # [ [x,y], [x,y] ], rotated 90 degrees
-    xTickZeroPoints = ax.get_xticklabels()[0].get_window_extent().get_points()
-    if xTickZeroPoints[0][0] < -150.0: # contour plots make this very negative, if so use next tick mark
-        xTickZeroPoints = ax.get_xticklabels()[1].get_window_extent().get_points()
-    maxXTickIndex = len(ax.get_xticklabels())-1 # sometimes matlab's max index tick mark has no text.  Not sure about Y ticks, check just in case
-    if ax.get_xticklabels()[maxXTickIndex]._text == '':
-        maxXTickIndex -= 1
-    maxYTickIndex = len(ax.get_yticklabels())-1 # sometimes matlab's max index tick mark has no text.  Not sure about Y ticks, check just in case
-    if ax.get_yticklabels()[maxYTickIndex]._text == '':
-        maxYTickIndex -= 1
-    xTickIndexPoints = ax.get_xticklabels()[maxXTickIndex].get_window_extent().get_points()
-    yTickZeroPoints = ax.get_yticklabels()[0].get_window_extent().get_points()
-    yTickIndexPoints = ax.get_yticklabels()[maxYTickIndex].get_window_extent().get_points()
-    currentPoints = ax.bbox.get_points()
-    maxLeft = currentPoints[0][0]
-    maxBottom = currentPoints[0][1]
-    maxRight = currentPoints[1][0]
-    maxTop = currentPoints[1][1]
-    
-    # find the most left-ward location
-    if xTickZeroPoints[0][0] < maxLeft:
-        maxLeft = xTickZeroPoints[0][0]
-    if yTickZeroPoints[0][0] < maxLeft:
-        maxLeft = yTickZeroPoints[0][0]
-    if yTickIndexPoints[0][0] < maxLeft:
-        maxLeft = yTickIndexPoints[0][0]
-    if xLabelPoints[0][0] < maxLeft:
-        maxLeft = xLabelPoints[0][0]
-    if yLabelPoints[0][0] < maxLeft: # 90 degrees
-        maxLeft = yLabelPoints[0][0]
-
-    # find the most right-ward location
-    if xTickIndexPoints[1][0] > maxRight:
-        maxRight = xTickIndexPoints[1][0]
-    if xLabelPoints[1][0] > maxRight:
-        maxRight = xLabelPoints[1][0]
-
-    # find the most bottom-ward location
-    if xTickZeroPoints[0][1] < maxBottom:
-        maxBottom = xTickZeroPoints[0][1]
-    if xLabelPoints[0][1] < maxBottom:
-        maxBottom = xLabelPoints[0][1]
-    if yLabelPoints[0][1] < maxBottom:
-        maxBottom = yLabelPoints[0][1] 
-
-    # find the most top-ward location
-    if yTickIndexPoints[1][1] > maxTop:
-        maxTop = yTickIndexPoints[1][1]
-    if True == in_OffsetUsed: # could not find a better way to get this
-        yp = ax.get_yticklabels()[0].get_window_extent().get_points() 
-        maxTop += yp[1][1] - yp[0][1]
-
-    newLeft = ax.bbox._bbox.get_points()[0][0] - (float(maxLeft) / float(in_WidthInPixels)) + 0.125
-    newBottom = ax.bbox._bbox.get_points()[0][1] - (float(maxBottom) / float(in_HeightInPixels)) + 0.05
-    newRight = ax.bbox._bbox.get_points()[1][0] + (1.0 - (float(maxRight) / float(in_WidthInPixels))) - 0.05
-    newTop = ax.bbox._bbox.get_points()[1][1] + (1.0 - (float(maxTop) / float(in_HeightInPixels))) - 0.05
-
-    # now redraw and check number of X tick marks
-    canvas.draw()
-
-    # Calculate major number of X tick marks based on label size
-    totalWidth = 0.0
-    maxWidth = 0.0
-    numberOfMajor_X_TickMarks = len(ax.get_xticklabels())
-    for i in range(maxXTickIndex):
-        w = ax.get_xticklabels()[i].get_window_extent().get_points() # the drawn text bounding box corners as numpy array of [x,y], [x,y]
-        width = w[1][0] - w[0][0]
-        totalWidth += width
-        if width > maxWidth:
-            maxWidth = width
-    if totalWidth > (0.6 * ((newRight - newLeft) * float(in_WidthInPixels))): # 0.6 for some spacing between tick labels
-        numberOfMajor_X_TickMarks = int(math.floor((0.6 * ((newRight - newLeft) * float(in_WidthInPixels))) / maxWidth)) 
-
-    if numberOfMajor_X_TickMarks < 2:
-        numberOfMajor_X_TickMarks = 2
-
-    return (newLeft, newBottom, newRight, newTop, numberOfMajor_X_TickMarks,)
-
 
 def HistogramPlot_NoDataObject(in_DataToPlot, in_FileNameAndPath, in_DataName, in_FillColor, in_WidthInPixels, in_HeightInPixels, in_UseOffsetIfNeeded, in_UseScientificNotationIfNeeded, inPNGOnlyFlag, in_pdfFlag, in_distro, in_params):
 
@@ -206,7 +121,7 @@ def HistogramPlot_NoDataObject(in_DataToPlot, in_FileNameAndPath, in_DataName, i
     if in_pdfFlag:
         title = 'Normalized Frequency'
         
-    fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataName, title, useOffsetIfNeeded, scientificNotation, False, 0.0, 0.0, 1.0, 1.0)
+    fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataName, title, useOffsetIfNeeded, scientificNotation, False)
     
     # histogram of data
     n, bins, patches = ax.hist(in_DataToPlot, numberOfBins, facecolor=in_FillColor)
@@ -216,14 +131,12 @@ def HistogramPlot_NoDataObject(in_DataToPlot, in_FileNameAndPath, in_DataName, i
     if ylim[1] == max(n):
         ax.set_ylim(0.0, ylim[1] + 1)
 
-    newLeft, newBottom, newRight, newTop, numberOfMajor_X_TickMarks = YieldNewExtentsAndNumberOfMajor_X_TickMarks(fig, ax, in_WidthInPixels, in_HeightInPixels, False)
-
     # now with scaled
     title = 'Frequency'
     if in_pdfFlag:
         title = 'Normalized Frequency'
  
-    fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataName, title, useOffsetIfNeeded, scientificNotation, False, newLeft, newBottom, newRight, newTop)
+    fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataName, title, useOffsetIfNeeded, scientificNotation, False)
     
     # histogram of data
     normalized = False
@@ -249,9 +162,6 @@ def HistogramPlot_NoDataObject(in_DataToPlot, in_FileNameAndPath, in_DataName, i
     ylim = ax.get_ylim()
     if ylim[1] == max(n):
         ax.set_ylim(0.0, ylim[1] + 1)
-
-    if  len(ax.get_xticklabels()) > numberOfMajor_X_TickMarks:
-        ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(numberOfMajor_X_TickMarks))
 
     fig.savefig(in_FileNameAndPath[:-3] + 'png', format = 'png')
     if not inPNGOnlyFlag:
@@ -293,10 +203,7 @@ def ScatterPlotWithOptionalModel_NoDataObject(in_DataToPlot, in_FileNameAndPath,
         in_Equation.dataCache = tempDataCache
 
     if reverseXY:
-        fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataNameX, in_DataNameY, useOffsetIfNeeded, scientificNotationY, scientificNotationX, 0.0, 0.0, 1.0, 1.0)
-        ax.plot(numpy.array([in_GraphBounds[2], in_GraphBounds[3]]), numpy.array([in_GraphBounds[0], in_GraphBounds[1]])) # first ax.plot() is only with extents
-        newLeft, newBottom, newRight, newTop, numberOfMajor_X_TickMarks = YieldNewExtentsAndNumberOfMajor_X_TickMarks(fig, ax, in_WidthInPixels, in_HeightInPixels, scientificNotationY or useOffsetIfNeeded)
-        fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataNameX, in_DataNameY, useOffsetIfNeeded, scientificNotationY, scientificNotationX, newLeft, newBottom, newRight, newTop)
+        fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataNameX, in_DataNameY, useOffsetIfNeeded, scientificNotationY, scientificNotationX)
         
         if in_LogY == 'LOG' and in_LogX == 'LOG':
             loglinplot = ax.loglog
@@ -307,9 +214,6 @@ def ScatterPlotWithOptionalModel_NoDataObject(in_DataToPlot, in_FileNameAndPath,
         else:
             loglinplot = ax.plot
         
-        if  len(ax.get_xticklabels()) > numberOfMajor_X_TickMarks:
-            ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(numberOfMajor_X_TickMarks))
-            
         loglinplot(numpy.array([in_GraphBounds[2], in_GraphBounds[3]]), numpy.array([in_GraphBounds[0], in_GraphBounds[1]]), visible=False)
         loglinplot(in_DataToPlot[1], in_DataToPlot[0], 'o', markersize=3, color='black')
 
@@ -319,10 +223,7 @@ def ScatterPlotWithOptionalModel_NoDataObject(in_DataToPlot, in_FileNameAndPath,
             matplotlib.pyplot.xlim(in_GraphBounds[2], in_GraphBounds[3])
         
     else:
-        fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataNameX, in_DataNameY, useOffsetIfNeeded, scientificNotationX, scientificNotationY, 0.0, 0.0, 1.0, 1.0)
-        ax.plot(numpy.array([in_GraphBounds[0], in_GraphBounds[1]]), numpy.array([in_GraphBounds[2], in_GraphBounds[3]])) # first ax.plot() is only with extents
-        newLeft, newBottom, newRight, newTop, numberOfMajor_X_TickMarks = YieldNewExtentsAndNumberOfMajor_X_TickMarks(fig, ax, in_WidthInPixels, in_HeightInPixels, scientificNotationY or useOffsetIfNeeded)
-        fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataNameX, in_DataNameY, useOffsetIfNeeded, scientificNotationX, scientificNotationY, newLeft, newBottom, newRight, newTop)
+        fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataNameX, in_DataNameY, useOffsetIfNeeded, scientificNotationX, scientificNotationY)
         
         if in_LogY == 'LOG' and in_LogX == 'LOG':
             loglinplot = ax.loglog
@@ -333,9 +234,6 @@ def ScatterPlotWithOptionalModel_NoDataObject(in_DataToPlot, in_FileNameAndPath,
         else:
             loglinplot = ax.plot
         
-        if  len(ax.get_xticklabels()) > numberOfMajor_X_TickMarks:
-            ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(numberOfMajor_X_TickMarks))
-            
         loglinplot(numpy.array([in_GraphBounds[0], in_GraphBounds[1]]), numpy.array([in_GraphBounds[2], in_GraphBounds[3]]), visible=False)
         loglinplot(in_DataToPlot[0], in_DataToPlot[1], 'o', markersize=3, color='black')
                             
@@ -390,12 +288,9 @@ def ContourPlot_NoDataObject(X, Y, Z, in_DataToPlot, in_FileNameAndPath, in_Data
     scientificNotationY = DetermineScientificNotationFromString(in_DataToPlot[1], in_Y_UseScientificNotationIfNeeded)
     useOffsetIfNeeded = DetermineOnOrOffFromString(in_UseOffsetIfNeeded)
 
-    fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataNameX, in_DataNameY, useOffsetIfNeeded, scientificNotationY, scientificNotationX, 0.0, 0.0, 1.0, 1.0)
+    fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataNameX, in_DataNameY, useOffsetIfNeeded, scientificNotationY, scientificNotationX)
 
     CS = plt.contour(X, Y, Z, 1, colors='k')
-    
-    newLeft, newBottom, newRight, newTop, numberOfMajor_X_TickMarks = YieldNewExtentsAndNumberOfMajor_X_TickMarks(fig, ax, in_WidthInPixels, in_HeightInPixels, scientificNotationY or useOffsetIfNeeded)
-    fig, ax = CommonPlottingCode(in_WidthInPixels, in_HeightInPixels, in_DataNameX, in_DataNameY, useOffsetIfNeeded, scientificNotationY, scientificNotationX, newLeft, newBottom, newRight, newTop)
 
     if in_Rectangle:
         ax.add_patch(in_Rectangle)
