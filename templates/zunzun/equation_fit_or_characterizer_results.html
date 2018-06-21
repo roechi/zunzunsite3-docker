@@ -209,7 +209,7 @@ You can download almost all of these reports as <a href='/temp/{{ pdfFileName }}
 			download is complete and your browser displays the animation smoothly.
 		{% else %}
 	<IMG SRC="{{ graphReport.websiteFileLocation }}" ALIGN="Absmiddle" ALT="{{ graphReport.name }}" onAbort="Load();"><BR>
-	
+        <br>
 		Download this image as 
 			<a href="{{ graphReport.websiteFileLocation|slice:':-3' }}png" target='_blank'>PNG</a>
 			,
