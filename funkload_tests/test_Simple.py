@@ -77,6 +77,10 @@ class Simple(FunkLoadTestCase):
                 print(body)
 
         for testString in inStringListForAssertions:
+            if -1 == body.find(testString):
+                f = open('body.html', 'wt')
+                f.write(body)
+                f.close()
             self.assertTrue(-1 != body.find(testString), 'Incorrect ' + inDescription + ': "' + testString + '"')
     
 
@@ -330,7 +334,7 @@ class Simple(FunkLoadTestCase):
                         ['textDataEditor', data1D]],
             'Test Statistical Distributions',
             20 * 240,
-            ['Top 87 Statistical Distributions'])
+            ['Top 88 Statistical Distributions'])
 
 
 
