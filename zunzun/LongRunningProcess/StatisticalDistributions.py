@@ -1,7 +1,3 @@
-
-
-
-
 import inspect, time, math, random, multiprocessing, io
 
 import numpy, scipy, scipy.stats, pyeq3
@@ -117,14 +113,11 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
                 longName = longName[3:]
             i[1]['distributionLongName'] = longName[:longName.find(' continuous')]
 
-            '''
-            # rename for special case
-            if i[1]['distributionName'] == 'beta':
-                if i[1]['data_max_min_as_limits'] == True:
-                    i[1]['distributionLongName'] = i[1]['distributionLongName'] + ' (using data max/min as limits and not fitted)'
-                else:
-                    i[1]['distributionLongName'] = i[1]['distributionLongName'] + ' (calculated limits with all data points fitted)'
-            '''
+            # rename for special cases
+            if i[1]['distributionName'] == 'vonmises':
+                    i[1]['distributionLongName'] = i[1]['distributionLongName'] + ' (Circular)'
+            if i[1]['distributionName'] == 'vonmises_line':
+                    i[1]['distributionLongName'] = i[1]['distributionLongName'] + ' (Line)'
 
             # any additional info
             try:

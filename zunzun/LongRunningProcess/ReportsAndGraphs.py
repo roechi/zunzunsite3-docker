@@ -597,7 +597,7 @@ class StatisticalDistributions(TextOnlyReport):
         if self.numberOfFittedDistributions == 0:
             return
 
-        self.name = self.dataObject.IndependentDataName1 + " Top " + str(self.numberOfFittedDistributions) + " Statistical Distributions"
+        self.name = "Top " + str(self.numberOfFittedDistributions) + " Statistical Distributions"
         self.uniqueAnchorName = "XStatDist"
 
 
@@ -1447,7 +1447,7 @@ class StatisticalDistributionHistogram(GraphReport):
             
         self.stringList.append('</td></tr></table><pre>')
 
-        self.name = self.dataObject.IndependentDataName1 + " Rank " + str(self.distributionIndex + 1) + ": " + i[1]['distributionLongName']
+        self.name = "Rank " + str(self.distributionIndex + 1) + ": " + i[1]['distributionLongName']
         self.uniqueAnchorName = "XStatDistHist_" + str(self.distributionIndex)
 
         self.physicalFileLocation = "%s/%s%s" % (settings.TEMP_FILES_DIR, self.uniqueAnchorName, self.dataObject.uniqueString) + self.GetRankString() + ".png"
@@ -1461,7 +1461,7 @@ class StatisticalDistributionHistogram(GraphReport):
         
         MatplotlibGraphs_2D.HistogramPlot(self.dataObject,
                                        self.physicalFileLocation,
-                                       self.dataObject.IndependentDataName1 + ": " + distro['distributionLongName'] + " distribution",
+                                       distro['distributionLongName'] + " distribution",
                                        self.dataObject.IndependentDataArray[0],
                                        1)
 
