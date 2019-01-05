@@ -20,6 +20,7 @@ import numpy, multiprocessing
 import zunzun
 import pyeq3
 from . import LongRunningProcess
+import psutil # for killing child zombie processes
 
 # is django_brake used for rate limiting web site slammers?
 try: # django_brake installed?
@@ -590,6 +591,14 @@ def GetEquationInfoDictionary(inDimensionality, inAllOrStandardOnly):
 
 
 def CommonToAllViews(request):
+    
+    # if possible, kill any child zombie processes
+    # based on # from https://psutil.readthedocs.io/en/latest/#recipes
+    child_procs = psutil.Process().children()
+    for child in child_procs:
+        if child.status() == psutil.STATUS_ZOMBIE:
+            child.wait() # should return immediately for zombie processes
+    
     if request.META['REQUEST_METHOD'] not in ['GET', 'POST']:
         raise django.http.Http404
     

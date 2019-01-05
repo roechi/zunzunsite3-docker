@@ -5,12 +5,13 @@ orthogonal distance and relative error regressions. Generates PDF files
 and surface animations. Based on code from zunzun.com. 
 
 You will need to install scipy, matplotlib, django, bs4, imagemagick
-gifsicle and reportlab to run this software.  On Debian and Ubuntu,
-you can run the following:
+gifsicle and reportlab to run this software, alog with psutil.  On
+Debian and Ubuntu, you can run the following:
 
 apt-get install python3-scipy python3-matplotlib python3-pil
 apt-get install python3-django python3-bs4
 apt-get install python3-reportlab imagemagick gifsicle
+apt-get install python3-psutil
 
 then install the pyeq3 fitting code with these commands:
 
