@@ -200,6 +200,7 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
                 self.graphReports.append(graph)
                 graphs.append(graph.websiteFileLocation)
             else:
+                reportDataObject.dataPointSize3D = 1.0
                 graph = ReportsAndGraphs.SurfacePlot(reportDataObject)
                 graph.rank = i + self.rank
                 graph.PrepareForReportOutput()
