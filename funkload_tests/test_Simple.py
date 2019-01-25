@@ -93,7 +93,7 @@ class Simple(FunkLoadTestCase):
                          '/Equation/2/Polynomial/2nd%20Order%20(Quadratic)/',
                          '/Equation/2/Spline/Spline/',
                          '/Equation/2/UserDefinedFunction/UserDefinedFunction/',
-                         '/FunctionFinder__C___/2/',
+                         '/FunctionFinder__D___/2/',
                          '/Equation/2/Polynomial/1st%20Order%20(Linear)%20With%20Exponential%20Decay/'
                          ]:
                 self.RetrieveOnePage(url, 'Please select an option from the pull-down')
@@ -179,7 +179,7 @@ class Simple(FunkLoadTestCase):
                                   'Kurtosis:            -6.569929E-01     -6.268616E-01     -1.233354E+00'])
         
         if testPolynomialQuadratic2D_SSQABS:
-            self.PostLongRunningProcess('/FitEquation__C___/2/Polynomial/2nd%20Order%20(Quadratic)/',
+            self.PostLongRunningProcess('/FitEquation__D___/2/Polynomial/2nd%20Order%20(Quadratic)/',
                                         [['commaConversion', 'I'],
                         ['graphSize', '320x240'],
                         ['animationSize', '0x0'],
@@ -200,7 +200,7 @@ class Simple(FunkLoadTestCase):
 
        
         if testPolynomialQuadratic2D_SSQREL:
-            self.PostLongRunningProcess('/FitEquation__C___/2/Polynomial/2nd%20Order%20(Quadratic)/',
+            self.PostLongRunningProcess('/FitEquation__D___/2/Polynomial/2nd%20Order%20(Quadratic)/',
                                         [['commaConversion', 'I'],
                         ['graphSize', '320x240'],
                         ['animationSize', '0x0'],
@@ -224,7 +224,7 @@ class Simple(FunkLoadTestCase):
             self.assertTrue(-1 != str(self.getBody()).find('3.9510208'), 'Polynomial Quadratic 2D (SSQREL) - Evaluate At A Point')
 
         if testSpline2D:
-            self.PostLongRunningProcess( '/FitEquation__C___/2/Spline/Spline/',
+            self.PostLongRunningProcess( '/FitEquation__D___/2/Spline/Spline/',
                                          [['commaConversion', 'I'],
                         ['graphSize', '320x240'],
                         ['animationSize', '0x0'],
@@ -251,7 +251,7 @@ class Simple(FunkLoadTestCase):
 
 
         if testUserDefinedFunction2D:
-            self.PostLongRunningProcess('/FitEquation__C___/2/UserDefinedFunction/UserDefinedFunction/',
+            self.PostLongRunningProcess('/FitEquation__D___/2/UserDefinedFunction/UserDefinedFunction/',
                                         [['commaConversion', 'I'],
                         ['graphSize', '320x240'],
                         ['animationSize', '0x0'],
@@ -277,7 +277,7 @@ class Simple(FunkLoadTestCase):
             self.assertTrue(-1 != str(self.getBody()).find('4.1924427'), 'User Defined Function 2D (SSQABS) - Evaluate At A Point')
 
         if testFunctionFinder2D:
-            self.PostLongRunningProcess('/FunctionFinder__C___/2/',
+            self.PostLongRunningProcess('/FunctionFinder__D___/2/',
                                         [['commaConversion', 'I'],
                         ['dataNameX', 'X Data'],
                         ['dataNameY', 'Y Data'],
@@ -293,7 +293,7 @@ class Simple(FunkLoadTestCase):
                                          'RMSE: 0.287041655276'])
 
         if testPolynomialLinearWithExponentialDecay2D_SSQABS:
-            self.PostLongRunningProcess('/FitEquation__C___/2/Polynomial/1st%20Order%20(Linear)%20With%20Exponential%20Decay/',
+            self.PostLongRunningProcess('/FitEquation__D___/2/Polynomial/1st%20Order%20(Linear)%20With%20Exponential%20Decay/',
                                         [['commaConversion', 'I'],
                         ['graphSize', '320x240'],
                         ['animationSize', '0x0'],
