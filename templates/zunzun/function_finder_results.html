@@ -32,11 +32,20 @@
 <br><br>
 <font size=-1><b>Hint:</b> If you have too many Polyfunctionals you can go back, turn them off, and run again.</font>
 <br>
+<br>
 
 <table border='1'>
+<tr>
+    <td align='center'>Model Plots</td>
+{% ifequal dimensionality '3' %}
+    <td align='center'>Contour Plots</td>
+{% endifequal %}
+    <td align='center'>Error Plota</td>
+    <td align='center'>Statistics and Links</td>
+</tr>
 {% for equationData in equationDataForDjangoTemplate %}
 	<tr>
-
+        
 	{% for graphLocation in equationData.graphWebSiteLocations %}
 		<td style='border-top: none; border-right: none; border-left: none;'><img src='{{ graphLocation }}'></td>
 	{% endfor %}
@@ -48,6 +57,7 @@
 	<br>
 	{{ equationData.fittingTarget }}: {{ equationData.fittingTargetValue }}
 	{{ equationData.rmseString }}
+	{{ equationData.rsquaredString }}
 	<br>Equation Family: {{ equationData.moduleName }}
 	<br><b>{{ equationData.displayName }}</b>
 	<br>

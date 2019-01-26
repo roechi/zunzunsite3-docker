@@ -240,10 +240,12 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
             dataForOneEquation['dimensionality'] = self.dimensionality
             dataForOneEquation['fittingTarget'] = reportDataObject.equation.fittingTarget
             dataForOneEquation['fittingTargetValue'] = targetValue
-            if reportDataObject.fittingTarget[-3:] != "REL": # only non-relative error fits get RMSE displayed
-                dataForOneEquation['rmseString'] = '<br>RMSE: ' + str(reportDataObject.equation.rmse) + '<br>'
+            if reportDataObject.fittingTarget[-3:] != "REL": # only non-relative error fits get these displayed
+                dataForOneEquation['rmseString'] = '<br>RMSE: ' + str(reportDataObject.equation.rmse)
+                dataForOneEquation['rsquaredString'] = '<br>R-squared: ' + str(reportDataObject.equation.r2) + '<br>'
             else:
                 dataForOneEquation['rmseString'] = '<br>'
+                dataForOneEquation['rsquaredString'] = '<br>'
             self.equationDataForDjangoTemplate.append(dataForOneEquation)
 
             if self.debug: print("**** FF Results GenerateListOfOutputReports 2.7: i=", str(i), 'equation name =', reportDataObject.equation.GetDisplayName())
