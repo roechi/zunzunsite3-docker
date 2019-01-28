@@ -1,7 +1,3 @@
-
-
-
-
 import os, sys, inspect, copy, urllib.request, urllib.parse, urllib.error
 
 import settings
@@ -81,6 +77,7 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
         itemsToRender['uniqueTime'] = str(time.time())
         itemsToRender['previousSelectorRank'] = self.previousSelectorRank
         itemsToRender['nextSelectorRank'] = self.nextSelectorRank
+        itemsToRender['RelativeErrorPlotsFlag'] = self.RelativeErrorPlotsFlag
 
         tempString = render_to_string('zunzun/function_finder_results.html', itemsToRender)
         fileLocation = os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")
@@ -243,9 +240,11 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
             if reportDataObject.fittingTarget[-3:] != "REL": # only non-relative error fits get these displayed
                 dataForOneEquation['rmseString'] = '<br>RMSE: ' + str(reportDataObject.equation.rmse)
                 dataForOneEquation['rsquaredString'] = '<br>R-squared: ' + str(reportDataObject.equation.r2) + '<br>'
+                self.RelativeErrorPlotsFlag = False # ok to set many times
             else:
                 dataForOneEquation['rmseString'] = '<br>'
                 dataForOneEquation['rsquaredString'] = '<br>'
+                self.RelativeErrorPlotsFlag = True # ok to set many times
             self.equationDataForDjangoTemplate.append(dataForOneEquation)
 
             if self.debug: print("**** FF Results GenerateListOfOutputReports 2.7: i=", str(i), 'equation name =', reportDataObject.equation.GetDisplayName())

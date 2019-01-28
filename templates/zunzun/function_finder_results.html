@@ -40,7 +40,11 @@
 {% ifequal dimensionality '3' %}
     <td align='center'>Contour Plots</td>
 {% endifequal %}
+{% if RelativeErrorPlotsFlag %}
+    <td align='center'>Relative Error Plots</td>
+{% else %}
     <td align='center'>Error Plots</td>
+{% endif %}
     <td align='center'>Statistics and Links</td>
 </tr>
 {% for equationData in equationDataForDjangoTemplate %}
