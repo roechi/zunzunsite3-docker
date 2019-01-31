@@ -416,6 +416,10 @@ def FeedbackView(request):
 def HomePageView(request):
     import os, sys, time
 
+    # only allow GET for this view
+    if request.method != 'GET':
+        return HttpResponse('I am not able to process your request.')
+
     # housekeeping tasks, perform in separate process so
     # that actual home page generation time is not impacted
     processID_1 = os.fork()
@@ -476,6 +480,10 @@ def HomePageView(request):
 @ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def AllEquationsView(request, inDimensionality, inAllOrStandardOnly): # from urls.py, inDimensionality can only be '2' or '3'
     import os, sys, time
+
+    # only allow GET for this view
+    if request.method != 'GET':
+        return HttpResponse('I am not able to process your request.')
     
     if CommonToAllViews(request): # any referrer blocks or web request checks processed here
         raise django.http.Http404
