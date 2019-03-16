@@ -606,6 +606,10 @@ def CommonToAllViews(request):
     for child in child_procs:
         if child.status() == psutil.STATUS_ZOMBIE:
             child.wait() # should return immediately for zombie processes
+
+    ip = request.META.get('REMOTE_ADDR')
+    if ip in []:
+        raise django.http.Http404
     
     if request.META['REQUEST_METHOD'] not in ['GET', 'POST']:
         raise django.http.Http404
