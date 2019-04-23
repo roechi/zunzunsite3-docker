@@ -347,16 +347,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
 
     processID_1 = os.fork()
     if processID_1 == 0: # child process, kill when done
-        '''
-        # daemon-ization did not help mod_wsgi number of processes slowly reducing, commenting out
-        # decouple from parent and double fork
-        # http://code.activestate.com/recipes/66012-fork-a-daemon-process-on-unix/
-        os.setsid()
-        os.umask(0)
-        processID_2 = os.fork()
-        if processID_2 != 0:
-            sys.exit(0) # kill the intermediate now-unused process
-        '''
+
         os.nice(LRP.reniceLevel)
 
         try:
