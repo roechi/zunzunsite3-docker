@@ -121,7 +121,8 @@ def EvaluateAtAPointView(request):
         exceptionString += str(equation.solvedCoefficients) + '\n'
         exceptionString += str(equation.dataCache.allDataCacheDictionary['IndependentData'])
         pointValueAsString = 'Exception in evaluation, please check the data. Exception text: ' + exceptionString
-        EmailMessage('Site exception in evaluation at a point', exceptionString, to = [settings.EXCEPTION_EMAIL_ADDRESS]).send()
+        if settings.EXCEPTION_EMAIL_ADDRESS:
+            EmailMessage('Site exception in evaluation at a point', exceptionString, to = [settings.EXCEPTION_EMAIL_ADDRESS]).send()
     return HttpResponse(pointValueAsString)
 
 
@@ -362,7 +363,8 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
                 extraInfo += str(item) + ' : ' + str(request.META[item]) + '\n'
                 
             print(traceback.format_exc())
-            EmailMessage('Site Top-level exception from LRP',  traceback.format_exc() + '\n\n\n' + extraInfo, to = [settings.EXCEPTION_EMAIL_ADDRESS]).send()
+            if settings.EXCEPTION_EMAIL_ADDRESS:
+                EmailMessage('Site Top-level exception from LRP',  traceback.format_exc() + '\n\n\n' + extraInfo, to = [settings.EXCEPTION_EMAIL_ADDRESS]).send()
             LRP.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"An unknown exception has occurred, and an email with details has been sent to the site administrator. These are sometimes caused by taking the exponent of large numbers."})
         finally:
             time.sleep(1.0)
@@ -395,7 +397,8 @@ def FeedbackView(request):
             items_to_render['mainForm'] = form
             return render_to_response('zunzun/invalid_form_data.html', items_to_render)
         msg = 'Email from ' + form.cleaned_data['emailAddress'] + '\n\nAt ' + str(datetime.datetime.now()) + "\n\n" + form.cleaned_data['feedbackText']
-        EmailMessage('ZunZunSite3 Feedback Form', msg, to = [settings.FEEDBACK_EMAIL_ADDRESS]).send()
+        if settings.FEEDBACK_EMAIL_ADDRESS:
+            EmailMessage('ZunZunSite3 Feedback Form', msg, to = [settings.FEEDBACK_EMAIL_ADDRESS]).send()
 
         return render_to_response('zunzun/feedback_reply.html', {})
     else: # not a POST
