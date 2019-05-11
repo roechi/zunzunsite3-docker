@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup # don't need everything, it has several components
 import settings
 import django.http # to raise 404's
 import django.utils.encoding
+from django import db
 from django.db import close_old_connections
 from django.contrib.sessions.backends.db import SessionStore
 from django.template.loader import render_to_string
@@ -446,7 +447,7 @@ You must provide any weights you wish to use.
         except:
             time.sleep(0.5) # wait 1/2 second before retry
             session.save()
-            
+        db.connections.close_all()
         close_old_connections()
         session = None
 

@@ -7,6 +7,7 @@ from django.template import Context, Template, loader
 from django.views.decorators.cache import cache_control
 from django.views.decorators.cache import cache_page
 from django.contrib.sessions.backends.db import SessionStore
+from django import db
 from django.db import close_old_connections
 from django.core.mail import EmailMessage
 
@@ -344,6 +345,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
     except:
         time.sleep(0.5)
         request.session.save()
+    db.connections.close_all()
     close_old_connections()
 
     processID_1 = os.fork()
