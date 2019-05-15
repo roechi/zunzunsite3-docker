@@ -104,20 +104,18 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
         for i in self.completedWorkItemsList:
             
             distro = getattr(scipy.stats, i[1]['distributionName']) # convert distro name back into a distribution object
-                
-            # dig out a long name
-            longName = io.StringIO(distro.__doc__).readlines()[0]
-            if longName[:2] == 'A ':
-                longName = longName[2:]
-            if longName[:3] == 'An ':
-                longName = longName[3:]
-            i[1]['distributionLongName'] = longName[:longName.find(' continuous')]
-
-            # rename for special cases
-            if i[1]['distributionName'] == 'vonmises':
-                    i[1]['distributionLongName'] = i[1]['distributionLongName'] + ' (Circular)'
-            if i[1]['distributionName'] == 'vonmises_line':
-                    i[1]['distributionLongName'] = i[1]['distributionLongName'] + ' (Line)'
+            # dig out a long name. scipy's names and doc strings
+            # are irregular, so dig lfrom the scipy.stats.__doc__ text
+            # if present there.
+            tempString = None
+            lines = io.StringIO(scipy.stats.__doc__).readlines()
+            for line in lines:
+                if -1 != line.find(i[1]['distributionName']) and -1 != line.find(' -- '):
+                    tempString = line.split(' -- ')[1].split(',')[0].strip()
+            if tempString:
+                i[1]['distributionLongName'] = tempString
+            else:
+                i[1]['distributionLongName'] = i[1]['distributionName'] # default is class name attribute
 
             # any additional info
             try:
