@@ -345,6 +345,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
     except:
         time.sleep(0.5)
         request.session.save()
+    
     db.connections.close_all()
     close_old_connections()
 
@@ -356,6 +357,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         try:
             LRP.PerformAllWork()
         except:
+            sys.stdout = open(os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '_.err'), 'a') # errfile
             import traceback
             print('*** Site top-level exception from LRP', str(sys.exc_info()[0]) + '  ' + str(sys.exc_info()[1]))
             sys.stdout.flush()
@@ -365,6 +367,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
                 extraInfo += str(item) + ' : ' + str(request.META[item]) + '\n'
                 
             print(traceback.format_exc())
+            f.close() # errfile
             if settings.EXCEPTION_EMAIL_ADDRESS:
                 EmailMessage('Site Top-level exception from LRP',  traceback.format_exc() + '\n\n\n' + extraInfo, to = [settings.EXCEPTION_EMAIL_ADDRESS]).send()
             LRP.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"An unknown exception has occurred, and an email with details has been sent to the site administrator. These are sometimes caused by taking the exponent of large numbers."})
