@@ -49,7 +49,9 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
         
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Generating List Of Work Items"})
         for item in inspect.getmembers(scipy.stats): # weibull max and min are duplicates of Frechet distributions
-            if isinstance(item[1], scipy.stats.rv_continuous) and item[0] not in ['kstwobign', 'ncf', 'weibull_max', 'weibull_min']:
+            if isinstance(item[1], scipy.stats.rv_continuous) and item[0] not in ['kstwobign', 'ncf']: # these are very slow
+                if item[0] not in ['chi', 'ncx2']:
+                    continue
                 self.parallelWorkItemsList.append(item[0])
 
 
@@ -109,8 +111,8 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
             # if present there.
             tempString = None
             lines = io.StringIO(scipy.stats.__doc__).readlines()
-            for line in lines:
-                if -1 != line.find(i[1]['distributionName']) and -1 != line.find(' -- '):
+            for line in lines: # the "+ ' '" is for chi and chi2
+                if -1 != line.find(i[1]['distributionName'] + ' ') and -1 != line.find(' -- '):
                     tempString = line.split(' -- ')[1].split(',')[0].strip()
             if tempString:
                 i[1]['distributionLongName'] = tempString
