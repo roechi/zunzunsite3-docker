@@ -421,6 +421,8 @@ def HomePageView(request):
 
     # housekeeping tasks, perform in separate process so
     # that actual home page generation time is not impacted
+    db.connections.close_all()
+    close_old_connections()
     processID_1 = os.fork()
     if processID_1 == 0: # child process, kill when done
         try:
