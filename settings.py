@@ -36,7 +36,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'session_db/db.sqlite3',
-        'OPTIONS':{'timeout':60} # in case database is busy or slow
+        'OPTIONS':{'timeout':5} # in case database is busy or slow
     }
 }
 
