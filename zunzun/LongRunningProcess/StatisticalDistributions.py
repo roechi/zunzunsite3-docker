@@ -1,5 +1,5 @@
 import inspect, time, math, random, multiprocessing, io
-
+import os, sys
 import numpy, scipy, scipy.stats, pyeq3
 
 from . import StatusMonitoredLongRunningProcessPage
@@ -78,7 +78,7 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
             calculateCriteriaForUseInListSorting = 'AIC'
         if 'AICc_BA' == self.dataObject.statisticalDistributionsSortBy:
             calculateCriteriaForUseInListSorting = 'AICc_BA'
-            
+        
         for i in indices:
             parallelChunkResultsList = []
             self.pool = multiprocessing.Pool(self.GetParallelProcessCount())
@@ -109,8 +109,8 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
             # if present there.
             tempString = None
             lines = io.StringIO(scipy.stats.__doc__).readlines()
-            for line in lines: # the "+ ' '" is for chi and chi2
-                if -1 != line.find(i[1]['distributionName'] + ' ') and -1 != line.find(' -- '):
+            for line in lines:
+                if -1 != line.find('  ' + i[1]['distributionName'] + '  ') and -1 != line.find(' -- '):
                     tempString = line.split(' -- ')[1].split(',')[0].strip()
             if tempString:
                 i[1]['distributionLongName'] = tempString
@@ -136,8 +136,8 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
             else:
                 parameterNames = ['location', 'scale']
             i[1]['parameterNames'] = parameterNames
-                
-        self.completedWorkItemsList.sort()
+        
+        self.completedWorkItemsList.sort(key=lambda x: x[0])
         
 
     def WorkItems_CheckOneSecondSessionUpdates(self, countOfWorkItemsRun, totalNumberOfWorkItemsToBeRun):
