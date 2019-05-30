@@ -75,9 +75,9 @@ def serialWorker(obj, inputList, outputList):
             if (obj.countOfSerialWorkItemsRun % 50) == 0:
                 obj.WorkItems_CheckOneSecondSessionUpdates()
         except:
-         import logging
-        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
-        logging.exception('serialWorker exception')
+            import logging
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.exception('serialWorker exception')
 
 
 def parallelWorker(inputList, outputQueue):
