@@ -11,8 +11,6 @@ import zunzun.forms
 import zunzun.formConstants
 import pyeq3
 
-sys.stdout = sys.stderr # wsgi cannot send to stdout, see http://code.google.com/p/modwsgi/wiki/DebuggingTechniques
-
 
 
 class FitUserSelectablePolyfunctional(FittingBaseClass.FittingBaseClass):

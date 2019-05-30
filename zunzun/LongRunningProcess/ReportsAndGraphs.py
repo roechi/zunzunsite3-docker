@@ -1524,8 +1524,9 @@ class ScatterAnimation(GraphReport):
             p = os.popen('rm ' + self.physicalFileLocation[:-4] + '__*')
             p.close()
         except:
-            print(sys.exc_info()[0])
-            print(sys.exc_info()[1])
+            import logging
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.exception('Exception creating GIF animation')
 
 
 
@@ -1586,8 +1587,9 @@ class SurfaceAnimation(GraphReport):
             p = os.popen('rm ' + self.physicalFileLocation[:-4] + '__*')
             p.close()
         except:
-            print(sys.exc_info()[0])
-            print(sys.exc_info()[1])
+            import logging
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.exception('Exception creating GIF animation')
 
 
 

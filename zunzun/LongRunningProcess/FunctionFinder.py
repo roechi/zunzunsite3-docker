@@ -4,12 +4,12 @@ import numpy
 
 from . import StatusMonitoredLongRunningProcessPage
 from . import ReportsAndGraphs
+import settings
 import zunzun.forms
 import zunzun.formConstants
 import multiprocessing
 
 import pyeq3
-
 
 
 externalDataCache = pyeq3.dataCache()
@@ -57,8 +57,9 @@ def parallelWorkFunction(inParameterList):
             
         return [t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11]
     except:
-        print('*** parallelWorkFunction exception:', str(sys.exc_info()))
-        sys.stdout.flush()
+        import logging
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+        logging.exception('parallelWorkFunction exception')
         return [None, inParameterList[0], inParameterList[1], inParameterList[2]]
 
 
@@ -74,8 +75,9 @@ def serialWorker(obj, inputList, outputList):
             if (obj.countOfSerialWorkItemsRun % 50) == 0:
                 obj.WorkItems_CheckOneSecondSessionUpdates()
         except:
-            print('**** serialWorker exception:', str(sys.exc_info()[0]), str(sys.exc_info()[1]))
-            sys.stdout.flush()
+         import logging
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+        logging.exception('serialWorker exception')
 
 
 def parallelWorker(inputList, outputQueue):
@@ -83,8 +85,9 @@ def parallelWorker(inputList, outputQueue):
         try:
             outputQueue.put(parallelWorkFunction(inputList[i]))
         except:
-            print('**** parallelWorker exception:', str(sys.exc_info()[0]), str(sys.exc_info()[1]))
-            sys.stdout.flush()
+            import logging
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.exception('parallelWorker exception')
 
 
 
@@ -397,8 +400,7 @@ class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRu
                                 self.functionFinderResultsList[-1] = resultValue
                         self.countOfParallelWorkItemsRun += 1
                     else:
-                        #print('*** fittingResultsQueue.get() returned', str(resultValue))
-                        sys.stdout.flush()
+                        pass # for debug statements
                     self.parallelFittingResultsByEquationFamilyDictionary[resultValue[1]][1] += 1
         
         # wait for all currently active children to finish
@@ -418,8 +420,7 @@ class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRu
                                 self.functionFinderResultsList[-1] = resultValue
                         self.countOfParallelWorkItemsRun += 1
                     else:
-                        #print('*** fittingResultsQueue.get() returned', str(resultValue))
-                        sys.stdout.flush()
+                        pass # for debug statements
                     self.parallelFittingResultsByEquationFamilyDictionary[resultValue[1]][1] += 1
             self.WorkItems_CheckOneSecondSessionUpdates()
             time.sleep(1.0)
@@ -439,8 +440,7 @@ class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRu
                             self.functionFinderResultsList[-1] = resultValue
                     self.countOfParallelWorkItemsRun += 1
                 else:
-                    #print('*** fittingResultsQueue.get() returned', str(resultValue))
-                    sys.stdout.flush()
+                    pass # for debug statements
                 self.parallelFittingResultsByEquationFamilyDictionary[resultValue[1]][1] += 1
         
         # linear fits are very fast - run these in the existing process which saves on interprocess communication overhead

@@ -330,7 +330,7 @@ class Simple(FunkLoadTestCase):
                         ['textDataEditor', data1D]],
             'Test Statistical Distributions',
             20 * 240,
-            ['Top 88 Statistical Distributions'])
+            [' Statistical Distributions'])
 
 
 

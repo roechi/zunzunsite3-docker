@@ -13,10 +13,6 @@ import pyeq3
 
 
 
-sys.stdout = sys.stderr # wsgi cannot send to stdout, see http://code.google.com/p/modwsgi/wiki/DebuggingTechniques
-
-
-
 class FitUserDefinedFunction(FittingBaseClass.FittingBaseClass):
 
     interfaceString = 'zunzun/equation_fit_interface.html'

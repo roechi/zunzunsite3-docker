@@ -35,9 +35,6 @@ except: # django_brake is not installed, use dummy pass-through decorator
         return temp
 
 
-sys.stdout = sys.stderr # wsgi cannot send to stdout, see http://code.google.com/p/modwsgi/wiki/DebuggingTechniques
-
-
 @cache_control(no_cache=True)
 @ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def EvaluateAtAPointView(request):
@@ -357,19 +354,14 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         try:
             LRP.PerformAllWork()
         except:
-            sys.stdout = open(os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '_.err'), 'a') # errfile
-            import traceback
-            print('*** Site top-level exception from LRP', str(sys.exc_info()[0]) + '  ' + str(sys.exc_info()[1]))
-            sys.stdout.flush()
+            import logging
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.exception('Site top-level exception')
         
             extraInfo = '\n\nrequest.META info:\n'
             for item in request.META:
                 extraInfo += str(item) + ' : ' + str(request.META[item]) + '\n'
                 
-            print(traceback.format_exc())
-            f.close() # errfile
-            if settings.EXCEPTION_EMAIL_ADDRESS:
-                EmailMessage('Site Top-level exception from LRP',  traceback.format_exc() + '\n\n\n' + extraInfo, to = [settings.EXCEPTION_EMAIL_ADDRESS]).send()
             LRP.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"An unknown exception has occurred, and an email with details has been sent to the site administrator. These are sometimes caused by taking the exponent of large numbers."})
         finally:
             time.sleep(1.0)

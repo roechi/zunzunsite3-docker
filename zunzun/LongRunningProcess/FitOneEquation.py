@@ -10,9 +10,6 @@ from . import FittingBaseClass
 import zunzun.forms
 
 
-sys.stdout = sys.stderr # wsgi cannot send to stdout, see http://code.google.com/p/modwsgi/wiki/DebuggingTechniques
-
-
 
 class FitOneEquation(FittingBaseClass.FittingBaseClass):
 

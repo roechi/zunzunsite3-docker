@@ -16,7 +16,6 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
     webFormName = 'Function Finder Results'
     reniceLevel = 11
     maxNumberOfEquationsToDisplay = 40
-    debug = 0
     
     
     def TransferFormDataToDataObject(self, request): # return any error in a user-viewable string (self.dataObject.ErrorString)
@@ -97,29 +96,20 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
     
     def GenerateListOfOutputReports(self):
 
-        if self.debug: print("**** FF Results GenerateListOfOutputReports 1")
-
         self.textReports = []
         self.graphReports = []
 
         externalDataCache = pyeq3.dataCache() # reuse this to speed up some caching
         
         for i in range(self.numberOfEquationsToDisplay):
-            if self.debug: print("**** FF Results GenerateListOfOutputReports 2.1: i=", str(i))
             
             listItem = self.functionFinderResultsList[i + self.rank-1]
 
-            if self.debug: print("**** FF Results GenerateListOfOutputReports 2.2: i=", str(i))
-
             reportDataObject = copy.copy(self.dataObject) 
-
-            if self.debug: print("**** FF Results GenerateListOfOutputReports 2.3: i=", str(i))
 
             # find the equation instance for the incoming dimensionality, equation family name and equation name - 404 if not found
             reportDataObject.equation = eval(listItem[1] + "." + listItem[2] + "('SSQABS', '" + listItem[3] + "')")
 
-            if self.debug: print("**** FF Results GenerateListOfOutputReports 2.4: i=", str(i), 'equation name =', reportDataObject.equation.GetDisplayName())
-            
             if externalDataCache.allDataCacheDictionary == {}: # This should only run for the first equation
                 temp = reportDataObject.textDataEditor
                 
@@ -185,8 +175,6 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
             reportDataObject.CalculateGraphBoundaries()
             reportDataObject.equation.CalculateCoefficientAndFitStatistics()
     
-            if self.debug: print("**** FF Results GenerateListOfOutputReports 2.5: i=", str(i), 'equation name =', reportDataObject.equation.GetDisplayName())
-            
             graphs = []
             # Different graphs for 2D and 3D
             reportDataObject.pngOnlyFlag = True
@@ -223,8 +211,6 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
                 graphs.append(graph.websiteFileLocation)
                 self.graphReports.append(graph)
     
-            if self.debug: print("**** FF Results GenerateListOfOutputReports 2.6: i=", str(i), 'equation name =', reportDataObject.equation.GetDisplayName())
-    
             dataForOneEquation = {}
             splitted = listItem[1].split('.')
             dataForOneEquation['moduleName'] = splitted[-1]
@@ -246,8 +232,6 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
                 dataForOneEquation['rsquaredString'] = '<br>'
                 self.RelativeErrorPlotsFlag = True # ok to set many times
             self.equationDataForDjangoTemplate.append(dataForOneEquation)
-
-            if self.debug: print("**** FF Results GenerateListOfOutputReports 2.7: i=", str(i), 'equation name =', reportDataObject.equation.GetDisplayName())
 
         
     def GenerateListOfWorkItems(self):

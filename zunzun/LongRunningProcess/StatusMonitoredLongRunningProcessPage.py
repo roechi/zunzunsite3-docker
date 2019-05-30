@@ -76,8 +76,6 @@ class NumberedCanvas(canvas.Canvas):
 
 class StatusMonitoredLongRunningProcessPage(object):
 
-    debug = 0 # write to apache error log?
-
     parallelChunkSize = 16
     oneSecondTimes = 0
 
@@ -322,12 +320,11 @@ You must provide any weights you wish to use.
                 specialExceptionFileText = 'calling doc.build(pageElements) 2'
                 doc.build(pageElements, canvasmaker=NumberedCanvas)
         except:
-            import traceback
-            print('Exception creating PDF file')
-            print(sys.exc_info()[0])
-            print(sys.exc_info()[1])
-            print(traceback.format_exc())
-            self.pdfFileName = ''
+            import logging
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.exception('Exception creating PDF file')
+            
+            self.pdfFileName = '' # empty string used as a flag
 
 
     def BaseCreateAndInitializeDataObject(self, xName, yName, zName):
@@ -557,8 +554,9 @@ You must provide any weights you wish to use.
 
         # if a new process ID is in the session data, another process was started and this process was abandoned
         if self.LoadItemFromSessionStore('status', 'processID') != os.getpid() and self.LoadItemFromSessionStore('status', 'processID') != 0:
-            print("**** SMLRPP Exiting on process ID, session_status['processID'] = ", self.LoadItemFromSessionStore('status', 'processID'), " os.getpid() = ", os.getpid())
-            sys.stdout.flush()
+            import logging
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.info('Exiting on new process ID (resubmit)')
 
             time.sleep(1.0)
             if self.pool:
@@ -571,8 +569,9 @@ You must provide any weights you wish to use.
 
         # if the status has not been checked in the past 30 seconds, this process was abandoned
         if (time.time() - self.LoadItemFromSessionStore('status', 'time_of_last_status_check')) > 300:
-            print("**** SMLRPP Exiting on time of last status check")
-            sys.stdout.flush()
+            import logging
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.info('Exiting on time of last status check, session_status["processID"] = ' + str(self.LoadItemFromSessionStore('status', 'processID')) + ', os.getpid() = ' + str(os.getpid()))
 
             time.sleep(1.0)
             if self.pool:
@@ -707,8 +706,10 @@ You must provide any weights you wish to use.
             f.flush()
             f.close()
         except:
-            print("**** SMLRPP render", str(sys.exc_info()[0]), str(sys.exc_info()[1]))
-            sys.stdout.flush()
+            import logging
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.exception('Exception rendering HTML to a file')
+            
         self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
 
 

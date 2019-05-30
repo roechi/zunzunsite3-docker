@@ -11,9 +11,6 @@ import zunzun.forms
 import zunzun.formConstants
 
 
-sys.stdout = sys.stderr # wsgi cannot send to stdout, see http://code.google.com/p/modwsgi/wiki/DebuggingTechniques
-
-
 
 class FitUserSelectablePolynomial(FittingBaseClass.FittingBaseClass):
 
