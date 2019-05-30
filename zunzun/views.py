@@ -355,7 +355,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
             LRP.PerformAllWork()
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
             logging.exception('Site top-level exception')
         
             extraInfo = '\n\nrequest.META info:\n'

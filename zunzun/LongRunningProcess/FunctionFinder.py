@@ -58,7 +58,7 @@ def parallelWorkFunction(inParameterList):
         return [t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11]
     except:
         import logging
-        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
         logging.exception('parallelWorkFunction exception')
         return [None, inParameterList[0], inParameterList[1], inParameterList[2]]
 
@@ -76,7 +76,7 @@ def serialWorker(obj, inputList, outputList):
                 obj.WorkItems_CheckOneSecondSessionUpdates()
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
             logging.exception('serialWorker exception')
 
 
@@ -86,7 +86,7 @@ def parallelWorker(inputList, outputQueue):
             outputQueue.put(parallelWorkFunction(inputList[i]))
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
             logging.exception('parallelWorker exception')
 
 

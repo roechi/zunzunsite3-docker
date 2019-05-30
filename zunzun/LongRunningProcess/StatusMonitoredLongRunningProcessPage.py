@@ -321,7 +321,7 @@ You must provide any weights you wish to use.
                 doc.build(pageElements, canvasmaker=NumberedCanvas)
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
             logging.exception('Exception creating PDF file')
             
             self.pdfFileName = '' # empty string used as a flag
@@ -555,7 +555,7 @@ You must provide any weights you wish to use.
         # if a new process ID is in the session data, another process was started and this process was abandoned
         if self.LoadItemFromSessionStore('status', 'processID') != os.getpid() and self.LoadItemFromSessionStore('status', 'processID') != 0:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
             logging.info('Exiting on new process ID (resubmit)')
 
             time.sleep(1.0)
@@ -570,7 +570,7 @@ You must provide any weights you wish to use.
         # if the status has not been checked in the past 30 seconds, this process was abandoned
         if (time.time() - self.LoadItemFromSessionStore('status', 'time_of_last_status_check')) > 300:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
             logging.info('Exiting on time of last status check, session_status["processID"] = ' + str(self.LoadItemFromSessionStore('status', 'processID')) + ', os.getpid() = ' + str(os.getpid()))
 
             time.sleep(1.0)
@@ -707,7 +707,7 @@ You must provide any weights you wish to use.
             f.close()
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'))
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
             logging.exception('Exception rendering HTML to a file')
             
         self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
