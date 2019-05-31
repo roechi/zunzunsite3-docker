@@ -274,7 +274,7 @@ class Simple(FunkLoadTestCase):
             self.post(self.server_url + '/EvaluateAtAPoint/',
                 params=[['x', '8.0']],
                 description = 'Test User Defined Function 2D (SSQABS) - Evaluate At A Point')
-            self.assertTrue(-1 != str(self.getBody()).find('4.1924427'), 'User Defined Function 2D (SSQABS) - Evaluate At A Point')
+            self.assertTrue(-1 != str(self.getBody()).find('4.1924'), 'User Defined Function 2D (SSQABS) - Evaluate At A Point')
 
         if testFunctionFinder2D:
             self.PostLongRunningProcess('/FunctionFinder__W___/2/',
@@ -289,8 +289,8 @@ class Simple(FunkLoadTestCase):
                         ['textDataEditor', data2D]],
                                         'Test Function Finder 2D',
                                         240,
-                                        ['SSQABS: 0.906322030501',
-                                         'RMSE: 0.287041655276'])
+                                        ['SSQABS: 0.9063',
+                                         'RMSE: 0.2870'])
 
         if testPolynomialLinearWithExponentialDecay2D_SSQABS:
             self.PostLongRunningProcess('/FitEquation__W___/2/Polynomial/1st%20Order%20(Linear)%20With%20Exponential%20Decay/',

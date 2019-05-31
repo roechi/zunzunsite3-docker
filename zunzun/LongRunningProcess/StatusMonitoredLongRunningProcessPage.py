@@ -36,7 +36,10 @@ def ParallelWorker_CreateReportOutput(inReportObject):
 
         return [inReportObject.name, inReportObject.stringList, ''] # name for lookup, stringList for data, empty string for no exception
     except:
-        return [inReportObject.name, 0, str(sys.exc_info()[0]) + str(sys.exc_info()[1])]
+        import logging
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+        logging.exception('Exception creating report')
+        return [inReportObject.name, 0, 'Exception creating report, see log file']
 
 
 
@@ -45,7 +48,10 @@ def ParallelWorker_CreateCharacterizerOutput(inReportObject):
         inReportObject.CreateCharacterizerOutput()
         return [inReportObject.name, inReportObject.stringList, ''] # name for lookup, stringList for data
     except:
-        return [inReportObject.name, 0, str(sys.exc_info()[0]) + str(sys.exc_info()[1])]
+        import logging
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+        logging.exception('Exception characterizer output')
+        return [inReportObject.name, 0, 'Exception characterizer output, see log file']
 
 
 # from http://code.activestate.com/recipes/576832-improved-reportlab-recipe-for-page-x-of-y/
@@ -457,6 +463,7 @@ You must provide any weights you wish to use.
             returnItem = session[inItemName]
         except:
             returnItem = pickle.dumps(None)
+        db.connections.close_all()
         close_old_connections()
         session = None
         

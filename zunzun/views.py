@@ -152,6 +152,8 @@ def StatusView(request):
             except:
                 time.sleep(0.5)
                 session_status.save()
+            db.connections.close_all()
+            close_old_connections()
     
             # is this a file or a URL
             if redirect.startswith(settings.TEMP_FILES_DIR):
@@ -166,7 +168,9 @@ def StatusView(request):
     except:
         time.sleep(0.5)
         session_status.save()
-    
+    db.connections.close_all()
+    close_old_connections()
+   
     try:
         currentStatus = pickle.loads(session_status['currentStatus'])
         startTime = pickle.loads(session_status['start_time'])
@@ -277,6 +281,9 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         except:
             time.sleep(0.5)
             s.save()
+        db.connections.close_all()
+        close_old_connections()
+
         request.session['session_key_status'] = s.session_key
     LRP.session_key_status = request.session['session_key_status']
 
@@ -287,6 +294,9 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         except:
             time.sleep(0.5)
             s.save()
+        db.connections.close_all()
+        close_old_connections()
+        
         request.session['session_key_data'] = s.session_key
     LRP.session_key_data = request.session['session_key_data']
 
@@ -297,6 +307,9 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         except:
             time.sleep(0.5)
             s.save()
+        db.connections.close_all()
+        close_old_connections()
+        
         request.session['session_key_functionfinder'] = s.session_key
     LRP.session_key_functionfinder = request.session['session_key_functionfinder']
 
