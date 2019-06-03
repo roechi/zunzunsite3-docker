@@ -73,7 +73,7 @@ class Simple(FunkLoadTestCase):
         self.server_url = self.conf_get('main', 'url')
 
         # interface page sets cookie
-        self.RetrieveOnePage('//CharacterizeData/2/', 'Please select an option from the pull-down')
+        self.RetrieveOnePage('/CharacterizeData/2/', 'Please select an option from the pull-down')
         
         self.PostLongRunningProcess('/CharacterizeData/2/',
                                [['commaConversion', 'I'],

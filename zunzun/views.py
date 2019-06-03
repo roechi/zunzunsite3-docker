@@ -364,12 +364,19 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
 
         os.nice(LRP.reniceLevel)
 
+        # if top-level exception save data for debugging
+        try:
+            dataObjectString = str(LRP.dataObject)
+        except:
+            dataObjectString = 'could not str(LRP.dataObject)'
+
         try:
             LRP.PerformAllWork()
         except:
             import logging
             logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
-            logging.exception('Site top-level exception')
+            
+            logging.exception('Site top-level exception\n' + dataObjectString + '\n')
         
             extraInfo = '\n\nrequest.META info:\n'
             for item in request.META:
