@@ -365,10 +365,11 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         os.nice(LRP.reniceLevel)
 
         # if top-level exception save data for debugging
-        try:
-            dataObjectString = str(LRP.dataObject)
-        except:
-            dataObjectString = 'could not str(LRP.dataObject)'
+        dataObjectString = ''
+        #try:
+        #    dataObjectString = str(LRP.dataObject)
+        #except:
+        #    dataObjectString = 'could not str(LRP.dataObject)'
 
         try:
             LRP.PerformAllWork()
