@@ -218,6 +218,12 @@ class DataObject:
 
 
     def CalculateGraphBoundaries(self):
+        # test for existence of self.statistics['2_min']
+        try:
+            test = self.statistics['2_min']
+        except:
+            self.CalculateDataStatistics()
+
         #_p05 is for error plot axes, etc.
         self.xmin_p05 = self.statistics['1_min']
         self.xmax_p05 = self.statistics['1_max']

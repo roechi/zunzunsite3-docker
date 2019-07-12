@@ -386,9 +386,9 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
             LRP.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"An unknown exception has occurred, and an email with details has been sent to the site administrator. These are sometimes caused by taking the exponent of large numbers."})
         finally:
             time.sleep(1.0)
-            if LRP.pool:
-                LRP.pool.close()
-                LRP.pool.join()
+            #if LRP.pool:
+            #    LRP.pool.close()
+            #    LRP.pool.join()
             os._exit(0) # kill this child process
         
     # using HTTP_HOST allows dev server
