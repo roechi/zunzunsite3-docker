@@ -7,6 +7,9 @@ from . import FittingBaseClass
 from . import ReportsAndGraphs
 import pyeq3
 
+import inspect
+from . import pid_trace
+
 
 class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
 
@@ -86,16 +89,20 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
 
     def SetInitialStatusDataIntoSessionVariables(self, request):
         import time
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
         self.SaveDictionaryOfItemsToSessionStore('status',
                                                  {'currentStatus':'Initializing Reports and Graphs',
                                                   'start_time':time.time(),
                                                   'time_of_last_status_check':time.time(),
                                                   'redirectToResultsFileOrURL':''})
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)                                                  
 
 
     
     def GenerateListOfOutputReports(self):
 
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        
         self.textReports = []
         self.graphReports = []
 
@@ -232,6 +239,8 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
                 dataForOneEquation['rsquaredString'] = '<br>'
                 self.RelativeErrorPlotsFlag = True # ok to set many times
             self.equationDataForDjangoTemplate.append(dataForOneEquation)
+        
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
 
         
     def GenerateListOfWorkItems(self):

@@ -6,6 +6,8 @@ from . import StatusMonitoredLongRunningProcessPage
 import zunzun.forms
 from . import ReportsAndGraphs
 
+import inspect
+from . import pid_trace
 
 
 def parallelWorkFunction(distributionName, data, sortCriteriaName):
@@ -31,6 +33,8 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
 
     
     def TransferFormDataToDataObject(self, request): # return any error in a user-viewable string (self.dataObject.ErrorString)
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        
         self.pdfTitleHTML = self.webFormName + ' ' + str(self.dimensionality) + 'D'
         self.CommonCreateAndInitializeDataObject(False)
         self.dataObject.equation = self.boundForm.equationBase
@@ -42,6 +46,8 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
 
     def GenerateListOfWorkItems(self):
         
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Sorting Data"})
         
         # required for special beta distribution data max/min case
@@ -51,9 +57,13 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
         for item in inspect.getmembers(scipy.stats): # weibull max and min are duplicates of Frechet distributions
             if isinstance(item[1], scipy.stats.rv_continuous) and item[0] not in ['kstwobign', 'ncf']: # these are very slow
                 self.parallelWorkItemsList.append(item[0])
+        
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
 
 
     def PerformWorkInParallel(self):
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        
         countOfWorkItemsRun = 0
         totalNumberOfWorkItemsToBeRun = len(self.parallelWorkItemsList)
 
@@ -139,6 +149,8 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
         
         self.completedWorkItemsList.sort(key=lambda x: x[0])
         
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        
 
     def WorkItems_CheckOneSecondSessionUpdates(self, countOfWorkItemsRun, totalNumberOfWorkItemsToBeRun):
         if self.oneSecondTimes != int(time.time()):
@@ -151,7 +163,11 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
             
 
     def SpecificCodeForGeneratingListOfOutputReports(self):
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        
         self.functionString = 'PrepareForCharacterizerOutput'
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Generating Report Objects"})
         self.dataObject.fittedStatisticalDistributionsList = self.completedWorkItemsList
         self.ReportsAndGraphsCategoryDict = ReportsAndGraphs.StatisticalDistributionReportsDict(self.dataObject)
+        
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)

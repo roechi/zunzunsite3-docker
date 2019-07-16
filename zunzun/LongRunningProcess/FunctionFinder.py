@@ -11,6 +11,9 @@ import multiprocessing
 
 import pyeq3
 
+import inspect
+from . import pid_trace
+
 
 externalDataCache = pyeq3.dataCache()
 

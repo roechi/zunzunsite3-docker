@@ -62,10 +62,6 @@ class FitUserDefinedFunction(FittingBaseClass.FittingBaseClass):
             self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
             import time
             time.sleep(1.0)
-            if self.pool:
-                self.pool.close()
-                self.pool.join()
-                self.pool = None
             os._exit(0)
 
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Calculating Parameter Statistics"})
