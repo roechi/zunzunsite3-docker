@@ -448,7 +448,11 @@ You must provide any weights you wish to use.
         #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
         session = eval('self.session_' + inSessionStoreName)
         if session is None:
+            #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
             session = eval('SessionStore(self.session_key_' + inSessionStoreName + ')')
+            
+        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        
         for i in list(inDictionary.keys()):
             item = inDictionary[i]
             if -1 != str(type(item)).find('byte'):
