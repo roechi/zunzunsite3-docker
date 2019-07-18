@@ -658,7 +658,7 @@ You must provide any weights you wish to use.
                                                   'IndependentDataName1':self.dataObject.IndependentDataName1,
                                                   'IndependentDataName2':self.dataObject.IndependentDataName2,
                                                   'DependentDataName':self.dataObject.DependentDataName})
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        #pid_trace.delete_pid_trace_file()
 
 
     def GetVerseInfo(self):

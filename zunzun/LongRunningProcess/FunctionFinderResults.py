@@ -95,10 +95,9 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
                                                   'start_time':time.time(),
                                                   'time_of_last_status_check':time.time(),
                                                   'redirectToResultsFileOrURL':''})
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)                                                  
+        #pid_trace.delete_pid_trace_file()
 
 
-    
     def GenerateListOfOutputReports(self):
 
         #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
