@@ -15,9 +15,11 @@ import pyeq3
 
 class FitUserDefinedFunction(FittingBaseClass.FittingBaseClass):
 
-    interfaceString = 'zunzun/equation_fit_interface.html'
-    userDefinedFunction = True
-    reniceLevel = 15
+    def __init__(self):
+        super().__init__()
+        self.interfaceString = 'zunzun/equation_fit_interface.html'
+        self.userDefinedFunction = True
+        self.reniceLevel = 15
 
     
     def SaveSpecificDataToSessionStore(self):

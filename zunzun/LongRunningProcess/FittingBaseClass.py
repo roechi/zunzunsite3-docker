@@ -13,7 +13,6 @@ import numpy
 import pyeq3
 
 
-import inspect
 from . import pid_trace
 
 

@@ -1,7 +1,3 @@
-
-
-
-
 import inspect, time, math, random, multiprocessing, os, sys, copy
 
 import numpy, scipy, scipy.stats
@@ -13,7 +9,9 @@ import zunzun.forms
 
 class FitOneEquation(FittingBaseClass.FittingBaseClass):
 
-    interfaceString = 'zunzun/equation_fit_interface.html'
+    def __init__(self):
+        super().__init__()
+        self.interfaceString = 'zunzun/equation_fit_interface.html'
 
     
     def SaveSpecificDataToSessionStore(self):

@@ -15,9 +15,11 @@ import pyeq3
 
 class FitUserSelectableRational(FittingBaseClass.FittingBaseClass):
 
-    interfaceString = 'zunzun/equation_fit_interface.html'
-    reniceLevel = 13
-    X2DList = pyeq3.PolyFunctions.GenerateListForRationals_2D()
+    def __init__(self):
+        super().__init__()
+        self.interfaceString = 'zunzun/equation_fit_interface.html'
+        self.reniceLevel = 13
+        self.X2DList = pyeq3.PolyFunctions.GenerateListForRationals_2D()
 
     
     def SaveSpecificDataToSessionStore(self):

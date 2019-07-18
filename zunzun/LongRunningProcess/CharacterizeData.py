@@ -4,17 +4,18 @@ from . import StatusMonitoredLongRunningProcessPage
 import zunzun.forms
 from . import ReportsAndGraphs
 
-import inspect
 from . import pid_trace
 
 
 class CharacterizeData(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRunningProcessPage):
 
-    interfaceString = 'zunzun/characterize_data_or_statistical_distributions_interface.html'
-    equationName = None
-    webFormName = 'Data Characterization'
-    characterizerOutputTrueOrReportOutputFalse = True
-    evaluateAtAPointFormNeeded = False
+    def __init__(self):
+        super().__init__()
+        self.interfaceString = 'zunzun/characterize_data_or_statistical_distributions_interface.html'
+        self.equationName = None
+        self.webFormName = 'Data Characterization'
+        self.characterizerOutputTrueOrReportOutputFalse = True
+        self.evaluateAtAPointFormNeeded = False
 
     
     def TransferFormDataToDataObject(self, request): # return any error in a user-viewable string (self.dataObject.ErrorString)

@@ -15,10 +15,12 @@ import pyeq3
 
 class FitUserSelectablePolyfunctional(FittingBaseClass.FittingBaseClass):
 
-    interfaceString = 'zunzun/equation_fit_interface.html'
-    X2DList = pyeq3.PolyFunctions.GenerateListForPolyfunctionals_2D()
-    X3DList = pyeq3.PolyFunctions.GenerateListForPolyfunctionals_3D_X()
-    Y3DList = pyeq3.PolyFunctions.GenerateListForPolyfunctionals_3D_Y()        
+    def __init__(self):
+        super().__init__()
+        self.interfaceString = 'zunzun/equation_fit_interface.html'
+        self.X2DList = pyeq3.PolyFunctions.GenerateListForPolyfunctionals_2D()
+        self.X3DList = pyeq3.PolyFunctions.GenerateListForPolyfunctionals_3D_X()
+        self.Y3DList = pyeq3.PolyFunctions.GenerateListForPolyfunctionals_3D_Y()        
 
     
     def SaveSpecificDataToSessionStore(self):

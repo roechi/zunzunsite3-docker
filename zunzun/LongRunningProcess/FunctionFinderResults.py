@@ -1,4 +1,4 @@
-import os, sys, inspect, copy, urllib.request, urllib.parse, urllib.error
+import os, sys, copy, urllib.request, urllib.parse, urllib.error
 
 import settings
 from django.template.loader import render_to_string
@@ -7,18 +7,19 @@ from . import FittingBaseClass
 from . import ReportsAndGraphs
 import pyeq3
 
-import inspect
 from . import pid_trace
 
 
 class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
 
-    equationName = None
-    userInterfaceRequired = False
-    equationDataForDjangoTemplate = []
-    webFormName = 'Function Finder Results'
-    reniceLevel = 11
-    maxNumberOfEquationsToDisplay = 40
+    def __init__(self):
+        super().__init__()
+        self.equationName = None
+        self.userInterfaceRequired = False
+        self.equationDataForDjangoTemplate = []
+        self.webFormName = 'Function Finder Results'
+        self.reniceLevel = 11
+        self.maxNumberOfEquationsToDisplay = 40
     
     
     def TransferFormDataToDataObject(self, request): # return any error in a user-viewable string (self.dataObject.ErrorString)
@@ -89,18 +90,18 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
 
     def SetInitialStatusDataIntoSessionVariables(self, request):
         import time
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         self.SaveDictionaryOfItemsToSessionStore('status',
                                                  {'currentStatus':'Initializing Reports and Graphs',
                                                   'start_time':time.time(),
                                                   'time_of_last_status_check':time.time(),
                                                   'redirectToResultsFileOrURL':''})
-        #pid_trace.delete_pid_trace_file()
+        pid_trace.delete_pid_trace_file()
 
 
     def GenerateListOfOutputReports(self):
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         self.textReports = []
         self.graphReports = []
@@ -239,7 +240,7 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
                 self.RelativeErrorPlotsFlag = True # ok to set many times
             self.equationDataForDjangoTemplate.append(dataForOneEquation)
         
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         
     def GenerateListOfWorkItems(self):

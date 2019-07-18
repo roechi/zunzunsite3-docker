@@ -6,7 +6,6 @@ from . import StatusMonitoredLongRunningProcessPage
 import zunzun.forms
 from . import ReportsAndGraphs
 
-import inspect
 from . import pid_trace
 
 
@@ -18,22 +17,22 @@ def parallelWorkFunction(distributionName, data, sortCriteriaName):
 
 
 class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRunningProcessPage):
-
-    interfaceString = 'zunzun/characterize_data_or_statistical_distributions_interface.html'
-    equationName = None
-    statisticalDistribution = True
-    webFormName = 'Statistical Distributions'
-    reniceLevel = 12
-    characterizerOutputTrueOrReportOutputFalse = True
-    evaluateAtAPointFormNeeded = False
-
     
     def __init__(self):
+        super().__init__()
         self.parallelWorkItemsList = []
+
+        self.interfaceString = 'zunzun/characterize_data_or_statistical_distributions_interface.html'
+        self.equationName = None
+        self.statisticalDistribution = True
+        self.webFormName = 'Statistical Distributions'
+        self.reniceLevel = 12
+        self.characterizerOutputTrueOrReportOutputFalse = True
+        self.evaluateAtAPointFormNeeded = False
 
     
     def TransferFormDataToDataObject(self, request): # return any error in a user-viewable string (self.dataObject.ErrorString)
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         self.pdfTitleHTML = self.webFormName + ' ' + str(self.dimensionality) + 'D'
         self.CommonCreateAndInitializeDataObject(False)
@@ -46,7 +45,7 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
 
     def GenerateListOfWorkItems(self):
         
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Sorting Data"})
         
@@ -58,11 +57,11 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
             if isinstance(item[1], scipy.stats.rv_continuous) and item[0] not in ['kstwobign', 'ncf']: # these are very slow
                 self.parallelWorkItemsList.append(item[0])
         
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
 
     def PerformWorkInParallel(self):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         countOfWorkItemsRun = 0
         totalNumberOfWorkItemsToBeRun = len(self.parallelWorkItemsList)
@@ -149,7 +148,7 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
         
         self.completedWorkItemsList.sort(key=lambda x: x[0])
         
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
 
     def WorkItems_CheckOneSecondSessionUpdates(self, countOfWorkItemsRun, totalNumberOfWorkItemsToBeRun):
@@ -163,11 +162,11 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
             
 
     def SpecificCodeForGeneratingListOfOutputReports(self):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         self.functionString = 'PrepareForCharacterizerOutput'
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Generating Report Objects"})
         self.dataObject.fittedStatisticalDistributionsList = self.completedWorkItemsList
         self.ReportsAndGraphsCategoryDict = ReportsAndGraphs.StatisticalDistributionReportsDict(self.dataObject)
         
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()

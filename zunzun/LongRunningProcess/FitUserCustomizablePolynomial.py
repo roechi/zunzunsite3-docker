@@ -15,8 +15,10 @@ import pyeq3
 
 class FitUserCustomizablePolynomial(FittingBaseClass.FittingBaseClass):
 
-    interfaceString = 'zunzun/equation_fit_interface.html'
-    X2DList = pyeq3.PolyFunctions.GenerateListForCustomPolynomials_2D()
+    def __init__(self):
+        super().__init__()        
+        self.interfaceString = 'zunzun/equation_fit_interface.html'
+        self.X2DList = pyeq3.PolyFunctions.GenerateListForCustomPolynomials_2D()
 
     
     def SaveSpecificDataToSessionStore(self):

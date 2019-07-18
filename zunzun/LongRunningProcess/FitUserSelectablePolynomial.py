@@ -14,7 +14,9 @@ import zunzun.formConstants
 
 class FitUserSelectablePolynomial(FittingBaseClass.FittingBaseClass):
 
-    interfaceString = 'zunzun/equation_fit_interface.html'
+    def __init__(self):
+        super().__init__()
+        self.interfaceString = 'zunzun/equation_fit_interface.html'
 
     
     def SaveSpecificDataToSessionStore(self):

@@ -11,7 +11,6 @@ import multiprocessing
 
 import pyeq3
 
-import inspect
 from . import pid_trace
 
 
@@ -96,11 +95,11 @@ def parallelWorker(inputList, outputQueue):
 
 class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRunningProcessPage):
 
-    interfaceString = 'zunzun/function_finder_interface.html'
-    reniceLevel = 19
-
-
     def __init__(self):
+        super().__init__()
+        self.interfaceString = 'zunzun/function_finder_interface.html'
+        self.reniceLevel = 19
+
         self.equationName = None
         self.dictionaryOf_BothGoodAndBadCacheData_Flags = {}
         self.numberOfEquationsScannedSoFar = 0

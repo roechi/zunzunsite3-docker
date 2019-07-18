@@ -24,7 +24,6 @@ from . import DefaultData
 
 import pyeq3
 
-import inspect
 from . import pid_trace
 
 
@@ -84,44 +83,46 @@ class NumberedCanvas(canvas.Canvas):
 
 class StatusMonitoredLongRunningProcessPage(object):
 
-    parallelChunkSize = 16
-    oneSecondTimes = 0
+    def __init__(self):
 
-    inEquationName = ''
-    inEquationFamilyName = ''
+        self.parallelChunkSize = 16
+        self.oneSecondTimes = 0
 
-    session_data = None
-    session_status = None
-    session_functionfinder = None
+        self.inEquationName = ''
+        self.inEquationFamilyName = ''
 
-    statisticalDistribution = False
-    userDefinedFunction = False
-    spline = False
+        self.session_data = None
+        self.session_status = None
+        self.session_functionfinder = None
 
-    userInterfaceRequired = True
-    reniceLevel = 10
-    ppCount = 0
-    completedWorkItemsList = []
-    boundForm = None
-    evaluationForm = None
+        self.statisticalDistribution = False
+        self.userDefinedFunction = False
+        self.spline = False
 
-    pool = None
+        self.userInterfaceRequired = True
+        self.reniceLevel = 10
+        self.ppCount = 0
+        self.completedWorkItemsList = []
+        self.boundForm = None
+        self.evaluationForm = None
 
-    characterizerOutputTrueOrReportOutputFalse = False
-    evaluateAtAPointFormNeeded = True
+        self.pool = None
 
-    equationInstance = 0
+        self.characterizerOutputTrueOrReportOutputFalse = False
+        self.evaluateAtAPointFormNeeded = True
 
-    extraExampleDataTextForWeightedFitting = '''Weighted fitting requires an additional number to
+        self.equationInstance = 0
+
+        self.extraExampleDataTextForWeightedFitting = '''Weighted fitting requires an additional number to
 be used as a weight when fitting. The site does
 not calculate any weights, which are used as:
    error = weight * (predicted - actual)
 You must provide any weights you wish to use.
 '''
 
-    defaultData1D = DefaultData.defaultData1D
-    defaultData2D = DefaultData.defaultData2D
-    defaultData3D = DefaultData.defaultData3D
+        self.defaultData1D = DefaultData.defaultData1D
+        self.defaultData2D = DefaultData.defaultData2D
+        self.defaultData3D = DefaultData.defaultData3D
 
 
     def PerformWorkInParallel(self):
@@ -137,7 +138,7 @@ You must provide any weights you wish to use.
 
 
     def GetParallelProcessCount(self):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         # limit based on free memory
         f = os.popen('vmstat', 'r')
@@ -166,12 +167,12 @@ You must provide any weights you wish to use.
         if load > (float(multiprocessing.cpu_count()) + 1.5) and ppCount > 1:
             ppCount = 1
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         return ppCount
 
 
     def CreateReportPDF(self):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         specialExceptionFileText = 'Entered CreateReportPDF'
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Creating PDF Output File"})
@@ -336,7 +337,7 @@ You must provide any weights you wish to use.
             logging.exception('Exception creating PDF file')
             
             self.pdfFileName = '' # empty string used as a flag
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.delete_pid_trace_file()
 
 
     def BaseCreateAndInitializeDataObject(self, xName, yName, zName):
@@ -369,7 +370,7 @@ You must provide any weights you wish to use.
 
 
     def CommonCreateAndInitializeDataObject(self, FF = False):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.dataObject = self.BaseCreateAndInitializeDataObject('', '', '')
         self.dataObject.equation = 0
@@ -390,7 +391,7 @@ You must provide any weights you wish to use.
             except:
                 pass
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         if True == FF: # function finder, return here
             return self.dataObject
@@ -404,7 +405,7 @@ You must provide any weights you wish to use.
         self.dataObject.LogLinX = self.boundForm.cleaned_data['logLinX']
 
         if self.dataObject.dimensionality > 1:
-            #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+            pid_trace.pid_trace()
             self.dataObject.ScientificNotationY = self.boundForm.cleaned_data['scientificNotationY']
             self.dataObject.Extrapolation_y = self.boundForm.cleaned_data['graphScaleY']
             self.dataObject.Extrapolation_y_min = self.boundForm.cleaned_data['minManualScaleY']
@@ -412,7 +413,7 @@ You must provide any weights you wish to use.
             self.dataObject.LogLinY = self.boundForm.cleaned_data['logLinY']
             
         if self.dataObject.dimensionality > 2:
-            #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+            pid_trace.pid_trace()
             self.dataObject.animationWidth = int(self.boundForm.cleaned_data['animationSize'].split('x')[0])
             self.dataObject.animationHeight = int(self.boundForm.cleaned_data['animationSize'].split('x')[1])
             self.dataObject.ScientificNotationZ = self.boundForm.cleaned_data['scientificNotationZ']
@@ -421,7 +422,7 @@ You must provide any weights you wish to use.
             self.dataObject.Extrapolation_z_max = self.boundForm.cleaned_data['maxManualScaleZ']
             self.dataObject.LogLinZ = self.boundForm.cleaned_data['logLinZ']
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         # can only take log of positive data
         if self.dataObject.LogLinX == 'LOG' and min(self.dataObject.IndependentDataArray[0]) <= 0.0:
@@ -435,23 +436,25 @@ You must provide any weights you wish to use.
             if self.dataObject.LogLinZ == 'LOG' and min(self.dataObject.DependentDataArray) <= 0.0:
                 self.dataObject.ErrorString = 'Your Z data (' + self.dataObject.DependentDataName + ') contains a non-positive value and you have selected logarithmic Z scaling. I cannot take the log of a non-positive number.'
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         if self.dataObject.dimensionality == 3:            
             self.dataObject.animationWidth = int(self.boundForm.cleaned_data['animationSize'].split('x')[0])
             self.dataObject.animationHeight = int(self.boundForm.cleaned_data['animationSize'].split('x')[1])
             self.dataObject.azimuth3D = float(self.boundForm.cleaned_data['rotationAnglesAzimuth'])
             self.dataObject.altimuth3D = float(self.boundForm.cleaned_data['rotationAnglesAltimuth'])
+            
+        pid_trace.delete_pid_trace_file()
 
 
     def SaveDictionaryOfItemsToSessionStore(self, inSessionStoreName, inDictionary):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         session = eval('self.session_' + inSessionStoreName)
         if session is None:
-            #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+            pid_trace.pid_trace()
             session = eval('SessionStore(self.session_key_' + inSessionStoreName + ')')
             
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         for i in list(inDictionary.keys()):
             item = inDictionary[i]
@@ -462,7 +465,7 @@ You must provide any weights you wish to use.
             
             session[i] = item
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         if inSessionStoreName == 'status':
             session["timestamp"] = pickle.dumps(time.time())
@@ -477,11 +480,11 @@ You must provide any weights you wish to use.
         close_old_connections()
         session = None
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.delete_pid_trace_file()
 
 
     def LoadItemFromSessionStore(self, inSessionStoreName, inItemName):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         session = eval('self.session_' + inSessionStoreName)
         if session is None:
@@ -493,45 +496,46 @@ You must provide any weights you wish to use.
         db.connections.close_all()
         close_old_connections()
         session = None
-        
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
-        
+                
         returnItem = pickle.loads(returnItem)
+        
+        pid_trace.delete_pid_trace_file()
+        
         return returnItem
 
 
     def PerformAllWork(self):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.SaveDictionaryOfItemsToSessionStore('status', {'processID':os.getpid()})
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.GenerateListOfWorkItems()
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.PerformWorkInParallel()
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.GenerateListOfOutputReports()
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.CreateOutputReportsInParallelUsingProcessPool()
 
         self.CreateReportPDF()
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.RenderOutputHTMLToAFileAndSetStatusRedirect()
 
-        #pid_trace.delete_pid_trace_file()
+        pid_trace.delete_pid_trace_file()
 
 
     def CreateOutputReportsInParallelUsingProcessPool(self):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Running All Reports"})
 
@@ -546,7 +550,7 @@ You must provide any weights you wish to use.
         chunks = totalNumberOfReportsToBeRun // self.parallelChunkSize
         modulus = totalNumberOfReportsToBeRun % self.parallelChunkSize
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         for i in range(chunks):
             begin += self.parallelChunkSize
@@ -556,7 +560,7 @@ You must provide any weights you wish to use.
         if modulus:
             indices.append([end, end + 1 + modulus])
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         for i in indices:
             parallelChunkResultsList = []
@@ -590,7 +594,7 @@ You must provide any weights you wish to use.
             self.pool.join()
             self.pool = None
             
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.delete_pid_trace_file()
 
 
     def Reports_CheckOneSecondSessionUpdates(self, countOfReportsRun, totalNumberOfReportsToBeRun):
@@ -613,7 +617,7 @@ You must provide any weights you wish to use.
             
             time.sleep(1.0)
 
-            #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+            pid_trace.pid_trace()
 
             if self.pool:
                 self.pool.close()
@@ -622,14 +626,14 @@ You must provide any weights you wish to use.
             for p in multiprocessing.active_children():
                 p.terminate()
                 
-            #pid_trace.delete_pid_trace_file()
+            pid_trace.delete_pid_trace_file()
 
             os._exit(0) # kills pool processes
 
         # if the status has not been checked in the past 30 seconds, this process was abandoned
         if (time.time() - self.LoadItemFromSessionStore('status', 'time_of_last_status_check')) > 300:
 
-            #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+            pid_trace.pid_trace()
 
             time.sleep(1.0)
             if self.pool:
@@ -639,13 +643,13 @@ You must provide any weights you wish to use.
             for p in multiprocessing.active_children():
                 p.terminate()
                 
-            #pid_trace.delete_pid_trace_file()
+            pid_trace.delete_pid_trace_file()
                 
             os._exit(0) # kills pool processes
 
 
     def SetInitialStatusDataIntoSessionVariables(self, request):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         self.SaveDictionaryOfItemsToSessionStore('status',
                                                  {'currentStatus':'Initializing',
                                                   'start_time':time.time(),
@@ -658,7 +662,7 @@ You must provide any weights you wish to use.
                                                   'IndependentDataName1':self.dataObject.IndependentDataName1,
                                                   'IndependentDataName2':self.dataObject.IndependentDataName2,
                                                   'DependentDataName':self.dataObject.DependentDataName})
-        #pid_trace.delete_pid_trace_file()
+        pid_trace.delete_pid_trace_file()
 
 
     def GetVerseInfo(self):
@@ -673,7 +677,7 @@ You must provide any weights you wish to use.
 
 
     def SpecificCodeForGeneratingListOfOutputReports(self):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.functionString = 'PrepareForReportOutput'
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Calculating Error Statistics"})
@@ -685,11 +689,11 @@ You must provide any weights you wish to use.
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Generating Report Objects"})
         self.ReportsAndGraphsCategoryDict = ReportsAndGraphs.FittingReportsDict(self.dataObject)
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.delete_pid_trace_file()
 
 
     def GenerateListOfOutputReports(self):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         self.textReports = []
         self.graphReports = []
@@ -702,7 +706,7 @@ You must provide any weights you wish to use.
             self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Calculating Graph Boundaries"})
             self.dataObject.CalculateGraphBoundaries()
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.SpecificCodeForGeneratingListOfOutputReports()
 
@@ -713,7 +717,7 @@ You must provide any weights you wish to use.
             if i.name != '':
                 self.textReports.append(i)
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         # select required graph reports
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Generating List Of Graphical Reports"})
@@ -722,11 +726,11 @@ You must provide any weights you wish to use.
             if i.name != '':
                 self.graphReports.append(i)
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.delete_pid_trace_file()
 
 
     def RenderOutputHTMLToAFileAndSetStatusRedirect(self):
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
 
         self.SaveSpecificDataToSessionStore()
 
@@ -776,7 +780,7 @@ You must provide any weights you wish to use.
             itemsToRender['IndependentDataName2'] = self.dataObject.IndependentDataName2
         itemsToRender['loadavg'] = os.getloadavg()
         
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         
         try:
             f = open(os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html"), "w")
@@ -790,11 +794,11 @@ You must provide any weights you wish to use.
             
         self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
         
-        #pid_trace.delete_pid_trace_file()
+        pid_trace.delete_pid_trace_file()
 
 
     def CreateUnboundInterfaceForm(self, request): # OVERRIDDEN in fittingBaseClass
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         dictionaryToReturn = {}
         dictionaryToReturn['dimensionality'] = str(self.dimensionality)
 
@@ -818,14 +822,14 @@ You must provide any weights you wish to use.
 
         dictionaryToReturn['statisticalDistributions'] = self.statisticalDistribution
 
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.delete_pid_trace_file()
         return dictionaryToReturn
 
 
     def CreateBoundInterfaceForm(self, request): # OVERRIDDEN in fittingBaseClass
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.pid_trace()
         self.boundForm = eval('zunzun.forms.CharacterizeDataForm_' + str(self.dimensionality) + 'D(request.POST)')
         self.boundForm.dimensionality = str(self.dimensionality)
         self.boundForm['statisticalDistributionsSortBy'].required = self.statisticalDistribution
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        pid_trace.delete_pid_trace_file()
 
