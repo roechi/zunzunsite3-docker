@@ -13,6 +13,8 @@ import os, sys, settings, inspect
 
 def pid_trace():
 
+    return # default behavior: do not create trace files
+    
     strpid = str(os.getpid())
     tracefilepath = os.path.join(settings.TEMP_FILES_DIR,'pid_' + strpid + '.trace')
 
