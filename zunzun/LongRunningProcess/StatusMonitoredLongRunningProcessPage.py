@@ -790,7 +790,7 @@ You must provide any weights you wish to use.
             
         self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
         
-        #pid_trace.pid_trace(__file__, inspect.currentframe().f_lineno)
+        #pid_trace.delete_pid_trace_file()
 
 
     def CreateUnboundInterfaceForm(self, request): # OVERRIDDEN in fittingBaseClass
