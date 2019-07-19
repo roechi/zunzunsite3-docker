@@ -65,8 +65,6 @@ def parallelWorkFunction(inParameterList):
         return [None, inParameterList[0], inParameterList[1], inParameterList[2]]
 
 
-
-
 def serialWorker(obj, inputList, outputList):
     for i in range(len(inputList)):
         try:

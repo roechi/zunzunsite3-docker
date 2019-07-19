@@ -94,5 +94,4 @@ class Simple(FunkLoadTestCase):
                                     ['script'])
 
 
-
 unittest.main()

@@ -1,7 +1,3 @@
-
-
-
-
 import inspect, time, math, random, multiprocessing, os, sys, copy
 
 import numpy, scipy, scipy.stats
@@ -10,7 +6,6 @@ from . import FittingBaseClass
 import zunzun.forms
 import zunzun.formConstants
 import pyeq3
-
 
 
 class FitUserCustomizablePolynomial(FittingBaseClass.FittingBaseClass):

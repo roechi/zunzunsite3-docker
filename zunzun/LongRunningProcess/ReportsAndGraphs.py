@@ -6,7 +6,6 @@ import uuid
 import settings
 
 
-
 class Report(object):
 
     def __init__(self, dataObject):

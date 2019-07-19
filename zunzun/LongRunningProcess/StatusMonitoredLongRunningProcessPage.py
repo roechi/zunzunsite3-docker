@@ -43,7 +43,6 @@ def ParallelWorker_CreateReportOutput(inReportObject):
         return [inReportObject.name, 0, 'Exception creating report, see log file']
 
 
-
 def ParallelWorker_CreateCharacterizerOutput(inReportObject):
     try:
         inReportObject.CreateCharacterizerOutput()

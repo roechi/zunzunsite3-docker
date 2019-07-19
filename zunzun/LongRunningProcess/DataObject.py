@@ -199,7 +199,6 @@ class DataObject:
             pid_trace.pid_trace()
 
 
-
     def CalculateErrorStatistics(self):
         pid_trace.pid_trace()
         
@@ -329,7 +328,6 @@ class DataObject:
         self.grid_dY = self.gdeltay / float(self.gridResolution - 1)
         
         pid_trace.delete_pid_trace_file()
-
 
 
     def hex_char_to_decimal(self, character):

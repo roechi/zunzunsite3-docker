@@ -333,5 +333,4 @@ class Simple(FunkLoadTestCase):
             [' Statistical Distributions'])
 
 
-
 unittest.main()

@@ -1,7 +1,3 @@
-
-
-
-
 class ClassForAttachingProperties(object):
     multiLineHtmlFlag = False
     moduleName = 'moduleName'

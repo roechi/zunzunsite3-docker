@@ -1,7 +1,3 @@
-
-
-
-
 defaultData1D = '''
 This data was generated from a
 Rayleigh distribution (5.0, 2.0)
