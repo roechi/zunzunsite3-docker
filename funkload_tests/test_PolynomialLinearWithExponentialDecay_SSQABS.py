@@ -103,7 +103,7 @@ class Simple(FunkLoadTestCase):
             self.post(self.server_url + '/EvaluateAtAPoint/',
                 params=[['x', '8.0']],
                 description = 'Test Polynomial Linear With Exponential Decay 2D (SSQABS) - Evaluate At A Point')
-            self.assertTrue(-1 != str(self.getBody()).find('1.35102769596'), 'Polynomial Linear With Exponential Decay 2D (SSQABS) - Evaluate At A Point')
+            self.assertTrue(-1 != str(self.getBody()).find('1.351027'), 'Polynomial Linear With Exponential Decay 2D (SSQABS) - Evaluate At A Point')
 
 
 unittest.main()
