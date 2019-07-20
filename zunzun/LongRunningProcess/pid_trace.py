@@ -13,7 +13,7 @@ import os, sys, settings, inspect
 
 def pid_trace(additionalText = ''):
 
-    #return # default behavior: do not create trace files
+    return # default behavior: do not create trace files
     
     strpid = str(os.getpid())
     tracefilepath = os.path.join(settings.TEMP_FILES_DIR,'pid_' + strpid + '.trace')
@@ -29,7 +29,7 @@ def pid_trace(additionalText = ''):
 
 
 def delete_pid_trace_file():
-    return
+    return # match default of making no trace file
     strpid = str(os.getpid())
     tracefilepath = os.path.join(settings.TEMP_FILES_DIR,'pid_' + strpid + '.trace')
     if os.path.exists(tracefilepath) and os.path.isfile(tracefilepath):
