@@ -290,20 +290,21 @@ class DataObject:
 
         pid_trace.pid_trace()
 
-        if self.Extrapolation_y < 98.0: # 99.0 means Manual Scaling
-            self.ymin = self.statistics['2_min']
-            self.ymax = self.statistics['2_max']
-            self.deltay = self.ymax - self.ymin
-            self.gymin = self.ymin - (self.deltay * self.Extrapolation_y)
-            self.gymax = self.ymax + (self.deltay * self.Extrapolation_y)
-            self.gdeltay = self.gymax - self.gymin
-        else:
-            self.ymin = self.Extrapolation_y_min
-            self.ymax = self.Extrapolation_y_max
-            self.deltay = self.ymax - self.ymin
-            self.gymin = self.ymin
-            self.gymax = self.ymax
-            self.gdeltay = self.gymax - self.gymin
+        if self.dimensionality > 1:
+            if self.Extrapolation_y < 98.0: # 99.0 means Manual Scaling
+                self.ymin = self.statistics['2_min']
+                self.ymax = self.statistics['2_max']
+                self.deltay = self.ymax - self.ymin
+                self.gymin = self.ymin - (self.deltay * self.Extrapolation_y)
+                self.gymax = self.ymax + (self.deltay * self.Extrapolation_y)
+                self.gdeltay = self.gymax - self.gymin
+            else:
+                self.ymin = self.Extrapolation_y_min
+                self.ymax = self.Extrapolation_y_max
+                self.deltay = self.ymax - self.ymin
+                self.gymin = self.ymin
+                self.gymax = self.ymax
+                self.gdeltay = self.gymax - self.gymin
 
         pid_trace.pid_trace()
 
