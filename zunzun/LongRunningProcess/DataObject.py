@@ -253,12 +253,14 @@ class DataObject:
 
         pid_trace.pid_trace()
 
-        self.ymin_p05 = self.statistics['2_min']
-        self.ymax_p05 = self.statistics['2_max']
-        self.deltay_p05 = self.ymax_p05 - self.ymin_p05
-        self.gymin_p05 = self.ymin_p05 - (self.deltay_p05 * 0.05)
-        self.gymax_p05 = self.ymax_p05 + (self.deltay_p05 * 0.05)
-        self.gdeltay_p05 = self.gymax_p05 - self.gymin_p05
+        if self.dimensionality > 1:
+            self.ymin_p05 = self.statistics['2_min']
+            self.ymax_p05 = self.statistics['2_max']
+            self.deltay_p05 = self.ymax_p05 - self.ymin_p05
+            self.gymin_p05 = self.ymin_p05 - (self.deltay_p05 * 0.05)
+            self.gymax_p05 = self.ymax_p05 + (self.deltay_p05 * 0.05)
+            self.gdeltay_p05 = self.gymax_p05 - self.gymin_p05
+            
         pid_trace.pid_trace()
 
         if self.dimensionality == 3:
