@@ -32,25 +32,51 @@ def ParallelWorker_CreateReportOutput(inReportObject):
         if inReportObject.dataObject.equation.GetDisplayName() == 'User Defined Function': # User Defined Function will not pickle, see http://support.picloud.com/entries/122330-an-error-i-don-t-understand
             inReportObject.dataObject.equation.userDefinedFunctionText = inReportObject.dataObject.userDefinedFunctionText
             inReportObject.dataObject.equation.ParseAndCompileUserFunctionString(inReportObject.dataObject.equation.userDefinedFunctionText)
-
+            
         inReportObject.CreateReportOutput()
 
         return [inReportObject.name, inReportObject.stringList, ''] # name for lookup, stringList for data, empty string for no exception
     except:
         import logging
+        
+        s = '\n'
+        for item in dir(inReportObject.dataObject):
+            
+            if -1 != str(item).find('__'): # internal python objects
+                continue
+            if -1 != str(eval('inReportObject.dataObject.' + str(item))).find('bound'): # internal python objects
+                continue
+                
+            s += str(item) + ': ' + str(eval('inReportObject.dataObject.' + str(item))) + '\n\n'
+            
         logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
-        logging.exception('Exception creating report')
+        logging.exception('Exception creating report, inReportObject.dataObject yields:\n\n' + s)
         return [inReportObject.name, 0, 'Exception creating report, see log file']
 
 
 def ParallelWorker_CreateCharacterizerOutput(inReportObject):
     try:
         inReportObject.CreateCharacterizerOutput()
+
         return [inReportObject.name, inReportObject.stringList, ''] # name for lookup, stringList for data
     except:
         import logging
         logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
         logging.exception('Exception characterizer output')
+
+        s = '\n'
+        for item in dir(inReportObject.dataObject):
+            
+            if -1 != str(item).find('__'): # internal python objects
+                continue
+            if -1 != str(eval('inReportObject.dataObject.' + str(item))).find('bound'): # internal python objects
+                continue
+                
+            s += str(item) + ': ' + str(eval('inReportObject.dataObject.' + str(item))) + '\n\n'
+            
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+        logging.exception('Exception creating characterizer, inReportObject.dataObject yields:\n\n' + s)
+        
         return [inReportObject.name, 0, 'Exception characterizer output, see log file']
 
 
