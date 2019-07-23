@@ -1268,7 +1268,7 @@ class AbsErrScatterPlot3D(GraphReport):
         self.Extrapolation_z = 0.05
         self.dataObject.CalculateGraphBoundaries()
         from . import MatplotlibGraphs_3D
-        MatplotlibGraphs_3D.ScatterPlot3D(dataObject, self.physicalFileLocation)
+        MatplotlibGraphs_3D.ScatterPlot3D(self.dataObject, self.physicalFileLocation)
 
 
 
