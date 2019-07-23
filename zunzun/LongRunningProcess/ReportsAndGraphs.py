@@ -1,4 +1,4 @@
-import os, sys, time, math, copy
+import os, sys, time, math
 from . import MatplotlibGraphs_2D
 import numpy, scipy
 import pyeq3
@@ -1262,12 +1262,11 @@ class AbsErrScatterPlot3D(GraphReport):
         self.websiteFileLocation = "%s%s%s" % (settings.STATIC_URL, self.uniqueAnchorName, self.dataObject.uniqueString) + self.GetRankString() + ".png"
         
     def CreateCharacterizerOutput(self):
-        dataObject = copy.copy(self.dataObject)
-        dataObject.DependentDataName = "Absolute Error"
-        dataObject.DependentDataArray = self.dataObject.equation.modelAbsoluteError
-        dataObject.CalculateDataStatistics()
+        self.dataObject.DependentDataName = "Absolute Error"
+        self.dataObject.DependentDataArray = self.dataObject.equation.modelAbsoluteError
+        self.dataObject.CalculateDataStatistics()
         self.Extrapolation_z = 0.05
-        dataObject.CalculateGraphBoundaries()
+        self.dataObject.CalculateGraphBoundaries()
         from . import MatplotlibGraphs_3D
         MatplotlibGraphs_3D.ScatterPlot3D(dataObject, self.physicalFileLocation)
 
@@ -1294,14 +1293,13 @@ class RelErrScatterPlot3D(GraphReport):
         self.websiteFileLocation = "%s%s%s" % (settings.STATIC_URL, self.uniqueAnchorName, self.dataObject.uniqueString) + self.GetRankString() + ".png"
         
     def CreateCharacterizerOutput(self):
-        dataObject = copy.copy(self.dataObject)
-        dataObject.DependentDataName = "Relative Error"
-        dataObject.DependentDataArray = self.dataObject.equation.modelRelativeError
-        dataObject.CalculateDataStatistics()
+        self.dataObject.DependentDataName = "Relative Error"
+        self.dataObject.DependentDataArray = self.dataObject.equation.modelRelativeError
+        self.dataObject.CalculateDataStatistics()
         self.Extrapolation_z = 0.05
-        dataObject.CalculateGraphBoundaries()
+        self.dataObject.CalculateGraphBoundaries()
         from . import MatplotlibGraphs_3D
-        MatplotlibGraphs_3D.ScatterPlot3D(dataObject, self.physicalFileLocation)
+        MatplotlibGraphs_3D.ScatterPlot3D(self.dataObject, self.physicalFileLocation)
 
 
 # enter in Graph Reports at bottom
@@ -1324,14 +1322,13 @@ class PerErrScatterPlot3D(GraphReport):
         self.websiteFileLocation = "%s%s%s" % (settings.STATIC_URL, self.uniqueAnchorName, self.dataObject.uniqueString) + self.GetRankString() + ".png"
         
     def CreateCharacterizerOutput(self):
-        dataObject = copy.copy(self.dataObject)
-        dataObject.DependentDataName = "Percent Error"
-        dataObject.DependentDataArray = self.dataObject.equation.modelPercentError
-        dataObject.CalculateDataStatistics()
+        self.dataObject.DependentDataName = "Percent Error"
+        self.dataObject.DependentDataArray = self.dataObject.equation.modelPercentError
+        self.dataObject.CalculateDataStatistics()
         self.Extrapolation_z = 0.05
-        dataObject.CalculateGraphBoundaries()
+        self.dataObject.CalculateGraphBoundaries()
         from . import MatplotlibGraphs_3D
-        MatplotlibGraphs_3D.ScatterPlot3D(dataObject, self.physicalFileLocation)
+        MatplotlibGraphs_3D.ScatterPlot3D(self.dataObject, self.physicalFileLocation)
 
 
 # enter in Graph Reports at bottom
@@ -1494,13 +1491,12 @@ class ScatterAnimation(GraphReport):
     def CreateCharacterizerOutput(self):
         from . import MatplotlibGraphs_3D
         
-        dataObject = copy.copy(self.dataObject)
-        dataObject.graphHeight = self.dataObject.animationHeight
-        dataObject.graphWidth = self.dataObject.animationWidth
-        dataObject.CalculateGraphBoundaries()
+        self.dataObject.graphHeight = self.dataObject.animationHeight
+        self.dataObject.graphWidth = self.dataObject.animationWidth
+        self.dataObject.CalculateGraphBoundaries()
         
         try:
-            [fig, ax, plt] = eval(self.functionString + '(dataObject, None)')
+            [fig, ax, plt] = eval(self.functionString + '(self.dataObject, None)')
 
             for i in range(0,360, self.animationFrameSeparation): 
                 padstr = ''
@@ -1509,7 +1505,7 @@ class ScatterAnimation(GraphReport):
                 if i  < 10:
                     padstr = '00'
 
-                ax.view_init(elev=dataObject.altimuth3D, azim=i)
+                ax.view_init(elev=self.dataObject.altimuth3D, azim=i)
                 frameName = self.physicalFileLocation[:-4] + '__' + padstr + str(i) + ".png"
                 fig.savefig(frameName, format = 'png')
                 
@@ -1557,12 +1553,11 @@ class SurfaceAnimation(GraphReport):
         try:
             from . import MatplotlibGraphs_3D
             
-            dataObject = copy.copy(self.dataObject)
-            dataObject.graphHeight = dataObject.animationHeight
-            dataObject.graphWidth = dataObject.animationWidth
-            dataObject.CalculateGraphBoundaries()
+            self.dataObject.graphHeight = self.dataObject.animationHeight
+            self.dataObject.graphWidth = self.dataObject.animationWidth
+            self.dataObject.CalculateGraphBoundaries()
 
-            [fig, ax, plt] = eval(self.functionString + '(dataObject, None)')
+            [fig, ax, plt] = eval(self.functionString + '(self.dataObject, None)')
 
 
             for i in range(0,360,self.animationFrameSeparation): 
@@ -1572,7 +1567,7 @@ class SurfaceAnimation(GraphReport):
                 if i  < 10:
                     padstr = '00'
 
-                ax.view_init(elev=dataObject.altimuth3D, azim=i)
+                ax.view_init(elev=self.dataObject.altimuth3D, azim=i)
                 frameName = self.physicalFileLocation[:-4] + '__' + padstr + str(i) + ".png"
                 fig.savefig(frameName, format = 'png')
                 
