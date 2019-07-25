@@ -484,8 +484,10 @@ You must provide any weights you wish to use.
         for i in list(inDictionary.keys()):
             item = inDictionary[i]
             if -1 != str(type(item)).find('byte'):
+                pid_trace.pid_trace(str(type(item)))
                 item = django.utils.encoding.smart_bytes(item, encoding='utf-8', strings_only=True, errors='strict')
                 item = str(item)
+                pid_trace.pid_trace(item)
             item = pickle.dumps(item)
             
             session[i] = item
