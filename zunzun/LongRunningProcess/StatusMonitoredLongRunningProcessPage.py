@@ -484,7 +484,7 @@ You must provide any weights you wish to use.
         
         for i in list(inDictionary.keys()):
             item = inDictionary[i]
-            pid_trace.pid_trace(str(type(item)))
+            pid_trace.pid_trace(str(i) + ' type: ' + str(type(item)))
             if -1 != str(type(item)).find('byte'):
                 item = django.utils.encoding.smart_bytes(item, encoding='utf-8', strings_only=True, errors='strict')
                 item = str(item)
