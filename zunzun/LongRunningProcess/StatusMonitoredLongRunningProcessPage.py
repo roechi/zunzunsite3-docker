@@ -485,12 +485,13 @@ You must provide any weights you wish to use.
         for i in list(inDictionary.keys()):
             item = inDictionary[i]
             pid_trace.pid_trace(str(i) + ' type: ' + str(type(item)))
+            if type(item) == type(1): # type is int
+                pid_trace.pid_trace(str(item))
             if -1 != str(type(item)).find('byte'):
                 item = django.utils.encoding.smart_bytes(item, encoding='utf-8', strings_only=True, errors='strict')
                 item = str(item)
                 pid_trace.pid_trace(item)
             item = pickle.dumps(item)
-            
             session[i] = item
 
         pid_trace.pid_trace()
