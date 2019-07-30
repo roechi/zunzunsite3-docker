@@ -491,8 +491,10 @@ You must provide any weights you wish to use.
                 item = django.utils.encoding.smart_bytes(item, encoding='utf-8', strings_only=True, errors='strict')
                 item = str(item)
                 pid_trace.pid_trace(item)
-            item = pickle.dumps(item)
-            session[i] = item
+            pid_trace.pid_trace()
+            pickled_item = pickle.dumps(item)
+            pid_trace.pid_trace()
+            session[i] = pickled_item
 
         pid_trace.pid_trace()
 
