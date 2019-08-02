@@ -495,7 +495,7 @@ You must provide any weights you wish to use.
             pickled_item = pickle.dumps(item)
             pid_trace.pid_trace('key: ' + str(i))
             session[i] = pickled_item
-            pid_trace.pid_trace(str(i) + ' saved to session as ' + pickled_item)
+            pid_trace.pid_trace(str(i) + ' saved to session as ' + str(pickled_item))
 
         pid_trace.pid_trace()
 
