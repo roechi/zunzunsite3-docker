@@ -480,7 +480,8 @@ class Equation_2D(CharacterizeDataForm_2D) :
                 raise django.forms.ValidationError("The selected spline order has more coefficients than the given number of data points, I cannot model the data to this spline.")
 
         if self.equation.userDefinedFunctionFlag:
-            self.equation.userDefinedFunctionText = self.cleaned_data["udfEditor"]
+            # convert user constants with a comma decimal separator
+            self.equation.userDefinedFunctionText = self.cleaned_data["udfEditor"].replace(',', '.')
             if self.equation.userDefinedFunctionText == '':
                 raise django.forms.ValidationError("You entered no text as a User Defined Function. Please enter a function.")
             try:
@@ -596,7 +597,8 @@ class Equation_3D (CharacterizeDataForm_3D) :
                 raise django.forms.ValidationError("The selected spline orders have more coefficients than the given number of data points, I cannot model the data to this spline.")
 
         if self.equation.userDefinedFunctionFlag:
-            self.equation.userDefinedFunctionText = self.cleaned_data["udfEditor"]
+            # convert user constants with a comma decimal separator
+            self.equation.userDefinedFunctionText = self.cleaned_data["udfEditor"].replace(',', '.')
             if self.equation.userDefinedFunctionText == '':
                 raise django.forms.ValidationError("You entered no text as a User Defined Function. Please enter a function.")
             try:
