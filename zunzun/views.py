@@ -225,7 +225,7 @@ Load > %s means the server cores each average 100%% CPU with multiple users.
 def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', inEquationName=''): # from urls.py, inDimensionality can only be '1', '2' or '3'
     import os, sys, time
 
-    if -1 != request.path.find('FitEquation__Z___/') or -1 != request.path.find('Equation/'): # redundant but explicit
+    if -1 != request.path.find('FitEquation__A__/') or -1 != request.path.find('Equation/'): # redundant but explicit
         if -1 != request.path.find('UserDefinedFunction'):
             LRP = LongRunningProcess.FitUserDefinedFunction.FitUserDefinedFunction()
         elif -1 != request.path.find('User-Selectable Polyfunctional'):
