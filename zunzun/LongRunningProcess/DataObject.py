@@ -326,7 +326,11 @@ class DataObject:
                 
         pid_trace.pid_trace()
 
-        self.gridResolution = (self.graphHeight + self.graphWidth) // 40
+        try:
+            self.gridResolution = (self.graphHeight + self.graphWidth) // 40
+        except:
+            self.gridResolution = (320 + 240) // 40
+            
         self.grid_dX = self.gdeltax / float(self.gridResolution - 1)
         self.grid_dY = self.gdeltay / float(self.gridResolution - 1)
         
