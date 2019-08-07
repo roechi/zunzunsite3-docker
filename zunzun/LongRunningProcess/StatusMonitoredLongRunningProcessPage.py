@@ -494,7 +494,12 @@ You must provide any weights you wish to use.
             pid_trace.pid_trace()
             pickled_item = pickle.dumps(item)
             pid_trace.pid_trace('key: ' + str(i))
-            session[i] = pickled_item
+            try:
+                session[i] = pickled_item
+            except:
+                pid_trace.pid_trace('retrying save-to-session')
+                time.sleep(0.1) # wait 1/10 second and retry
+                session[i] = pickled_item
             pid_trace.pid_trace(str(i) + ' saved to session as ' + str(pickled_item))
 
         pid_trace.pid_trace()

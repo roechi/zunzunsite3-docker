@@ -288,7 +288,7 @@ class DataObject:
             self.gxmax = self.xmax
             self.gdeltax = self.gxmax - self.gxmin
 
-        pid_trace.pid_trace()
+        pid_trace.pid_trace('dim = ' + str(self.dimensionality))
 
         if self.dimensionality > 1:
             if self.Extrapolation_y < 98.0: # 99.0 means Manual Scaling
