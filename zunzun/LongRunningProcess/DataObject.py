@@ -332,7 +332,9 @@ class DataObject:
             self.gridResolution = (320 + 240) // 40
             
         self.grid_dX = self.gdeltax / float(self.gridResolution - 1)
-        self.grid_dY = self.gdeltay / float(self.gridResolution - 1)
+
+        if self.dimensionality > 1:
+            self.grid_dY = self.gdeltay / float(self.gridResolution - 1)
         
         pid_trace.delete_pid_trace_file()
 
