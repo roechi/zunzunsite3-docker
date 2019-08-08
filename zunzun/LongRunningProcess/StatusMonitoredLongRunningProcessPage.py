@@ -493,7 +493,7 @@ You must provide any weights you wish to use.
                 pid_trace.pid_trace(item)
             pid_trace.pid_trace()
             pickled_item = pickle.dumps(item)
-            pid_trace.pid_trace('key: ' + str(i))
+            pid_trace.pid_trace('key: ' + str(i) + ' = ' + str(pickled_item))
             try:
                 session[i] = pickled_item
             except:
