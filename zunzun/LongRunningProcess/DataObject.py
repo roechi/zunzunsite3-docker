@@ -86,8 +86,8 @@ class DataObject:
         self.gper_err_max_p05 = None
         self.gdelta_per_err_p05 = None
 
-        self.graphWidth = None
-        self.graphHeight = None
+        self.graphWidth = 320
+        self.graphHeight = 240
         self.animationWidth = None
         self.animationHeight = None
         self.gridResolution = None
@@ -326,10 +326,7 @@ class DataObject:
                 
         pid_trace.pid_trace()
 
-        try:
-            self.gridResolution = (self.graphHeight + self.graphWidth) // 40
-        except:
-            self.gridResolution = (320 + 240) // 40
+        self.gridResolution = (self.graphHeight + self.graphWidth) // 40
             
         self.grid_dX = self.gdeltax / float(self.gridResolution - 1)
 
