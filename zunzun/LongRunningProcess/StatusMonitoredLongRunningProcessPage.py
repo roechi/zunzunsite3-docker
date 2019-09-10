@@ -492,7 +492,7 @@ You must provide any weights you wish to use.
                 item = str(item)
                 pid_trace.pid_trace(item)
             pid_trace.pid_trace()
-            pickled_item = pickle.dumps(item)
+            pickled_item = pickle.dumps(item, pickle.HIGHEST_PROTOCOL)
             pid_trace.pid_trace('key: ' + str(i) + ' = ' + str(pickled_item))
             try:
                 session[i] = pickled_item
@@ -505,7 +505,7 @@ You must provide any weights you wish to use.
         pid_trace.pid_trace()
 
         if inSessionStoreName == 'status':
-            session["timestamp"] = pickle.dumps(time.time())
+            session["timestamp"] = pickle.dumps(time.time(), pickle.HIGHEST_PROTOCOL)
 
         # sometimes database is momentarily locked, so retry on exception to mitigate
         try:
@@ -529,7 +529,7 @@ You must provide any weights you wish to use.
         try:
             returnItem = session[inItemName]
         except:
-            returnItem = pickle.dumps(None)
+            returnItem = pickle.dumps(None, pickle.HIGHEST_PROTOCOL)
         db.connections.close_all()
         close_old_connections()
         session = None

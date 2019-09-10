@@ -146,7 +146,7 @@ def StatusView(request):
         if pickle.loads(session_status['redirectToResultsFileOrURL']) != '':
             # read and reset
             redirect = pickle.loads(session_status['redirectToResultsFileOrURL'])
-            session_status['redirectToResultsFileOrURL'] = pickle.dumps('')
+            session_status['redirectToResultsFileOrURL'] = pickle.dumps('', pickle.HIGHEST_PROTOCOL)
             try: # database can lock, sleep and retry
                 session_status.save()
             except:
@@ -162,7 +162,7 @@ def StatusView(request):
             else: # URL
                 return HttpResponseRedirect(redirect)
 
-    session_status['time_of_last_status_check'] = pickle.dumps(time.time())
+    session_status['time_of_last_status_check'] = pickle.dumps(time.time(), pickle.HIGHEST_PROTOCOL)
     try: # database can lock, sleep and retry
         session_status.save()
     except:

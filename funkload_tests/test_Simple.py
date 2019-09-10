@@ -21,7 +21,6 @@ testPolynomialQuadratic2D_SSQREL = True
 testSpline2D = False # scipy UnivariateSpline not working correctly, commented out of site interface
 testUserDefinedFunction2D = True
 testFunctionFinder2D = True
-testPolynomialLinearWithExponentialDecay2D_SSQABS = True
 
 
 class Simple(FunkLoadTestCase):
@@ -93,8 +92,7 @@ class Simple(FunkLoadTestCase):
                          '/Equation/2/Polynomial/2nd%20Order%20(Quadratic)/',
                          '/Equation/2/Spline/Spline/',
                          '/Equation/2/UserDefinedFunction/UserDefinedFunction/',
-                         '/FunctionFinder__A__/2/',
-                         '/Equation/2/Polynomial/1st%20Order%20(Linear)%20With%20Exponential%20Decay/'
+                         '/FunctionFinder__A__/2/'
                          ]:
                 self.RetrieveOnePage(url, 'Please select an option from the pull-down')
 
@@ -278,7 +276,7 @@ class Simple(FunkLoadTestCase):
 
         if testFunctionFinder2D:
             self.PostLongRunningProcess('/FunctionFinder__A__/2/',
-                                        [['commaConversion', 'I'],
+                        [['commaConversion', 'I'],
                         ['dataNameX', 'X Data'],
                         ['dataNameY', 'Y Data'],
                         ['smoothnessControl2D', '2'],
@@ -287,50 +285,9 @@ class Simple(FunkLoadTestCase):
                         ['extendedEquationTypes', 'STANDARD'],
                         ['fittingTarget', 'SSQABS'],
                         ['textDataEditor', data2D]],
-                                        'Test Function Finder 2D',
-                                        240,
-                                        ['SSQABS: 0.9063',
-                                         'RMSE: 0.2870'])
-
-        if testPolynomialLinearWithExponentialDecay2D_SSQABS:
-            self.PostLongRunningProcess('/FitEquation__A__/2/Polynomial/1st%20Order%20(Linear)%20With%20Exponential%20Decay/',
-                                        [['commaConversion', 'I'],
-                        ['graphSize', '320x240'],
-                        ['animationSize', '0x0'],
-                        ['scientificNotationX', 'AUTO'],
-                        ['scientificNotationY', 'AUTO'],
-                        ['dataNameX', 'X Data'],
-                        ['dataNameY', 'Y Data'],
-                        ['graphScaleRadioButtonX', '0.050'],
-                        ['graphScaleRadioButtonY', '0.050'],
-                        ['logLinX', 'LIN'],
-                        ['logLinY', 'LIN'],
-                        ['fittingTarget', 'SSQABS'],
-                        ['textDataEditor', data2D]],
-                        'Test Polynomial Linear With Exponential Decay 2D (SSQABS)',
-                        240,
-                        ['Minimum:             -6.740628E+00     -2.816686E+00',
-                         'Maximum:              1.045474E+00      9.375602E-01'])
-            
-            self.post(self.server_url + '/EvaluateAtAPoint/',
-                params=[['x', '8.0']],
-                description = 'Test Polynomial Linear With Exponential Decay 2D (SSQABS) - Evaluate At A Point')
-            self.assertTrue(-1 != str(self.getBody()).find('1.351027'), 'Polynomial Linear With Exponential Decay 2D (SSQABS) - Evaluate At A Point')
-
-        if testStatisticalDistributions:
-            self.PostLongRunningProcess('/StatisticalDistributions/1/',
-                                        [['commaConversion', 'I'],
-                        ['graphSize', '320x240'],
-                        ['animationSize', '0x0'],
-                        ['scientificNotationX', 'AUTO'],
-                        ['dataNameX', 'X Data'],
-                        ['graphScaleRadioButtonX', '0.050'],
-                        ['logLinX', 'LIN'],
-                        ['statisticalDistributionsSortBy', 'AIC'],
-                        ['textDataEditor', data1D]],
-            'Test Statistical Distributions',
-            20 * 240,
-            [' Statistical Distributions'])
-
+                            'Test Function Finder 2D',
+                            240,
+                            ['SSQABS: 0.9063',
+                             'RMSE: 0.2870'])
 
 unittest.main()
