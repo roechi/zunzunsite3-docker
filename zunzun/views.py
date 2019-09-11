@@ -143,10 +143,10 @@ def StatusView(request):
 
     # this is done so that the "back" button does not return users to a status page when viewing FF results
     if 'redirectToResultsFileOrURL' in session_status:
-        if pickle.loads(session_status['redirectToResultsFileOrURL']) != '':
+        if pickle.loads(bytes.fromhex(session_status['redirectToResultsFileOrURL'])) != '':
             # read and reset
-            redirect = pickle.loads(session_status['redirectToResultsFileOrURL'])
-            session_status['redirectToResultsFileOrURL'] = pickle.dumps('', pickle.HIGHEST_PROTOCOL)
+            redirect = pickle.loads(bytes.fromhex(session_status['redirectToResultsFileOrURL']))
+            session_status['redirectToResultsFileOrURL'] = pickle.dumps('', pickle.HIGHEST_PROTOCOL).hex()
             try: # database can lock, sleep and retry
                 session_status.save()
             except:
@@ -162,7 +162,7 @@ def StatusView(request):
             else: # URL
                 return HttpResponseRedirect(redirect)
 
-    session_status['time_of_last_status_check'] = pickle.dumps(time.time(), pickle.HIGHEST_PROTOCOL)
+    session_status['time_of_last_status_check'] = pickle.dumps(time.time(), pickle.HIGHEST_PROTOCOL).hex()
     try: # database can lock, sleep and retry
         session_status.save()
     except:
@@ -172,9 +172,9 @@ def StatusView(request):
     close_old_connections()
    
     try:
-        currentStatus = pickle.loads(session_status['currentStatus'])
-        startTime = pickle.loads(session_status['start_time'])
-        timeStamp = pickle.loads(session_status['timestamp'])
+        currentStatus = pickle.loads(bytes.fromhex(session_status['currentStatus']))
+        startTime = pickle.loads(bytes.fromhex(session_status['start_time']))
+        timeStamp = pickle.loads(bytes.fromhex(session_status['timestamp']))
     except:
         return HttpResponse("I could not read your session data, my apologies. This is usually caused by a stale browser cookie. Please delete the zunzunsite3 browser cookie and try again.")
     
