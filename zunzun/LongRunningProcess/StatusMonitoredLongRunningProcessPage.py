@@ -485,22 +485,8 @@ You must provide any weights you wish to use.
         for i in list(inDictionary.keys()):
             item = inDictionary[i]
             pid_trace.pid_trace(str(i) + ' type: ' + str(type(item)))
-            if type(item) == type(1): # type is int
-                pid_trace.pid_trace(str(item))
-            if -1 != str(type(item)).find('byte'):
-                item = django.utils.encoding.smart_bytes(item, encoding='utf-8', strings_only=True, errors='strict')
-                item = str(item)
-                pid_trace.pid_trace(item)
-            pid_trace.pid_trace()
-            pickled_item = pickle.dumps(item, pickle.HIGHEST_PROTOCOL).hex()
-            pid_trace.pid_trace('key: ' + str(i) + ' = ' + str(pickled_item))
-            try:
-                session[i] = pickled_item
-            except:
-                pid_trace.pid_trace('retrying save-to-session')
-                time.sleep(0.1) # wait 1/10 second and retry
-                session[i] = pickled_item
-            pid_trace.pid_trace(str(i) + ' saved to session as ' + str(pickled_item))
+            session[i] = pickle.dumps(item, pickle.HIGHEST_PROTOCOL).hex()
+            pid_trace.pid_trace(str(i) + ' saved to session')
 
         pid_trace.pid_trace()
 
