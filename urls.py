@@ -13,7 +13,7 @@ try: # newer versions of django
         (r"^StatisticalDistributions/([1])/$", zunzun.views.LongRunningProcessView),    
         (r"^FunctionFinder__.__/([23])/$", zunzun.views.LongRunningProcessView),
         (r"^FunctionFinderResults/([23])/$", zunzun.views.LongRunningProcessView),
-        (r"^FitEquation__A__/([23])/(.+)/(.+)/$", zunzun.views.LongRunningProcessView),
+        (r"^FitEquation__B__/([23])/(.+)/(.+)/$", zunzun.views.LongRunningProcessView),
         (r"^Equation/([23])/(.+)/(.+)/$", zunzun.views.LongRunningProcessView),
         
         (r"^EvaluateAtAPoint/$", zunzun.views.EvaluateAtAPointView),
@@ -29,7 +29,7 @@ except: # older versions of django
         url(r"^StatisticalDistributions/([1])/$", zunzun.views.LongRunningProcessView),    
         url(r"^FunctionFinder__.__/([23])/$", zunzun.views.LongRunningProcessView),
         url(r"^FunctionFinderResults/([23])/$", zunzun.views.LongRunningProcessView),
-        url(r"^FitEquation__A__/([23])/(.+)/(.+)/$", zunzun.views.LongRunningProcessView),
+        url(r"^FitEquation__B__/([23])/(.+)/(.+)/$", zunzun.views.LongRunningProcessView),
         url(r"^Equation/([23])/(.+)/(.+)/$", zunzun.views.LongRunningProcessView),
         url(r"^EvaluateAtAPoint/$", zunzun.views.EvaluateAtAPointView),
         url(r"^AllEquations/([23])/(.+)/$", zunzun.views.AllEquationsView),
