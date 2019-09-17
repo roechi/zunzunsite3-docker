@@ -11,7 +11,12 @@ from . import pid_trace
 
 def parallelWorkFunction(distributionName, data, sortCriteriaName):
     try:
-        return pyeq3.Services.SolverService.SolverService().SolveStatisticalDistribution(distributionName, data, sortCriteriaName)
+        pid_trace.pid_trace('distro: ' + distributionName)
+        tstart = time.time()
+        r = pyeq3.Services.SolverService.SolverService().SolveStatisticalDistribution(distributionName, data, sortCriteriaName)
+        tend = time.time()
+        pid_trace.pid_trace('elapsed time ' + str(int(tend - tstart)) + ' seconds')
+        return r
     except:
         return 0
 
