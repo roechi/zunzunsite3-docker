@@ -324,7 +324,8 @@ class DataObject:
                 self.gzmax = self.zmax
                 self.gdeltaz = self.gzmax - self.gzmin
                 
-        pid_trace.pid_trace()
+        pid_trace.pid_trace('self.graphHeight = ' + str(self.graphHeight))
+        pid_trace.pid_trace('self.graphWidth = ' + str(self.graphWidth))
 
         self.gridResolution = (self.graphHeight + self.graphWidth) // 40
             

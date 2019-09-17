@@ -499,6 +499,9 @@ You must provide any weights you wish to use.
         except:
             time.sleep(0.5) # wait 1/2 second before retry
             session.save()
+            
+        pid_trace.pid_trace()
+
         db.connections.close_all()
         close_old_connections()
         session = None
