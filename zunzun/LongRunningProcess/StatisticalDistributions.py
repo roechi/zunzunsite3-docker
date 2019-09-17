@@ -59,7 +59,7 @@ class StatisticalDistributions(StatusMonitoredLongRunningProcessPage.StatusMonit
         
         self.SaveDictionaryOfItemsToSessionStore('status', {'currentStatus':"Generating List Of Work Items"})
         for item in inspect.getmembers(scipy.stats): # weibull max and min are duplicates of Frechet distributions
-            if isinstance(item[1], scipy.stats.rv_continuous) and item[0] not in ['kstwobign', 'ncf']: # these are very slow
+            if isinstance(item[1], scipy.stats.rv_continuous) and item[0] not in ['kstwobign', 'ncf', 'levy_stable']: # these are very slow, taking too long
                 self.parallelWorkItemsList.append(item[0])
         
         pid_trace.pid_trace()
