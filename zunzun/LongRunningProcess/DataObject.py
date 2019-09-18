@@ -88,8 +88,8 @@ class DataObject:
 
         self.graphWidth = 320
         self.graphHeight = 240
-        self.animationWidth = None
-        self.animationHeight = None
+        self.animationWidth = self.graphWidth
+        self.animationHeight = self.graphHeight
         self.gridResolution = None
         self.grid_dX = None
         self.grid_dY = None
