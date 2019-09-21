@@ -244,27 +244,27 @@ class UsesDataForm_BaseClass(django.forms.Form) :
 
 
     def LoadandVerifyGraphScales(self):        
-        graphScaleX = float(self.cleaned_data['graphScaleRadioButtonX'])
-        minManualScaleX = 0.0
-        maxManualScaleX = 0.0
-        if graphScaleX > 98.0: # manual entry chosen
-            try:
-                minManualScaleX = float(self.cleaned_data['graphScaleManuallyEnteredMinX'])
-            except:
-                raise django.forms.ValidationError('Manual X scaling was chosen, but the minimum X value that was entered could not be converted to a number.')
-            try:
-                maxManualScaleX = float(self.cleaned_data['graphScaleManuallyEnteredMaxX'])
-            except:
-                raise django.forms.ValidationError('Manual X scaling was chosen, but the maximum X value that was entered could not be converted to a number.')
-            if minManualScaleX == maxManualScaleX:
-                raise django.forms.ValidationError('Manual X scaling was chosen, but the minimum and maximum values entered are identical.')
-            if minManualScaleX > maxManualScaleX:
-                raise django.forms.ValidationError('Manual X scaling was chosen, but the minimum X scale was greater than the maximum X scale.')
-        self.cleaned_data['graphScaleX'] = graphScaleX
-        self.cleaned_data['minManualScaleX'] = minManualScaleX
-        self.cleaned_data['maxManualScaleX'] = maxManualScaleX
-            
         if int(self.dimensionality) > 1:
+            graphScaleX = float(self.cleaned_data['graphScaleRadioButtonX'])
+            minManualScaleX = 0.0
+            maxManualScaleX = 0.0
+            if graphScaleX > 98.0: # manual entry chosen
+                try:
+                    minManualScaleX = float(self.cleaned_data['graphScaleManuallyEnteredMinX'])
+                except:
+                    raise django.forms.ValidationError('Manual X scaling was chosen, but the minimum X value that was entered could not be converted to a number.')
+                try:
+                    maxManualScaleX = float(self.cleaned_data['graphScaleManuallyEnteredMaxX'])
+                except:
+                    raise django.forms.ValidationError('Manual X scaling was chosen, but the maximum X value that was entered could not be converted to a number.')
+                if minManualScaleX == maxManualScaleX:
+                    raise django.forms.ValidationError('Manual X scaling was chosen, but the minimum and maximum values entered are identical.')
+                if minManualScaleX > maxManualScaleX:
+                    raise django.forms.ValidationError('Manual X scaling was chosen, but the minimum X scale was greater than the maximum X scale.')
+            self.cleaned_data['graphScaleX'] = graphScaleX
+            self.cleaned_data['minManualScaleX'] = minManualScaleX
+            self.cleaned_data['maxManualScaleX'] = maxManualScaleX
+            
             graphScaleY = float(self.cleaned_data['graphScaleRadioButtonY'])
             minManualScaleY = 0.0
             maxManualScaleY = 0.0
@@ -325,12 +325,7 @@ class CharacterizeDataForm_BaseClass (UsesDataForm_BaseClass) :
 
 
 class CharacterizeDataForm_1D (CharacterizeDataForm_BaseClass) :
-    scientificNotationX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.scientificNotationChoices, initial='AUTO')
-    logLinX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.logLinChoices, initial='LIN')
     dataNameX = django.forms.CharField(max_length=40, initial='X data')
-    graphScaleRadioButtonX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.graphScaleChoices, initial='0.050' )
-    graphScaleManuallyEnteredMaxX = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
-    graphScaleManuallyEnteredMinX = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
 
     def clean_dataNameX(self):
         return self.cleaned_data['dataNameX']
@@ -338,9 +333,14 @@ class CharacterizeDataForm_1D (CharacterizeDataForm_BaseClass) :
 
 
 class CharacterizeDataForm_2D (CharacterizeDataForm_1D) :
+    scientificNotationX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.scientificNotationChoices, initial='AUTO')
     scientificNotationY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.scientificNotationChoices, initial='AUTO' )
+    logLinX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.logLinChoices, initial='LIN')
     logLinY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.logLinChoices, initial='LIN')
     dataNameY = django.forms.CharField(max_length=40, initial='Y data')
+    graphScaleRadioButtonX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.graphScaleChoices, initial='0.050' )
+    graphScaleManuallyEnteredMaxX = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
+    graphScaleManuallyEnteredMinX = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
     graphScaleRadioButtonY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.graphScaleChoices, initial='0.050' )
     graphScaleManuallyEnteredMaxY = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)
     graphScaleManuallyEnteredMinY = django.forms.FloatField(widget=django.forms.widgets.TextInput(attrs={'size':'10'}), required=False)

@@ -423,14 +423,16 @@ You must provide any weights you wish to use.
 
         self.dataObject.graphWidth = int(self.boundForm.cleaned_data['graphSize'].split('x')[0])
         self.dataObject.graphHeight = int(self.boundForm.cleaned_data['graphSize'].split('x')[1])
-        self.dataObject.ScientificNotationX = self.boundForm.cleaned_data['scientificNotationX']
-        self.dataObject.Extrapolation_x = self.boundForm.cleaned_data['graphScaleX']
-        self.dataObject.Extrapolation_x_min = self.boundForm.cleaned_data['minManualScaleX']
-        self.dataObject.Extrapolation_x_max = self.boundForm.cleaned_data['maxManualScaleX']
-        self.dataObject.LogLinX = self.boundForm.cleaned_data['logLinX']
 
         if self.dataObject.dimensionality > 1:
             pid_trace.pid_trace()
+            self.dataObject.Extrapolation_x = self.boundForm.cleaned_data['graphScaleX']
+            self.dataObject.Extrapolation_x_min = self.boundForm.cleaned_data['minManualScaleX']
+            self.dataObject.Extrapolation_x_max = self.boundForm.cleaned_data['maxManualScaleX']
+            self.dataObject.LogLinX = self.boundForm.cleaned_data['logLinX']
+
+            pid_trace.pid_trace()
+            self.dataObject.ScientificNotationX = self.boundForm.cleaned_data['scientificNotationX']
             self.dataObject.ScientificNotationY = self.boundForm.cleaned_data['scientificNotationY']
             self.dataObject.Extrapolation_y = self.boundForm.cleaned_data['graphScaleY']
             self.dataObject.Extrapolation_y_min = self.boundForm.cleaned_data['minManualScaleY']
