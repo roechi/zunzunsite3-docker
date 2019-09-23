@@ -418,7 +418,7 @@ You must provide any weights you wish to use.
 
         pid_trace.pid_trace()
 
-        if self.dataObject.dimensionality > 1:
+        if self.dataObject.dimensionality == 2:
             self.dataObject.logLinX = self.boundForm.cleaned_data['logLinX']
             self.dataObject.logLinY = self.boundForm.cleaned_data['logLinY']
 
