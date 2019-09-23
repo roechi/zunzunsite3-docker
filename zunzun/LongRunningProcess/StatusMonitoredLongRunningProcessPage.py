@@ -369,9 +369,9 @@ You must provide any weights you wish to use.
         dataObject = DataObject.DataObject()
 
         dataObject.ErrorString = ''
-        dataObject.LogLinX = 'LIN'
-        dataObject.LogLinY = 'LIN'
-        dataObject.LogLinZ = 'LIN'
+        dataObject.logLinX = 'LIN'
+        dataObject.logLinY = 'LIN'
+        dataObject.logLinZ = 'LIN'
 
         settings.TEMP_FILES_DIR = settings.TEMP_FILES_DIR
         dataObject.WebsiteHTMLLocation = settings.STATIC_URL
@@ -418,6 +418,10 @@ You must provide any weights you wish to use.
 
         pid_trace.pid_trace()
 
+        if self.dataObject.dimensionality > 1:
+            self.dataObject.logLinX = self.boundForm.cleaned_data['logLinX']
+            self.dataObject.logLinY = self.boundForm.cleaned_data['logLinY']
+
         if True == FF: # function finder, return here
             return self.dataObject
 
@@ -429,7 +433,6 @@ You must provide any weights you wish to use.
             self.dataObject.Extrapolation_x = self.boundForm.cleaned_data['graphScaleX']
             self.dataObject.Extrapolation_x_min = self.boundForm.cleaned_data['minManualScaleX']
             self.dataObject.Extrapolation_x_max = self.boundForm.cleaned_data['maxManualScaleX']
-            self.dataObject.LogLinX = self.boundForm.cleaned_data['logLinX']
 
             pid_trace.pid_trace()
             self.dataObject.ScientificNotationX = self.boundForm.cleaned_data['scientificNotationX']
@@ -437,7 +440,6 @@ You must provide any weights you wish to use.
             self.dataObject.Extrapolation_y = self.boundForm.cleaned_data['graphScaleY']
             self.dataObject.Extrapolation_y_min = self.boundForm.cleaned_data['minManualScaleY']
             self.dataObject.Extrapolation_y_max = self.boundForm.cleaned_data['maxManualScaleY']
-            self.dataObject.LogLinY = self.boundForm.cleaned_data['logLinY']
             
         if self.dataObject.dimensionality > 2:
             pid_trace.pid_trace()
@@ -447,20 +449,20 @@ You must provide any weights you wish to use.
             self.dataObject.Extrapolation_z = self.boundForm.cleaned_data['graphScaleZ']
             self.dataObject.Extrapolation_z_min = self.boundForm.cleaned_data['minManualScaleZ']
             self.dataObject.Extrapolation_z_max = self.boundForm.cleaned_data['maxManualScaleZ']
-            self.dataObject.LogLinZ = self.boundForm.cleaned_data['logLinZ']
+            self.dataObject.logLinZ = self.boundForm.cleaned_data['logLinZ']
 
         pid_trace.pid_trace()
 
         # can only take log of positive data
-        if self.dataObject.LogLinX == 'LOG' and min(self.dataObject.IndependentDataArray[0]) <= 0.0:
+        if self.dataObject.logLinX == 'LOG' and min(self.dataObject.IndependentDataArray[0]) <= 0.0:
             self.dataObject.ErrorString = 'Your X data (' + self.dataObject.IndependentDataName1 + ') contains a non-positive value and you have selected logarithmic X scaling. I cannot take the log of a non-positive number.'
         if self.dataObject.dimensionality == 2:
-            if self.dataObject.LogLinY == 'LOG' and min(self.dataObject.DependentDataArray) <= 0.0:
+            if self.dataObject.logLinY == 'LOG' and min(self.dataObject.DependentDataArray) <= 0.0:
                 self.dataObject.ErrorString = 'Your Y data (' + self.dataObject.DependentDataName + ') contains a non-positive value and you have selected logarithmic Y scaling. I cannot take the log of a non-positive number.'
         if self.dataObject.dimensionality == 3:
-            if self.dataObject.LogLinY == 'LOG' and min(self.dataObject.IndependentDataArray[1]) <= 0.0:
+            if self.dataObject.logLinY == 'LOG' and min(self.dataObject.IndependentDataArray[1]) <= 0.0:
                 self.dataObject.ErrorString = 'Your Y data (' + self.dataObject.IndependentDataName1 + ') contains a non-positive value and you have selected logarithmic Y scaling. I cannot take the log of a non-positive number.'
-            if self.dataObject.LogLinZ == 'LOG' and min(self.dataObject.DependentDataArray) <= 0.0:
+            if self.dataObject.logLinZ == 'LOG' and min(self.dataObject.DependentDataArray) <= 0.0:
                 self.dataObject.ErrorString = 'Your Z data (' + self.dataObject.DependentDataName + ') contains a non-positive value and you have selected logarithmic Z scaling. I cannot take the log of a non-positive number.'
 
         pid_trace.pid_trace()

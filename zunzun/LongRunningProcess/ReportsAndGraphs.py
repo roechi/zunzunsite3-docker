@@ -796,17 +796,17 @@ class AbsoluteErrorVsDependentData_ScatterPlot(GraphReport):
         self.websiteFileLocation = "%s%s%s" % (settings.STATIC_URL, self.uniqueAnchorName, self.dataObject.uniqueString) + self.GetRankString() + ".png"
         if self.dataObject.dimensionality == 2:
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationY
-            self.LogLinXAxis = self.dataObject.LogLinY
+            self.logLinXAxis = self.dataObject.logLinY
         else:
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationZ
-            self.LogLinXAxis = self.dataObject.LogLinZ
+            self.logLinXAxis = self.dataObject.logLinZ
             
     def CreateReportOutput(self):
         MatplotlibGraphs_2D.ScatterPlot(self.dataObject, self.physicalFileLocation,
                                       self.dataObject.DependentDataName, self.dataObject.DependentDataArray,  self.ScientificNotationXAxis,
                                       "Absolute Error",  self.dataObject.equation.modelAbsoluteError,  "AUTO",
                                       0, "", "",
-                                      'LIN', self.LogLinXAxis)
+                                      'LIN', self.logLinXAxis)
 
 
 
@@ -827,7 +827,7 @@ class AbsoluteErrorVsIndependentData1_ScatterPlot(GraphReport):
                                       self.dataObject.IndependentDataName1, self.dataObject.IndependentDataArray[0], self.dataObject.ScientificNotationX,
                                       "Absolute Error", self.dataObject.equation.modelAbsoluteError, "AUTO",
                                       0, "", "",
-                                      'LIN', self.dataObject.LogLinX)
+                                      'LIN', self.dataObject.logLinX)
 
 
 
@@ -850,7 +850,7 @@ class AbsoluteErrorVsIndependentData2_ScatterPlot(GraphReport):
                                       self.dataObject.IndependentDataName2, self.dataObject.IndependentDataArray[1], self.dataObject.ScientificNotationY,
                                       "Absolute Error", self.dataObject.equation.modelAbsoluteError, "AUTO",
                                       0, "", "",
-                                      'LIN', self.dataObject.LogLinY)
+                                      'LIN', self.dataObject.logLinY)
 
 
 
@@ -870,17 +870,17 @@ class RelativeErrorVsDependentData_ScatterPlot(GraphReport):
         self.websiteFileLocation = "%s%s%s" % (settings.STATIC_URL, self.uniqueAnchorName, self.dataObject.uniqueString) + self.GetRankString() + ".png"
         if self.dataObject.dimensionality == 2:
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationY
-            self.LogLinXAxis = self.dataObject.LogLinY
+            self.logLinXAxis = self.dataObject.logLinY
         else:
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationZ
-            self.LogLinXAxis = self.dataObject.LogLinZ
+            self.logLinXAxis = self.dataObject.logLinZ
 
     def CreateReportOutput(self):
         MatplotlibGraphs_2D.ScatterPlot(self.dataObject, self.physicalFileLocation,
                                       self.dataObject.DependentDataName, self.dataObject.DependentDataArray, self.ScientificNotationXAxis,
                                       "Relative Error", self.dataObject.equation.modelRelativeError, "AUTO",
                                       0, "", "",
-                                      'LIN', self.LogLinXAxis)
+                                      'LIN', self.logLinXAxis)
 
 
 
@@ -900,17 +900,17 @@ class PercentErrorVsDependentData_ScatterPlot(GraphReport):
         self.websiteFileLocation = "%s%s%s" % (settings.STATIC_URL, self.uniqueAnchorName, self.dataObject.uniqueString) + self.GetRankString() + ".png"
         if self.dataObject.dimensionality == 2:
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationY
-            self.LogLinXAxis = self.dataObject.LogLinY
+            self.logLinXAxis = self.dataObject.logLinY
         else:
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationZ
-            self.LogLinXAxis = self.dataObject.LogLinZ
+            self.logLinXAxis = self.dataObject.logLinZ
 
     def CreateReportOutput(self):
         MatplotlibGraphs_2D.ScatterPlot(self.dataObject, self.physicalFileLocation,
                                       self.dataObject.DependentDataName, self.dataObject.DependentDataArray, self.ScientificNotationXAxis,
                                       "Percent Error", self.dataObject.equation.modelPercentError, "AUTO",
                                       0, "", "",
-                                      'LIN', self.LogLinXAxis)
+                                      'LIN', self.logLinXAxis)
 
 
 
@@ -934,7 +934,7 @@ class RelativeErrorVsIndependentData1_ScatterPlot(GraphReport):
                                       self.dataObject.IndependentDataName1, self.dataObject.IndependentDataArray[0], self.dataObject.ScientificNotationX,
                                       "Relative Error", self.dataObject.equation.modelRelativeError, "AUTO",
                                       0, "", "",
-                                      'LIN', self.dataObject.LogLinX)
+                                      'LIN', self.dataObject.logLinX)
 
 
 
@@ -958,7 +958,7 @@ class PercentErrorVsIndependentData1_ScatterPlot(GraphReport):
                                       self.dataObject.IndependentDataName1, self.dataObject.IndependentDataArray[0], self.dataObject.ScientificNotationX,
                                       "Percent Error", self.dataObject.equation.modelPercentError, "AUTO",
                                       0, "", "",
-                                      'LIN', self.dataObject.LogLinX)
+                                      'LIN', self.dataObject.logLinX)
 
 
 
@@ -984,7 +984,7 @@ class RelativeErrorVsIndependentData2_ScatterPlot(GraphReport):
                                       self.dataObject.IndependentDataName2, self.dataObject.IndependentDataArray[1], self.dataObject.ScientificNotationY,
                                       "Relative Error", self.dataObject.equation.modelRelativeError, "AUTO",
                                       0, "", "",
-                                      'LIN', self.dataObject.LogLinY)
+                                      'LIN', self.dataObject.logLinY)
 
 
 
@@ -1010,7 +1010,7 @@ class PercentErrorVsIndependentData2_ScatterPlot(GraphReport):
                                       self.dataObject.IndependentDataName2, self.dataObject.IndependentDataArray[1], self.dataObject.ScientificNotationY,
                                       "Percent Error", self.dataObject.equation.modelPercentError, "AUTO",
                                       0, "", "",
-                                      'LIN', self.dataObject.LogLinY)
+                                      'LIN', self.dataObject.logLinY)
 
 
 
@@ -1032,18 +1032,18 @@ class DependentDataVsIndependentData1_ScatterPlot(GraphReport):
         if self.dataObject.dimensionality == 2:
             self.YorZ = 'Y'
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationY
-            self.LogLinYAxis = self.dataObject.LogLinY
+            self.logLinYAxis = self.dataObject.logLinY
         else:
             self.YorZ = 'Z'
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationZ
-            self.LogLinYAxis = self.dataObject.LogLinZ
+            self.logLinYAxis = self.dataObject.logLinZ
 
     def CreateCharacterizerOutput(self):
         MatplotlibGraphs_2D.ScatterPlot(self.dataObject, self.physicalFileLocation,
                                       self.dataObject.IndependentDataName1, self.dataObject.IndependentDataArray[0], self.dataObject.ScientificNotationX,
                                       self.dataObject.DependentDataName, self.dataObject.DependentDataArray, self.ScientificNotationXAxis,
                                       1, 'X', self.YorZ,
-                                      self.LogLinYAxis, self.dataObject.LogLinX)
+                                      self.logLinYAxis, self.dataObject.logLinX)
 
 
 # enter in Graph Reports at bottom
@@ -1067,18 +1067,18 @@ class DependentDataVsIndependentData1_ModelPlot(GraphReport):
         if self.dataObject.dimensionality == 2:
             self.YorZ = 'Y'
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationY
-            self.LogLinYAxis = self.dataObject.LogLinY
+            self.logLinYAxis = self.dataObject.logLinY
         else:
             self.YorZ = 'Z'
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationZ
-            self.LogLinYAxis = self.dataObject.LogLinZ
+            self.logLinYAxis = self.dataObject.logLinZ
 
     def CreateReportOutput(self):
         MatplotlibGraphs_2D.ModelAndScatterPlot(self.dataObject, self.physicalFileLocation,
                                           self.dataObject.IndependentDataName1,
                                           self.dataObject.DependentDataName,
                                           0,
-                                          self.LogLinYAxis, self.dataObject.LogLinX,
+                                          self.logLinYAxis, self.dataObject.logLinX,
                                           False)
 
 
@@ -1102,18 +1102,18 @@ class DependentDataVsIndependentData1_ConfidenceIntervals(GraphReport):
         if self.dataObject.dimensionality == 2:
             self.YorZ = 'Y'
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationY
-            self.LogLinYAxis = self.dataObject.LogLinY
+            self.logLinYAxis = self.dataObject.logLinY
         else:
             self.YorZ = 'Z'
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationZ
-            self.LogLinYAxis = self.dataObject.LogLinZ
+            self.logLinYAxis = self.dataObject.logLinZ
 
     def CreateReportOutput(self):
         MatplotlibGraphs_2D.ModelAndScatterPlot(self.dataObject, self.physicalFileLocation,
                                           self.dataObject.IndependentDataName1,
                                           self.dataObject.DependentDataName,
                                           0,
-                                          self.LogLinYAxis, self.dataObject.LogLinX,
+                                          self.logLinYAxis, self.dataObject.logLinX,
                                           True)
 
 
@@ -1138,7 +1138,7 @@ class DependentDataVsIndependentData2_ScatterPlot(GraphReport):
                                       self.dataObject.IndependentDataName2, self.dataObject.IndependentDataArray[1], self.dataObject.ScientificNotationY,
                                       self.dataObject.DependentDataName, self.dataObject.DependentDataArray, self.dataObject.ScientificNotationZ,
                                       1, "Y", "Z",
-                                      self.dataObject.LogLinZ, self.dataObject.LogLinY)
+                                      self.dataObject.logLinZ, self.dataObject.logLinY)
 
 
 # enter in Graph Reports at bottom
@@ -1159,18 +1159,18 @@ class IndependentData1VsDependentData_ScatterPlot(GraphReport):
         if self.dataObject.dimensionality == 2:
             self.YorZ = "Y"
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationY
-            self.LogLinXAxis = self.dataObject.LogLinY
+            self.logLinXAxis = self.dataObject.logLinY
         else:
             self.YorZ = "Z"
             self.ScientificNotationXAxis = self.dataObject.ScientificNotationZ
-            self.LogLinXAxis = self.dataObject.LogLinZ
+            self.logLinXAxis = self.dataObject.logLinZ
 
     def CreateCharacterizerOutput(self):
         MatplotlibGraphs_2D.ScatterPlot(self.dataObject, self.physicalFileLocation,
                                       self.dataObject.DependentDataName, self.dataObject.DependentDataArray, self.ScientificNotationXAxis,
                                       self.dataObject.IndependentDataName1, self.dataObject.IndependentDataArray[0], self.dataObject.ScientificNotationX,
                                       1, self.YorZ, "X",
-                                      self.dataObject.LogLinX, self.LogLinXAxis)
+                                      self.dataObject.logLinX, self.logLinXAxis)
 
 
 # enter in Graph Reports at bottom
@@ -1194,7 +1194,7 @@ class IndependentData1VsIndependentData2_ScatterPlot(GraphReport):
                                       self.dataObject.IndependentDataName2, self.dataObject.IndependentDataArray[1], self.dataObject.ScientificNotationY,
                                       self.dataObject.IndependentDataName1, self.dataObject.IndependentDataArray[0], self.dataObject.ScientificNotationX,
                                       1, "Y", "X",
-                                      self.dataObject.LogLinX, self.dataObject.LogLinY)
+                                      self.dataObject.logLinX, self.dataObject.logLinY)
 
 
 # enter in Graph Reports at bottom
@@ -1218,7 +1218,7 @@ class IndependentData2VsDependentData_ScatterPlot(GraphReport):
                                       self.dataObject.DependentDataName, self.dataObject.DependentDataArray, self.dataObject.ScientificNotationZ,
                                       self.dataObject.IndependentDataName2, self.dataObject.IndependentDataArray[1], self.dataObject.ScientificNotationY,
                                       1, "Z", "Y",
-                                      self.dataObject.LogLinY, self.dataObject.LogLinZ)
+                                      self.dataObject.logLinY, self.dataObject.logLinZ)
 
 
 # enter in Graph Reports at bottom
@@ -1242,7 +1242,7 @@ class IndependentData2VsIndependentData1_ScatterPlot(GraphReport):
                                       self.dataObject.IndependentDataName1, self.dataObject.IndependentDataArray[0], self.dataObject.ScientificNotationX,
                                       self.dataObject.IndependentDataName2, self.dataObject.IndependentDataArray[1], self.dataObject.ScientificNotationY,
                                       1, "X", "Y",
-                                      self.dataObject.LogLinY, self.dataObject.LogLinX)
+                                      self.dataObject.logLinY, self.dataObject.logLinX)
 
 
 # enter in Graph Reports at bottom

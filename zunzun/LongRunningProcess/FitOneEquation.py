@@ -5,6 +5,8 @@ import numpy, scipy, scipy.stats
 from . import FittingBaseClass
 import zunzun.forms
 
+from . import pid_trace
+
 
 
 class FitOneEquation(FittingBaseClass.FittingBaseClass):
@@ -19,7 +21,9 @@ class FitOneEquation(FittingBaseClass.FittingBaseClass):
                                                           'equationName':self.inEquationName,
                                                           'equationFamilyName':self.inEquationFamilyName,
                                                           'solvedCoefficients':self.dataObject.equation.solvedCoefficients,
-                                                          'fittingTarget':self.dataObject.equation.fittingTarget})
+                                                          'fittingTarget':self.dataObject.equation.fittingTarget,
+                                                          'logLinX':self.dataObject.logLinX,
+                                                          'logLinY':self.dataObject.logLinY})
 
 
     def TransferFormDataToDataObject(self, request): # return any error in a user-viewable string (self.dataObject.ErrorString)
@@ -28,3 +32,29 @@ class FitOneEquation(FittingBaseClass.FittingBaseClass):
         return s
 
 
+    # This override allows form item preset when coming from the function finder
+    def CreateUnboundInterfaceForm(self, request):
+        dictionaryToReturn = super().CreateUnboundInterfaceForm(request)
+
+        if self.dimensionality == 2:
+            try:
+                logLinX = self.LoadItemFromSessionStore('data', 'logLinX')
+                logLinY = self.LoadItemFromSessionStore('data', 'logLinY')
+                pid_trace.pid_trace('1 logLinX:' + str(logLinX) + ' logLinY: ' + str(logLinY))
+            except:
+                logLinX = 'LIN'
+                logLinY = 'LIN'
+
+            if logLinX != 'LIN' and logLinX != 'LOG':
+                logLinX = 'LIN'
+                logLinY = 'LIN'                
+            if logLinY != 'LIN' and logLinY != 'LOG':
+                logLinY = 'LIN'
+                logLinY = 'LIN'
+                
+            pid_trace.pid_trace('1 logLinX:' + str(logLinX) + ' logLinY: ' + str(logLinY))
+                
+            self.unboundForm.fields['logLinX'].initial = logLinX
+            self.unboundForm.fields['logLinY'].initial = logLinY
+        
+        return dictionaryToReturn

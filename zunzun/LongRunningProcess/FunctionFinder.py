@@ -136,6 +136,10 @@ class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRu
                                                            'fittingTarget':self.dataObject.fittingTarget,
                                                            'DependentDataArray':self.dataObject.DependentDataArray,
                                                            'IndependentDataArray':self.dataObject.IndependentDataArray})
+                    
+        if self.dataObject.dimensionality == 2:
+            self.SaveDictionaryOfItemsToSessionStore('data', {'logLinX':self.dataObject.logLinX,
+                                                              'logLinY':self.dataObject.logLinY})
         
         self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':'/FunctionFinderResults/' + str(self.dataObject.dimensionality) + '/?RANK=1&unused=' + str(time.time())})
         

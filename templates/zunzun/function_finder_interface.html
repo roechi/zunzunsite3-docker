@@ -34,6 +34,9 @@
         <option value='dataEntry'>Text Data Editor
         <option value='fittingTarget'>Fitting Target
         <option value='dataLabels'>Data Labels For Graphs
+{% ifequal dimensionality '2' %}
+        <option value='linLog'>Lin/Log Control
+{% endifequal %}
         <option value='smoothnessControl'>Smoothness Control
         <option value='equationFamilyInclusion'>Equation Family Inclusion
         <option value='extendedEquationTypes'>Extended Equation Types
@@ -71,6 +74,51 @@ to start, then increase the Smoothness Control value as needed.
 {% include "zunzun/divs/smoothness_control_div.html" %}
 {% include "zunzun/divs/equation_family_inclusion_div.html" %}
 {% include "zunzun/divs/extended_equation_types_control_div.html" %}
+
+{% ifequal dimensionality '2' %}
+<div ID="linLog" align='center' name="hideable_div">
+<B>Lin/log control</B><BR><BR>
+Log plots require data values greater than zero.
+<br>
+<br>
+<TABLE BORDER="0">
+    <TR>
+        <TD ALIGN=CENTER>Select X Lin/Log Scaling</TD>
+        <TD> &nbsp; </TD>
+        <TD ALIGN=CENTER>Select Y Lin/Log Scaling</TD>
+    </TR>
+    <TR>
+        <TD>
+            <TABLE BORDER="1" CELLPADDING="5">
+            <TR>
+            <TD>
+                <TABLE BORDER="0">
+                <tr><td align='left'>
+                   {{ mainForm.logLinX }}
+                </TD></TR>
+                </TABLE>
+            </TD>
+            </TR>
+            </TABLE>
+        </TD>
+        <TD> &nbsp; </TD>
+        <TD>
+            <TABLE BORDER="1" CELLPADDING="5">
+            <TR>
+            <TD>
+                <TABLE BORDER="0">
+                <tr><td align='left'>
+                   {{ mainForm.logLinY }}
+                </TD></TR>
+                </TABLE>
+            </TD>
+            </TR>
+            </TABLE>
+        </TD>
+    </TR>
+</TABLE>
+</div>
+{% endifequal %}
 
 </form>
 {% endblock body_contents %}

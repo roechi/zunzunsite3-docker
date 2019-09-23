@@ -394,6 +394,8 @@ class FunctionFinder (UsesDataForm_BaseClass) :
 class FunctionFinder_2D (FunctionFinder) :
     equationFamilyInclusion = django.forms.MultipleChoiceField( widget=django.forms.widgets.CheckboxSelectMultiple(), choices=formConstants.equationCategoryNameChoices2D, initial=formConstants.equationCategoryNameChoicesDefaultValues2D )
     smoothnessControl2D = django.forms.ChoiceField( choices=formConstants.smoothnessControl2DChoices, initial='4')
+    logLinX = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.logLinChoices, initial='LIN')
+    logLinY = django.forms.ChoiceField( widget=django.forms.widgets.RadioSelect(), choices=formConstants.logLinChoices, initial='LIN')
 
 
 

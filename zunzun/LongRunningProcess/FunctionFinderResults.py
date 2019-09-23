@@ -43,6 +43,9 @@ class FunctionFinderResults(FittingBaseClass.FittingBaseClass):
         self.dataObject.DependentDataArray = self.LoadItemFromSessionStore('data', 'DependentDataArray')
         self.dataObject.IndependentDataArray = self.LoadItemFromSessionStore('data', 'IndependentDataArray')
 
+        self.dataObject.logLinX = self.LoadItemFromSessionStore('data', 'logLinX')
+        self.dataObject.logLinY = self.LoadItemFromSessionStore('data', 'logLinY')
+
         if len(self.functionFinderResultsList) < self.rank:
             self.rank = len(self.functionFinderResultsList)
 
