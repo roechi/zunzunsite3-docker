@@ -57,6 +57,7 @@ class Simple(FunkLoadTestCase):
         time.sleep(0.5)
         
         if -1 != str(self.getBody()).find('This field is required'):
+            print(self.getBody())
             self.assertTrue(0, 'Form is missing a required field')
 
         startTime = time.time()
@@ -255,8 +256,8 @@ class Simple(FunkLoadTestCase):
                         ['dataNameY', 'Y Data'],
                         ['graphScaleRadioButtonX', '0.050'],
                         ['graphScaleRadioButtonY', '0.050'],
-                        ['logLinX', 'LIN'],
-                        ['logLinY', 'LIN'],
+                        ['LogLinX', 'LIN'],
+                        ['LogLinY', 'LIN'],
                         ['fittingTarget', 'SSQABS'],
                         ['udfEditor', 'Scale * X + offset'],
                         ['textDataEditor', data2D]],
