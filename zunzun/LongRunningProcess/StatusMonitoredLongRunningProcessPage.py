@@ -498,11 +498,14 @@ You must provide any weights you wish to use.
             session["timestamp"] = pickle.dumps(time.time(), pickle.HIGHEST_PROTOCOL).hex()
 
         # sometimes database is momentarily locked, so retry on exception to mitigate
-        try:
-            session.save()
-        except:
-            time.sleep(0.5) # wait 1/2 second before retry
-            session.save()
+        s = session
+        save_complete = False
+        while not save_complete:
+            try:
+                s.save()
+                save_complete = True
+            except:
+                time.sleep(0.25) # wait 1/4 second before retry
             
         pid_trace.pid_trace()
 

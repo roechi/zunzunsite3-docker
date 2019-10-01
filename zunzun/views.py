@@ -147,11 +147,17 @@ def StatusView(request):
             # read and reset
             redirect = pickle.loads(bytes.fromhex(session_status['redirectToResultsFileOrURL']))
             session_status['redirectToResultsFileOrURL'] = pickle.dumps('', pickle.HIGHEST_PROTOCOL).hex()
-            try: # database can lock, sleep and retry
-                session_status.save()
-            except:
-                time.sleep(0.5)
-                session_status.save()
+            
+            # sometimes database is momentarily locked, so retry on exception to mitigate
+            s = session_status
+            save_complete = False
+            while not save_complete:
+                try:
+                    s.save()
+                    save_complete = True
+                except:
+                    time.sleep(0.25) # wait 1/4 second before retry
+                
             db.connections.close_all()
             close_old_connections()
     
@@ -163,11 +169,17 @@ def StatusView(request):
                 return HttpResponseRedirect(redirect)
 
     session_status['time_of_last_status_check'] = pickle.dumps(time.time(), pickle.HIGHEST_PROTOCOL).hex()
-    try: # database can lock, sleep and retry
-        session_status.save()
-    except:
-        time.sleep(0.5)
-        session_status.save()
+    
+    # sometimes database is momentarily locked, so retry on exception to mitigate
+    s = session_status
+    save_complete = False
+    while not save_complete:
+        try:
+            s.save()
+            save_complete = True
+        except:
+            time.sleep(0.25) # wait 1/4 second before retry
+
     db.connections.close_all()
     close_old_connections()
    
@@ -275,12 +287,17 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         raise django.http.Http404
 
     if 'session_key_status' not in list(request.session.keys()):
+        
+        # sometimes database is momentarily locked, so retry on exception to mitigate
         s = SessionStore()
-        try: # database can lock, sleep and retry
-            s.save()
-        except:
-            time.sleep(0.5)
-            s.save()
+        save_complete = False
+        while not save_complete:
+            try:
+                s.save()
+                save_complete = True
+            except:
+                time.sleep(0.25) # wait 1/4 second before retry
+            
         db.connections.close_all()
         close_old_connections()
 
@@ -288,12 +305,17 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
     LRP.session_key_status = request.session['session_key_status']
 
     if 'session_key_data' not in list(request.session.keys()):
+        
+        # sometimes database is momentarily locked, so retry on exception to mitigate
         s = SessionStore()
-        try: # database can lock, sleep and retry
-            s.save()
-        except:
-            time.sleep(0.5)
-            s.save()
+        save_complete = False
+        while not save_complete:
+            try:
+                s.save()
+                save_complete = True
+            except:
+                time.sleep(0.25) # wait 1/4 second before retry
+
         db.connections.close_all()
         close_old_connections()
         
@@ -301,12 +323,17 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
     LRP.session_key_data = request.session['session_key_data']
 
     if 'session_key_functionfinder' not in list(request.session.keys()):
+        
+        # sometimes database is momentarily locked, so retry on exception to mitigate
         s = SessionStore()
-        try: # database can lock, sleep and retry
-            s.save()
-        except:
-            time.sleep(0.5)
-            s.save()
+        save_complete = False
+        while not save_complete:
+            try:
+                s.save()
+                save_complete = True
+            except:
+                time.sleep(0.25) # wait 1/4 second before retry
+            
         db.connections.close_all()
         close_old_connections()
         
@@ -350,12 +377,16 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
 
     LRP.SetInitialStatusDataIntoSessionVariables(request)
 
-    try: # database can lock, sleep and retry
-        request.session.save()
-    except:
-        time.sleep(0.5)
-        request.session.save()
-    
+    # sometimes database is momentarily locked, so retry on exception to mitigate
+    s = request.session
+    save_complete = False
+    while not save_complete:
+        try:
+            s.save()
+            save_complete = True
+        except:
+            time.sleep(0.25) # wait 1/4 second before retry
+
     db.connections.close_all()
     close_old_connections()
 
