@@ -151,12 +151,16 @@ def StatusView(request):
             # sometimes database is momentarily locked, so retry on exception to mitigate
             s = session_status
             save_complete = False
+            saveRetries = 0
             while not save_complete:
                 try:
                     s.save()
                     save_complete = True
-                except:
+                except Exception as e:
                     time.sleep(0.25) # wait 1/4 second before retry
+                    saveRetries += 1 # increment retry count
+                    if saveRetries > 40: # 4 per second * 10 seconds
+                        raise e # re-raise exception from save operation
                 
             db.connections.close_all()
             close_old_connections()
@@ -173,12 +177,16 @@ def StatusView(request):
     # sometimes database is momentarily locked, so retry on exception to mitigate
     s = session_status
     save_complete = False
+    saveRetries = 0
     while not save_complete:
         try:
             s.save()
             save_complete = True
-        except:
+        except Exception as e:
             time.sleep(0.25) # wait 1/4 second before retry
+            saveRetries += 1 # increment retry count
+            if saveRetries > 40: # 4 per second * 10 seconds
+                raise e # re-raise exception from save operation
 
     db.connections.close_all()
     close_old_connections()
@@ -291,12 +299,16 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         # sometimes database is momentarily locked, so retry on exception to mitigate
         s = SessionStore()
         save_complete = False
+        saveRetries = 0
         while not save_complete:
             try:
                 s.save()
                 save_complete = True
-            except:
+            except Exception as e:
                 time.sleep(0.25) # wait 1/4 second before retry
+                saveRetries += 1 # increment retry count
+                if saveRetries > 40: # 4 per second * 10 seconds
+                    raise e # re-raise exception from save operation
             
         db.connections.close_all()
         close_old_connections()
@@ -309,12 +321,16 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         # sometimes database is momentarily locked, so retry on exception to mitigate
         s = SessionStore()
         save_complete = False
+        saveRetries = 0
         while not save_complete:
             try:
                 s.save()
                 save_complete = True
-            except:
+            except Exception as e:
                 time.sleep(0.25) # wait 1/4 second before retry
+                saveRetries += 1 # increment retry count
+                if saveRetries > 40: # 4 per second * 10 seconds
+                    raise e # re-raise exception from save operation
 
         db.connections.close_all()
         close_old_connections()
@@ -327,12 +343,16 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         # sometimes database is momentarily locked, so retry on exception to mitigate
         s = SessionStore()
         save_complete = False
+        saveRetries = 0
         while not save_complete:
             try:
                 s.save()
                 save_complete = True
-            except:
+            except Exception as e:
                 time.sleep(0.25) # wait 1/4 second before retry
+                saveRetries += 1 # increment retry count
+                if saveRetries > 40: # 4 per second * 10 seconds
+                    raise e # re-raise exception from save operation
             
         db.connections.close_all()
         close_old_connections()
@@ -380,12 +400,16 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
     # sometimes database is momentarily locked, so retry on exception to mitigate
     s = request.session
     save_complete = False
+    saveRetries = 0
     while not save_complete:
         try:
             s.save()
             save_complete = True
-        except:
+        except Exception as e:
             time.sleep(0.25) # wait 1/4 second before retry
+            saveRetries += 1 # increment retry count
+            if saveRetries > 40: # 4 per second * 10 seconds
+                raise e # re-raise exception from save operation
 
     db.connections.close_all()
     close_old_connections()

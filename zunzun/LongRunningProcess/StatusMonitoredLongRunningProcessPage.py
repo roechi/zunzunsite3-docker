@@ -500,12 +500,16 @@ You must provide any weights you wish to use.
         # sometimes database is momentarily locked, so retry on exception to mitigate
         s = session
         save_complete = False
+        saveRetries = 0
         while not save_complete:
             try:
                 s.save()
                 save_complete = True
-            except:
+            except Exception as e:
                 time.sleep(0.25) # wait 1/4 second before retry
+                saveRetries += 1 # increment retry count
+                if saveRetries > 40: # 4 per second * 10 seconds
+                    raise e # re-raise exception from save operation
             
         pid_trace.pid_trace()
 
