@@ -466,7 +466,7 @@ class Equation_2D(CharacterizeDataForm_2D) :
             try:
                 splineSmoothness = float(self.cleaned_data['splineSmoothness'])
             except:
-                raise django.forms.ValidationError(sys.exc_info()[1]) # re-raise as validation error
+                raise django.forms.ValidationError(str(sys.exc_info()[1])) # re-raise as validation error
             
             self.cleaned_data['splineSmoothness'] = splineSmoothness
 
@@ -489,7 +489,17 @@ class Equation_2D(CharacterizeDataForm_2D) :
             try:
                 self.equation.ParseAndCompileUserFunctionString(self.equation.userDefinedFunctionText)
             except:
-                raise django.forms.ValidationError(sys.exc_info()[1]) # re-raise as validation error
+                raise django.forms.ValidationError(str(sys.exc_info()[1])) # re-raise as validation error
+                
+            try: # this will raise an error on incorrect syntax user-defined functions
+                self.equation.safe_dict = {}
+                self.equation.safe_dict['X'] = 1.0  # only for UDF code validation test
+                # define coefficient values before calling eval
+                for i in range(len(self.equation._coefficientDesignators)):
+                    self.equation.safe_dict[self.equation._coefficientDesignators[i]] = 1.0 # only for UDF code validation test
+                temp = eval(self.equation.userFunctionCodeObject, globals(), self.equation.safe_dict)
+            except:
+                raise django.forms.ValidationError("Could not parse the User Defined Function, please verify function entry. The specific error returned was: " + str(sys.exc_info()[1]))
 
         return self.cleaned_data
 
@@ -582,7 +592,7 @@ class Equation_3D (CharacterizeDataForm_3D) :
             try:
                 splineSmoothness = float(self.cleaned_data['splineSmoothness'])
             except:
-                raise django.forms.ValidationError(sys.exc_info()[1]) # re-raise as validation error
+                raise django.forms.ValidationError(str(sys.exc_info()[1])) # re-raise as validation error
            
             self.cleaned_data['splineSmoothness'] = splineSmoothness
 
@@ -606,6 +616,17 @@ class Equation_3D (CharacterizeDataForm_3D) :
             try:
                 self.equation.ParseAndCompileUserFunctionString(self.equation.userDefinedFunctionText)
             except:
-                raise django.forms.ValidationError(sys.exc_info()[1]) # re-raise as validation error
+                raise django.forms.ValidationError(str(sys.exc_info()[1])) # re-raise as validation error
+                
+            try: # this will raise an error on incorrect syntax user-defined functions
+                self.equation.safe_dict = {}
+                self.equation.safe_dict['X'] = 1.0  # only for UDF code validation test
+                self.equation.safe_dict['Y'] = 1.0  # only for UDF code validation test
+                # define coefficient values before calling eval
+                for i in range(len(self.equation._coefficientDesignators)):
+                    self.equation.safe_dict[self.equation._coefficientDesignators[i]] = 1.0 # only for UDF code validation test
+                temp = eval(self.equation.userFunctionCodeObject, globals(), self.equation.safe_dict)
+            except:
+                raise django.forms.ValidationError("Could not parse the User Defined Function, please verify function entry. The specific error returned was: " + str(sys.exc_info()[1]))
 
         return self.cleaned_data
