@@ -56,5 +56,7 @@ class FitOneEquation(FittingBaseClass.FittingBaseClass):
                 
             self.unboundForm.fields['logLinX'].initial = logLinX
             self.unboundForm.fields['logLinY'].initial = logLinY
+            
+            pid_trace.delete_pid_trace_file()
         
         return dictionaryToReturn
