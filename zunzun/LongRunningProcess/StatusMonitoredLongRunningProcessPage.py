@@ -489,7 +489,9 @@ You must provide any weights you wish to use.
         for i in list(inDictionary.keys()):
             item = inDictionary[i]
             pid_trace.pid_trace(str(i) + ' type: ' + str(type(item)))
-            session[i] = pickle.dumps(item, pickle.HIGHEST_PROTOCOL).hex()
+            pickled = pickle.dumps(item, pickle.HIGHEST_PROTOCOL).hex()
+            pid_trace.pid_trace(str(i) + ' saving to session')
+            session[i] = pickled
             pid_trace.pid_trace(str(i) + ' saved to session')
 
         pid_trace.pid_trace()
