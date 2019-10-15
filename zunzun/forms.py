@@ -497,6 +497,16 @@ class Equation_2D(CharacterizeDataForm_2D) :
                 # define coefficient values before calling eval
                 for i in range(len(self.equation._coefficientDesignators)):
                     self.equation.safe_dict[self.equation._coefficientDesignators[i]] = 1.0 # only for UDF code validation test
+ 
+                import numpy
+                numpySafeTokenList = []
+                for key in list(self.equation.functionDictionary.keys()):
+                    numpySafeTokenList += self.equation.functionDictionary[key]
+                for key in list(self.equation.constantsDictionary.keys()):
+                    numpySafeTokenList += self.equation.constantsDictionary[key]
+                for f in numpySafeTokenList:
+                    self.equation.safe_dict[f] = eval('numpy.' + f)
+
                 temp = eval(self.equation.userFunctionCodeObject, globals(), self.equation.safe_dict)
             except:
                 raise django.forms.ValidationError("Could not parse the User Defined Function, please verify function entry. The specific error returned was: " + str(sys.exc_info()[1]))
@@ -625,6 +635,16 @@ class Equation_3D (CharacterizeDataForm_3D) :
                 # define coefficient values before calling eval
                 for i in range(len(self.equation._coefficientDesignators)):
                     self.equation.safe_dict[self.equation._coefficientDesignators[i]] = 1.0 # only for UDF code validation test
+                    
+                import numpy
+                numpySafeTokenList = []
+                for key in list(self.equation.functionDictionary.keys()):
+                    numpySafeTokenList += self.equation.functionDictionary[key]
+                for key in list(self.equation.constantsDictionary.keys()):
+                    numpySafeTokenList += self.equation.constantsDictionary[key]
+                for f in numpySafeTokenList:
+                    self.equation.safe_dict[f] = eval('numpy.' + f)
+                    
                 temp = eval(self.equation.userFunctionCodeObject, globals(), self.equation.safe_dict)
             except:
                 raise django.forms.ValidationError("Could not parse the User Defined Function, please verify function entry. The specific error returned was: " + str(sys.exc_info()[1]))
