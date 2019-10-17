@@ -98,6 +98,9 @@ class DataObject:
         self.ScientificNotationY = "AUTO"
         self.ScientificNotationZ = "AUTO"
 
+        self.Extrapolation_x = 0.05
+        self.Extrapolation_y = 0.05
+        self.Extrapolation_z = 0.05
 
     def CalculateStatisticsForList(self, preString, tempdata):
         pid_trace.pid_trace()
