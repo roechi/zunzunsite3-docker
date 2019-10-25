@@ -157,9 +157,9 @@ def StatusView(request):
                     s.save()
                     save_complete = True
                 except Exception as e:
-                    time.sleep(0.25) # wait 1/4 second before retry
+                    time.sleep(0.1) # wait 1/10 second before retry
                     saveRetries += 1 # increment retry count
-                    if saveRetries > 40: # 4 per second * 10 seconds
+                    if saveRetries > 100: # 10 per second * 10 seconds
                         raise e # re-raise exception from save operation
                 
             db.connections.close_all()
@@ -183,9 +183,9 @@ def StatusView(request):
             s.save()
             save_complete = True
         except Exception as e:
-            time.sleep(0.25) # wait 1/4 second before retry
+            time.sleep(0.1) # wait 1/10 second before retry
             saveRetries += 1 # increment retry count
-            if saveRetries > 40: # 4 per second * 10 seconds
+            if saveRetries > 100: # 10 per second * 10 seconds
                 raise e # re-raise exception from save operation
 
     db.connections.close_all()
@@ -305,9 +305,9 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
                 s.save()
                 save_complete = True
             except Exception as e:
-                time.sleep(0.25) # wait 1/4 second before retry
+                time.sleep(0.1) # wait 1/10 second before retry
                 saveRetries += 1 # increment retry count
-                if saveRetries > 40: # 4 per second * 10 seconds
+                if saveRetries > 100: # 10 per second * 10 seconds
                     raise e # re-raise exception from save operation
             
         db.connections.close_all()
@@ -327,9 +327,9 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
                 s.save()
                 save_complete = True
             except Exception as e:
-                time.sleep(0.25) # wait 1/4 second before retry
+                time.sleep(0.1) # wait 1/10 second before retry
                 saveRetries += 1 # increment retry count
-                if saveRetries > 40: # 4 per second * 10 seconds
+                if saveRetries > 100: # 10 per second * 10 seconds
                     raise e # re-raise exception from save operation
 
         db.connections.close_all()
@@ -349,9 +349,9 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
                 s.save()
                 save_complete = True
             except Exception as e:
-                time.sleep(0.25) # wait 1/4 second before retry
+                time.sleep(0.1) # wait 1/10 second before retry
                 saveRetries += 1 # increment retry count
-                if saveRetries > 40: # 4 per second * 10 seconds
+                if saveRetries > 100: # 10 per second * 10 seconds
                     raise e # re-raise exception from save operation
             
         db.connections.close_all()
@@ -406,9 +406,9 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
             s.save()
             save_complete = True
         except Exception as e:
-            time.sleep(0.25) # wait 1/4 second before retry
+            time.sleep(0.1) # wait 1/10 second before retry
             saveRetries += 1 # increment retry count
-            if saveRetries > 40: # 4 per second * 10 seconds
+            if saveRetries > 100: # 10 per second * 10 seconds
                 raise e # re-raise exception from save operation
 
     db.connections.close_all()
