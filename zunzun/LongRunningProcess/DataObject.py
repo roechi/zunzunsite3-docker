@@ -86,8 +86,8 @@ class DataObject:
         self.gper_err_max_p05 = None
         self.gdelta_per_err_p05 = None
 
-        self.graphWidth = None
-        self.graphHeight = None
+        self.graphWidth = 320
+        self.graphHeight = 240
         self.animationWidth = None
         self.animationHeight = None
         self.gridResolution = None
