@@ -81,7 +81,7 @@ class Simple(FunkLoadTestCase):
 
         
         if testPolynomialLinearWithExponentialDecay2D_SSQABS:
-            self.PostLongRunningProcess('/FitEquation__B__/2/Polynomial/1st%20Order%20(Linear)%20With%20Exponential%20Decay/',
+            self.PostLongRunningProcess('/FitEquation__E__/2/Polynomial/1st%20Order%20(Linear)%20With%20Exponential%20Decay/',
                                         [['commaConversion', 'I'],
                         ['graphSize', '320x240'],
                         ['animationSize', '0x0'],
