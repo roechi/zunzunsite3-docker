@@ -491,6 +491,8 @@ You must provide any weights you wish to use.
             pid_trace.pid_trace(str(i) + ' type: ' + str(type(item)))
             pickled = pickle.dumps(item, pickle.HIGHEST_PROTOCOL).hex()
             pid_trace.pid_trace(str(i) + ' saving to session')
+            if str(i) == 'processID':
+                pid_trace.pid_trace(str(item) + ' pickled = ' + str(pickled))
             session[i] = pickled
             pid_trace.pid_trace(str(i) + ' saved to session')
 
