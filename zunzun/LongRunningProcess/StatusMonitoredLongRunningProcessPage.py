@@ -493,7 +493,7 @@ You must provide any weights you wish to use.
             pid_trace.pid_trace(str(i) + ' saving to session')
             if str(i) == 'processID':
                 pid_trace.pid_trace(str(item) + ' pickled = ' + str(pickled))
-            session[i] = pickled
+            session[i] = str(pickled)
             pid_trace.pid_trace(str(i) + ' saved to session')
 
         pid_trace.pid_trace()
