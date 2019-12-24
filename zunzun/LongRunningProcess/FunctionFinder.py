@@ -230,7 +230,7 @@ class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRu
                         for extendedName in pyeq3.ExtendedVersionHandlers.extendedVersionHandlerNameList:
                         
                             if 'STANDARD' not in self.dataObject.extendedEquationTypes:
-                                if extendedName == '' or extendedName == 'Default' or extendedName == 'Offset':
+                                if extendedName == '' or extendedName == 'Default' or extendedName == 'Offset' or extendedName == 'PlusLine':
                                     continue
                             if 'RECIPROCAL' not in self.dataObject.extendedEquationTypes:
                                 if -1 != extendedName.find('Reciprocal'):
@@ -252,6 +252,8 @@ class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRu
                                     continue
 
                             if (-1 != extendedName.find('Offset')) and (equationClass[1].autoGenerateOffsetForm == False):
+                                continue
+                            if (-1 != extendedName.find('Plus')) and (equationClass[1].autoGeneratePlusLineForm == False):
                                 continue
                             if (-1 != extendedName.find('Reciprocal')) and (equationClass[1].autoGenerateReciprocalForm == False):
                                 continue
