@@ -179,11 +179,16 @@ class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRu
             self.fit_skip_count += 1
             return
         for i in self.dataObject.equation.GetDataCacheFunctions():
-            if (i[0] in self.dictionaryOf_BothGoodAndBadCacheData_Flags) != 1: # if not in the cached flags, add it
-                if max(self.dataObject.equation.dataCache.allDataCacheDictionary[i[0]]) >= 1.0E300:
-                    self.dictionaryOf_BothGoodAndBadCacheData_Flags[i[0]] = False # (bad)
-                else:
-                    self.dictionaryOf_BothGoodAndBadCacheData_Flags[i[0]] = True # (good)
+            try:
+                if (i[0] in self.dictionaryOf_BothGoodAndBadCacheData_Flags) != 1: # if not in the cached flags, add it
+                    if max(self.dataObject.equation.dataCache.allDataCacheDictionary[i[0]]) >= 1.0E300:
+                        self.dictionaryOf_BothGoodAndBadCacheData_Flags[i[0]] = False # (bad)
+                    else:
+                        self.dictionaryOf_BothGoodAndBadCacheData_Flags[i[0]] = True # (good)
+            except:
+                import logging
+                logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+                logging.exception('oodbadcachedata flags exception, i = ' + str(i))
             if self.dictionaryOf_BothGoodAndBadCacheData_Flags[i[0]] == False: # if bad
                 self.fit_skip_count += 1
                 return
