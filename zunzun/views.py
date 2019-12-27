@@ -589,7 +589,7 @@ def GetEquationInfoDictionary(inDimensionality, inAllOrStandardOnly):
     submoduleNameList.sort()
 
     if inAllOrStandardOnly == 'Standard':
-        extendedNameList = ['Default', 'Offset']
+        extendedNameList = ['Default', 'Offset', 'PlusLine']
     else:
         extendedNameList = pyeq3.ExtendedVersionHandlers.extendedVersionHandlerNameList
 
@@ -619,6 +619,8 @@ def GetEquationInfoDictionary(inDimensionality, inAllOrStandardOnly):
                             extendedSuffix = equation.extendedVersionHandler.__class__.__name__.split('_')[1]
                             
                             if equation.autoGenerateOffsetForm == False and -1 != extendedSuffix.find('Offset'):
+                                continue
+                            if equation.autoGeneratePlusLineForm == False and  -1 != extendedSuffix.find('PlusLine'):
                                 continue
                             if equation.autoGenerateReciprocalForm == False and  -1 != extendedSuffix.find('Reciprocal'):
                                 continue
