@@ -164,7 +164,7 @@ for submodule in inspect.getmembers(pyeq3.Models_2D):
         if submodule[0] == 'UserDefinedFunction':
             continue
         equationCategoryNameChoices2D.append([submodule[0], submodule[0].replace('Polyfunctional', 'Polyfunctional (Unweighted SSQ only)')])
-        if submodule[0] != 'Rational':
+        if submodule[0] not in ['Rational', 'Polyfunctional']:
             equationCategoryNameChoicesDefaultValues2D.append(submodule[0])
 equationCategoryNameChoices2D.sort()
 
@@ -177,7 +177,8 @@ for submodule in inspect.getmembers(pyeq3.Models_3D):
         if submodule[0] == 'UserDefinedFunction':
             continue
         equationCategoryNameChoices3D.append([submodule[0], submodule[0].replace('Polyfunctional', 'Polyfunctional (Unweighted SSQ only)').replace('RomanSurfaces', 'Roman Surfaces')])
-        equationCategoryNameChoicesDefaultValues3D.append(submodule[0])
+        if submodule[0] not in ['Rational', 'Polyfunctional']:
+            equationCategoryNameChoicesDefaultValues3D.append(submodule[0])
 equationCategoryNameChoices3D.sort()
 
 
