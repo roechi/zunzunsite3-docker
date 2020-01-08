@@ -240,7 +240,7 @@ class UsesDataForm_BaseClass(django.forms.Form) :
         if dataLength == 0:
             raise django.forms.ValidationError("No data points found in your text - is weighting on?")
         if dataLength == 1:
-            raise django.forms.ValidationError("Your data has " + str(dataLength) + " data points, the site minimum is 2 data points.")
+            raise django.forms.ValidationError("Your data has 1 data point, the site minimum is 2 data points.")
         if dataLength > 10100:
             raise django.forms.ValidationError("Your data has " + str(dataLength) + " data points, the site is currently limited to 10,000.")
 
