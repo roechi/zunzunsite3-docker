@@ -258,7 +258,9 @@ class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRu
 
                             if (-1 != extendedName.find('Offset')) and (equationClass[1].autoGenerateOffsetForm == False):
                                 continue
-                            if (-1 != extendedName.find('Plus')) and (equationClass[1].autoGeneratePlusLineForm == False):
+                            if (-1 != extendedName.find('PlusLine')) and (equationClass[1].autoGeneratePlusLineForm == False):
+                                continue
+                            if (-1 != extendedName.find('PlusPlane')) and (equationClass[1].autoGeneratePlusPlaneForm == False):
                                 continue
                             if (-1 != extendedName.find('Reciprocal')) and (equationClass[1].autoGenerateReciprocalForm == False):
                                 continue
