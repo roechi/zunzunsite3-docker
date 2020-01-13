@@ -589,7 +589,7 @@ def GetEquationInfoDictionary(inDimensionality, inAllOrStandardOnly):
     submoduleNameList.sort()
 
     if inAllOrStandardOnly == 'Standard':
-        extendedNameList = ['Default', 'Offset', 'PlusLine']
+        extendedNameList = ['Default', 'Offset', 'PlusLine', 'PlusPlane']
     else:
         extendedNameList = pyeq3.ExtendedVersionHandlers.extendedVersionHandlerNameList
 
@@ -621,6 +621,8 @@ def GetEquationInfoDictionary(inDimensionality, inAllOrStandardOnly):
                             if equation.autoGenerateOffsetForm == False and -1 != extendedSuffix.find('Offset'):
                                 continue
                             if equation.autoGeneratePlusLineForm == False and  -1 != extendedSuffix.find('PlusLine'):
+                                continue
+                            if equation.autoGeneratePlusPlaneForm == False and  -1 != extendedSuffix.find('PlusPlane'):
                                 continue
                             if equation.autoGenerateReciprocalForm == False and  -1 != extendedSuffix.find('Reciprocal'):
                                 continue
@@ -720,6 +722,10 @@ def keyFunctionToSortListOfEquationPropertyClasses(item):
     if extendedName == 'Default':
         extendedName = '_Default'
     if extendedName == 'Offset':
-        extendedName = '_Offset'
+        extendedName = '__Offset'
+    if extendedName == 'PlusPlane': # 3D only
+        extendedName = '___PlusPlane'
+    if extendedName == 'PlusLine': # 2D only
+        extendedName = '___PlusLine'
         
     return item.submoduleName + extendedName + item.name
