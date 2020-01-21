@@ -481,7 +481,7 @@ You must provide any weights you wish to use.
         
         session = eval('self.session_' + inSessionStoreName)
         if session is None:
-            pid_trace.pid_trace()
+            pid_trace.pid_trace('No session in sessionstore, creating new session')
             session = eval('SessionStore(self.session_key_' + inSessionStoreName + ')')
             
         pid_trace.pid_trace()
