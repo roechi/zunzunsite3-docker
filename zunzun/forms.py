@@ -4,6 +4,7 @@ import django.utils.encoding
 import pyeq3
 from . import formConstants
 import unicodedata
+import numpy
 
 
 class EvaluateAtAPointForm_2D(django.forms.Form) :
@@ -472,16 +473,17 @@ class Equation_2D(CharacterizeDataForm_2D) :
             
             self.cleaned_data['splineSmoothness'] = splineSmoothness
 
-        if not self.equation.splineFlag and not self.equation.userDefinedFunctionFlag:
+        lenDistinctX = len(numpy.unique(self.equationBase.dataCache.allDataCacheDictionary['IndependentData'][0]))
+        if not self.equation.splineFlag:
             if len(self.equation.GetCoefficientDesignators()) > len(self.equationBase.dataCache.allDataCacheDictionary['IndependentData'][0]):
                 raise django.forms.ValidationError("The selected model has more coefficients than data points, I cannot model the data to this equation.")
-
-            if len(self.equation.GetCoefficientDesignators()) == 0:
-                raise django.forms.ValidationError("There are no coefficients to be modeled in this equation.")
-
-        if self.equation.splineFlag:
+            if len(self.equation.GetCoefficientDesignators()) > lenDistinctX:
+                raise django.forms.ValidationError("The selected model has more coefficients than distinct independent data values, I cannot model the data to this equation.")
+        else:
             if (int(self.cleaned_data['splineOrderX']) + 1) > len(self.equationBase.dataCache.allDataCacheDictionary['IndependentData'][0]):
                 raise django.forms.ValidationError("The selected spline order has more coefficients than the given number of data points, I cannot model the data to this spline.")
+            if (int(self.cleaned_data['splineOrderX']) + 1) > lenDistinctX:
+                raise django.forms.ValidationError("The selected spline order has more coefficients than distinct independent data values, I cannot model the data to this spline.")
 
         if self.equation.userDefinedFunctionFlag:
             # convert user constants with a comma decimal separator
@@ -500,7 +502,6 @@ class Equation_2D(CharacterizeDataForm_2D) :
                 for i in range(len(self.equation._coefficientDesignators)):
                     self.equation.safe_dict[self.equation._coefficientDesignators[i]] = 1.0 # only for UDF code validation test
  
-                import numpy
                 numpySafeTokenList = []
                 for key in list(self.equation.functionDictionary.keys()):
                     numpySafeTokenList += self.equation.functionDictionary[key]
@@ -600,7 +601,7 @@ class Equation_3D (CharacterizeDataForm_3D) :
         if self.equation.splineFlag:
             if '' == self.cleaned_data['splineSmoothness']:
                 raise django.forms.ValidationError('Spline was chosen, but the spline smoothness control entry did not contain a number.')
-                
+
             try:
                 splineSmoothness = float(self.cleaned_data['splineSmoothness'])
             except:
@@ -608,20 +609,26 @@ class Equation_3D (CharacterizeDataForm_3D) :
            
             self.cleaned_data['splineSmoothness'] = splineSmoothness
 
-        # for splines, we don't have the number of coefficients until data has been fitted
-        if not self.equation.splineFlag and not self.equation.userDefinedFunctionFlag:
+        lenDistinctX = len(numpy.unique(self.equationBase.dataCache.allDataCacheDictionary['IndependentData'][0]))
+        lenDistinctY = len(numpy.unique(self.equationBase.dataCache.allDataCacheDictionary['IndependentData'][1]))
+        lenDistinctXY = len(numpy.unique(self.equationBase.dataCache.allDataCacheDictionary['IndependentData']))
+        if not self.equation.splineFlag:
             if len(self.equation.GetCoefficientDesignators()) > len(self.equationBase.dataCache.allDataCacheDictionary['IndependentData'][0]):
                 raise django.forms.ValidationError("The selected model has more coefficients than data points, I cannot model the data to this equation.")
-            
-            if len(self.equation.GetCoefficientDesignators()) == 0:
-                raise django.forms.ValidationError("There are no coefficients to be modeled in this equation.")
-
-        if self.equation.splineFlag:
-            if ((int(self.cleaned_data['splineOrderX']) + 1) * (int(self.cleaned_data['splineOrderY']) + 1)) > len(self.equationBase.dataCache.allDataCacheDictionary['IndependentData'][0]):
-                raise django.forms.ValidationError("The selected spline orders have more coefficients than the given number of data points, I cannot model the data to this spline.")
-
+            if len(self.equation.GetCoefficientDesignators()) > lenDistinctXY:
+                raise django.forms.ValidationError("The selected model has more coefficients than distinct independent data values, I cannot model the data to this equation.")
+        else:
+            if ((int(self.cleaned_data['splineOrderX']) + 1) + (int(self.cleaned_data['splineOrderY']) + 1)) > len(self.equationBase.dataCache.allDataCacheDictionary['IndependentData'][0]):
+                raise django.forms.ValidationError("The selected spline orders total more coefficients than the given number of data points, I cannot model the data to this spline.")
+            if ((int(self.cleaned_data['splineOrderX']) + 1) + (int(self.cleaned_data['splineOrderY']) + 1)) > lenDistinctXY:
+                raise django.forms.ValidationError("The selected spline orders total more coefficients than distinct independent data values, I cannot model the data to this spline.")
+            if (int(self.cleaned_data['splineOrderX']) + 1) > lenDistinctX:
+                raise django.forms.ValidationError("The selected spline X order has more coefficients than the number of distinct independent X data values, I cannot model the data to this spline.")
+            if (int(self.cleaned_data['splineOrderY']) + 1) > lenDistinctY:
+                raise django.forms.ValidationError("The selected spline Y order has more coefficients than the number of distinct independent X data values, I cannot model the data to this spline.")
+                
         if self.equation.userDefinedFunctionFlag:
-            # convert user constants with a comma decimal separator
+            # convert user's numerical constants containing a comma decimal separator
             self.equation.userDefinedFunctionText = self.cleaned_data["udfEditor"].replace(',', '.')
             if self.equation.userDefinedFunctionText == '':
                 raise django.forms.ValidationError("You entered no text as a User Defined Function. Please enter a function.")
@@ -638,7 +645,6 @@ class Equation_3D (CharacterizeDataForm_3D) :
                 for i in range(len(self.equation._coefficientDesignators)):
                     self.equation.safe_dict[self.equation._coefficientDesignators[i]] = 1.0 # only for UDF code validation test
                     
-                import numpy
                 numpySafeTokenList = []
                 for key in list(self.equation.functionDictionary.keys()):
                     numpySafeTokenList += self.equation.functionDictionary[key]

@@ -41,7 +41,7 @@ Online Curve Fitting and Surface Fitting with Python Source Code
     <select ID="s{{ forloop.counter }}" size=1>
     <option>
     <option value='introDiv' SELECTED>Introduction
-{#    <option value='spline{{ dim_to_map.0 }}DDiv'>Spline Interpolation#}
+    <option value='spline{{ dim_to_map.0 }}DDiv'>Spline Interpolation
     <option value='userDefinedFunction{{ dim_to_map.0 }}DDiv'>User Defined Function
     <option value='functionFinder{{ dim_to_map.0 }}DDiv'>Function Finder
     {% for equationClassPropertyList in dim_to_map.1 %}{% if equationClassPropertyList.firstItemInSubmoduleFlag %}<option value="A{{ dim_to_map.0 }}DA{{ equationClassPropertyList.submoduleName }}">{{ equationClassPropertyList.submoduleName }}{% endif %}{% endfor %}
