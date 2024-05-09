@@ -13,7 +13,7 @@ RUN apt-get update -y && \
 
 EXPOSE 8000
 
-ADD ./source/zunzunsite3 /source
+ADD source/zunzunsite3 /source
 WORKDIR /source
 
 ENTRYPOINT python3 manage.py runserver 0.0.0.0:8000
