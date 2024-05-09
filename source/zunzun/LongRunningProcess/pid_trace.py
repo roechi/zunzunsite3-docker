@@ -1,4 +1,6 @@
-import os, sys, settings, inspect
+import os, inspect
+from source import settings
+
 
 # in files to be traced, add:
 #
@@ -16,7 +18,7 @@ def pid_trace(additionalText = ''):
     return # default behavior: do not create trace files
     
     strpid = str(os.getpid())
-    tracefilepath = os.path.join(settings.TEMP_FILES_DIR,'pid_' + strpid + '.trace')
+    tracefilepath = os.path.join(settings.TEMP_FILES_DIR, 'pid_' + strpid + '.trace')
 
     previous_frame = inspect.currentframe().f_back
     (filename, line_number, function_name, lines, index) = inspect.getframeinfo(previous_frame)
@@ -31,6 +33,6 @@ def pid_trace(additionalText = ''):
 def delete_pid_trace_file():
     return # match default of making no trace file
     strpid = str(os.getpid())
-    tracefilepath = os.path.join(settings.TEMP_FILES_DIR,'pid_' + strpid + '.trace')
+    tracefilepath = os.path.join(settings.TEMP_FILES_DIR, 'pid_' + strpid + '.trace')
     if os.path.exists(tracefilepath) and os.path.isfile(tracefilepath):
         os.remove(tracefilepath)

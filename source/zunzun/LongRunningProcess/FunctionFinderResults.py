@@ -1,6 +1,6 @@
-import os, sys, copy, urllib.request, urllib.parse, urllib.error
+import os, copy, urllib.request, urllib.parse, urllib.error
 
-import settings
+from ... import settings
 from django.template.loader import render_to_string
 
 from . import FittingBaseClass

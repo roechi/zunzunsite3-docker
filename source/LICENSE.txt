@@ -1,6 +1,3 @@
-This fork is hereby licensed according to the original authors copyrights
-and licensing:
-
 Copyright (C) 2016 James R. Phillips
 2548 Vera Cruz Drive
 Birmingham, AL 35235 USA

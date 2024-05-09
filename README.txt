@@ -1,35 +1,24 @@
-Welcome to zunzunsite3, a Django site in Python 3 for curve fitting 2D
-and 3D data that can output source code in several computing languages
-and run a genetic algorithm for initial parameter estimation. Includes
-orthogonal distance and relative error regressions. Generates PDF files
-and surface animations. Based on code from zunzun.com. 
+# Docker image for zunzunsite3
 
-You will need to install scipy, matplotlib, django, bs4, imagemagick
-gifsicle and reportlab to run this software, alog with psutil.  On
-Debian and Ubuntu, you can run the following:
+This project forks the [zunzunsite3 project](https://bitbucket.org/zunzuncode/zunzunsite3/src/master/)
+for the purposes of providing a Docker image. I do not intend to maintain the dockerized application
+itself, unless any upstream patches are available for the original
+project.
 
-apt-get install python3-scipy python3-matplotlib python3-pil
-apt-get install python3-django python3-bs4
-apt-get install python3-reportlab imagemagick gifsicle
-apt-get install python3-psutil
+For information regarding the application itself, please check out the
+source project on bitbucket.
 
-then install the pyeq3 fitting code with these commands:
+## Running the webserver with Docker Compose
 
-apt-get install python3-pip
-pip3 install pyeq3
+Prerequisites: Ensure that you have both Docker and `docker-compose` installed
+and that the docker daemon is running.
 
+To run the webserver, execute this in the project root:
 
-You can now cd to the project's top-level directory and
-run the django development server with the command:
-
-python3 manage.py runserver
-
-and open the url http://127.0.0.1:8000/ in a browser. Cool!
-
-
-NOTES: the code uses Unix-style process forking, and this
-is not available on the  Windows operating system.
-
-My tests show that while both mod_wsgi and gunicorn work fine
-for Django production servers, the uwsgi process model would not
-allow os.fork() calls to work as required for this software.
+```bash
+docker-compose up
+```
+To stop it, run:
+```bash
+docker-compose down
+```

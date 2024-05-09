@@ -2,7 +2,7 @@ import inspect, time, math, random, multiprocessing, os, sys, copy
 
 import numpy, scipy, scipy.stats
 
-import settings
+from ... import settings
 from django.template.loader import render_to_string
 
 from . import FittingBaseClass
@@ -61,7 +61,8 @@ class FitUserDefinedFunction(FittingBaseClass.FittingBaseClass):
             itemsToRender['extraText'] = 'Please check the text of your User Defined Function.'
             f = open(os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html"), "w")
             f.write(render_to_string('zunzun/exception_while_fitting_an_equation.html', itemsToRender))
-            self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
+            self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(
+                settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
             import time
             time.sleep(1.0)
             os._exit(0)

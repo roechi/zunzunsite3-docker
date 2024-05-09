@@ -1,8 +1,7 @@
 import os, sys, inspect
-import settings
+from ... import settings
 from django.template.loader import render_to_string
 
-from . import ReportsAndGraphs
 from . import StatusMonitoredLongRunningProcessPage
 
 import zunzun.forms
@@ -11,9 +10,6 @@ import zunzun.formConstants
 import numpy
 
 import pyeq3
-
-
-from . import pid_trace
 
 
 class FittingBaseClass(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRunningProcessPage):
@@ -238,7 +234,8 @@ You must provide any weights you wish to use.
             itemsToRender['error0'] = str(sys.exc_info()[0])
             itemsToRender['error1'] = str(sys.exc_info()[1])
             open(os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html"), "w").write(render_to_string('zunzun/exception_while_fitting_an_equation.html', itemsToRender))            
-            self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
+            self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(
+                settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
 
 
     def GetEquationFromNameAndFamily(self, inEquationName, inEquationFamilyName, checkForSplinesAndUserDefinedFunctionsFlag):

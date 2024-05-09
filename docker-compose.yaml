@@ -1,0 +1,9 @@
+version: "3.3"  # optional since v1.27.0
+
+services:
+  daemon:
+    image: zunzunsite3
+    expose:
+       - 8000
+    ports:
+      - "8000:8000"

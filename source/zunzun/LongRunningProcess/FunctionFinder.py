@@ -1,18 +1,12 @@
-import inspect, time, math, random, multiprocessing, queue, copy, sys, os
-
-import numpy
+import inspect, copy, os
 
 from . import StatusMonitoredLongRunningProcessPage
-from . import ReportsAndGraphs
-import settings
+from ... import settings
 import zunzun.forms
 import zunzun.formConstants
 import multiprocessing
 
 import pyeq3
-
-from . import pid_trace
-
 
 externalDataCache = pyeq3.dataCache()
 
@@ -60,7 +54,7 @@ def parallelWorkFunction(inParameterList):
         return [t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11]
     except:
         import logging
-        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
         logging.exception('parallelWorkFunction exception')
         return [None, inParameterList[0], inParameterList[1], inParameterList[2]]
 
@@ -76,7 +70,7 @@ def serialWorker(obj, inputList, outputList):
                 obj.WorkItems_CheckOneSecondSessionUpdates()
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
             logging.exception('serialWorker exception')
 
 
@@ -86,7 +80,7 @@ def parallelWorker(inputList, outputQueue):
             outputQueue.put(parallelWorkFunction(inputList[i]))
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
             logging.exception('parallelWorker exception')
 
 
@@ -187,7 +181,7 @@ class FunctionFinder(StatusMonitoredLongRunningProcessPage.StatusMonitoredLongRu
                         self.dictionaryOf_BothGoodAndBadCacheData_Flags[i[0]] = True # (good)
             except:
                 import logging
-                logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+                logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
                 logging.exception('oodbadcachedata flags exception, i = ' + str(i))
             if self.dictionaryOf_BothGoodAndBadCacheData_Flags[i[0]] == False: # if bad
                 self.fit_skip_count += 1

@@ -1,7 +1,7 @@
 import sys, os, time, multiprocessing, io, string, pickle
 from bs4 import BeautifulSoup # don't need everything, it has several components
 
-import settings
+from ... import settings
 import django.http # to raise 404's
 import django.utils.encoding
 from django import db
@@ -49,7 +49,7 @@ def ParallelWorker_CreateReportOutput(inReportObject):
                 
             s += str(item) + ': ' + str(eval('inReportObject.dataObject.' + str(item))) + '\n\n'
             
-        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
         logging.exception('Exception creating report, inReportObject.dataObject yields:\n\n' + s)
         return [inReportObject.name, 0, 'Exception creating report, see log file']
 
@@ -61,7 +61,7 @@ def ParallelWorker_CreateCharacterizerOutput(inReportObject):
         return [inReportObject.name, inReportObject.stringList, ''] # name for lookup, stringList for data
     except:
         import logging
-        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
         logging.exception('Exception characterizer output')
 
         s = '\n'
@@ -74,7 +74,7 @@ def ParallelWorker_CreateCharacterizerOutput(inReportObject):
                 
             s += str(item) + ': ' + str(eval('inReportObject.dataObject.' + str(item))) + '\n\n'
             
-        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+        logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
         logging.exception('Exception creating characterizer, inReportObject.dataObject yields:\n\n' + s)
         
         return [inReportObject.name, 0, 'Exception characterizer output, see log file']
@@ -358,7 +358,7 @@ You must provide any weights you wish to use.
                 doc.build(pageElements, canvasmaker=NumberedCanvas)
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
             logging.exception('Exception creating PDF file')
             
             self.pdfFileName = '' # empty string used as a flag
@@ -830,10 +830,11 @@ You must provide any weights you wish to use.
             f.close()
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
             logging.exception('Exception rendering HTML to a file')
             
-        self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
+        self.SaveDictionaryOfItemsToSessionStore('status', {'redirectToResultsFileOrURL':os.path.join(
+            settings.TEMP_FILES_DIR, self.dataObject.uniqueString + ".html")})
         
         pid_trace.delete_pid_trace_file()
 

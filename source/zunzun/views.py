@@ -3,7 +3,6 @@ from django.shortcuts import render_to_response
 import django.http # to raise 404's
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from django.template import Context, Template, loader
 from django.views.decorators.cache import cache_control
 from django.views.decorators.cache import cache_page
 from django.contrib.sessions.backends.db import SessionStore
@@ -11,14 +10,13 @@ from django import db
 from django.db import close_old_connections
 from django.core.mail import EmailMessage
 
-import settings
+from .. import settings
 import django.http
 
-import os, sys, time, urllib.request, urllib.parse, urllib.error, signal, copy, pickle
-from . import forms, formConstants
+import time, urllib.request, urllib.parse, urllib.error, pickle
+from . import forms
 import numpy, multiprocessing
 
-import zunzun
 import pyeq3
 from . import LongRunningProcess
 import psutil # for killing child zombie processes
@@ -120,7 +118,8 @@ def EvaluateAtAPointView(request):
         exceptionString += str(equation.dataCache.allDataCacheDictionary['IndependentData'])
         pointValueAsString = 'Exception in evaluation, please check the data. Exception text: ' + exceptionString
         if settings.EXCEPTION_EMAIL_ADDRESS:
-            EmailMessage('Site exception in evaluation at a point', exceptionString, to = [settings.EXCEPTION_EMAIL_ADDRESS]).send()
+            EmailMessage('Site exception in evaluation at a point', exceptionString, to = [
+                settings.EXCEPTION_EMAIL_ADDRESS]).send()
     return HttpResponse(pointValueAsString)
 
 
@@ -257,7 +256,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
         elif -1 != request.path.find('User-Selectable Rational'):
             LRP = LongRunningProcess.FitUserSelectableRational.FitUserSelectableRational()
         elif -1 != request.path.find('Spline'):
-            LRP = LongRunningProcess.FitSpline.FitSpline()
+            LRP = assets.zunzun.LongRunningProcess.FitSpline.FitSpline()
         else:
             LRP = LongRunningProcess.FitOneEquation.FitOneEquation()
     elif -1 != request.path.find('CharacterizeData/'):
@@ -430,7 +429,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
             LRP.PerformAllWork()
         except:
             import logging
-            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR,  str(os.getpid()) + '.log'),level=logging.DEBUG)
+            logging.basicConfig(filename = os.path.join(settings.TEMP_FILES_DIR, str(os.getpid()) + '.log'), level=logging.DEBUG)
             
             logging.exception('Site top-level exception\n' + dataObjectString + '\n')
         
@@ -454,7 +453,7 @@ def LongRunningProcessView(request, inDimensionality, inEquationFamilyName='', i
 @ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def FeedbackView(request):
     import datetime
-    import os, sys, time
+    import time
     
     if CommonToAllViews(request): # any referrer blocks or web request checks processed here
         raise django.http.Http404
@@ -481,7 +480,7 @@ def FeedbackView(request):
 @cache_page(60 * 60) # 60 minutes
 @ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def HomePageView(request):
-    import os, sys, time
+    import os
 
     # only allow GET for this view
     if request.method != 'GET':
@@ -548,7 +547,6 @@ def HomePageView(request):
 @cache_control(no_cache=True)
 @ratelimit(rate='12/m') # if faster than once every five seconds, apply brake in CommonToAllViews() if django_brake installed
 def AllEquationsView(request, inDimensionality, inAllOrStandardOnly): # from urls.py, inDimensionality can only be '2' or '3'
-    import os, sys, time
 
     # only allow GET for this view
     if request.method != 'GET':
