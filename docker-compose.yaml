@@ -1,7 +1,7 @@
 version: "3.3"  # optional since v1.27.0
 
 services:
-  daemon:
+  zunzunsite-3:
     image: roechi/zunzunsite3-docker:latest
     expose:
        - 8000
