@@ -10,17 +10,17 @@ source project on bitbucket.
 
 ## Running the webserver with Docker Compose
 
-**Prerequisites:** Ensure that you have both Docker and `docker-compose` installed
-and that the Docker daemon is running.
+**Prerequisites:** Ensure that you have both Docker and [`docker-compose`](https://docs.docker.com/compose/install/linux/)
+installed and that the Docker daemon is running.
 
 To run the webserver, execute this in the project root:
 ```bash
-docker-compose up
+docker compose up
 ```
 The startup might take a moment, just wait for the System check log line. 
 Then the web app will be accessible at `http://localhost:8000/`
 
 To stop it, kill the process. Alternatively you can run this in the root dir:
 ```bash
-docker-compose down
+docker compose down
 ```
