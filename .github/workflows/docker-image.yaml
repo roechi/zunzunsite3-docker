@@ -19,3 +19,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: roechi/zunzunsite3-docker
           tag_with_ref: true
+          addLatest: true

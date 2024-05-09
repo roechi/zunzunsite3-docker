@@ -1,4 +1,0 @@
-Run from bash. No login
-needed to purge deleted data.
-
-sqlite3 db.sqlite3 "VACUUM;"
