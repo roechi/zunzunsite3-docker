@@ -17,6 +17,4 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: roechi/zunzunsite3-docker
-          tag_with_ref: true
-          addLatest: true
+          tags: roechi/zunzunsite3-docker:latest
