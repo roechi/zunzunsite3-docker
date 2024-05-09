@@ -17,4 +17,4 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: roechi/zunzunsite3-docker:latest
+          tags: latest
