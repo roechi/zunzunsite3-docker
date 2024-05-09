@@ -17,6 +17,8 @@ To run the webserver, execute this in the project root:
 ```bash
 docker-compose up
 ```
+The web app will be accessible at `http://localhost:8000/`
+
 To stop it, run:
 ```bash
 docker-compose down
