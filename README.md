@@ -15,9 +15,9 @@ and that the Docker daemon is running.
 
 To run the webserver, execute this in the project root:
 ```bash
-    docker-compose up
+docker-compose up
 ```
 To stop it, run:
 ```bash
-    docker-compose down
+docker-compose down
 ```
