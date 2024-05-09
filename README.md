@@ -10,8 +10,8 @@ source project on bitbucket.
 
 ## Running the webserver with Docker Compose
 
-Prerequisites: Ensure that you have both Docker and `docker-compose` installed
-and that the docker daemon is running.
+**Prerequisites:** Ensure that you have both Docker and `docker-compose` installed
+and that the Docker daemon is running.
 
 To run the webserver, execute this in the project root:
 ```bash
