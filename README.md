@@ -13,7 +13,8 @@ source project on bitbucket.
 **Prerequisites:** Ensure that you have both Docker and [`docker-compose`](https://docs.docker.com/compose/install/linux/)
 installed and that the Docker daemon is running.
 
-To run the webserver, execute this in the project root:
+To run the webserver, execute this in the project root (depending on your system you might have to prefix the command 
+with `sudo`/`su` or `root`):
 ```bash
 docker compose up
 ```
@@ -23,4 +24,16 @@ Then the web app will be accessible at `http://localhost:8000/`
 To stop it, kill the process. Alternatively you can run this in the root dir:
 ```bash
 docker compose down
+```
+
+### Changing the webserver's host port
+
+It might be necessary to map the webserver container to a different host port, for example if you have a different
+process running on `8000` on your host system already. If needed, you can adapt the `docker-compose.yaml` accordingly by
+defining a different host port in the _ports_ section. In this example the host port would be `1234`, making the
+webserver accessible at that port exactly:
+
+```yaml
+ports:
+  - "1234:8000"
 ```
